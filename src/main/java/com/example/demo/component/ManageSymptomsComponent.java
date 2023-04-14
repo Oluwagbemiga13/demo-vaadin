@@ -62,7 +62,11 @@ public class ManageSymptomsComponent extends VerticalLayout {
         Button createSymptomButton = new Button("Create Symptom", e -> {
             CreateSymptomDialog createSymptomDialog = new CreateSymptomDialog(symptomService);
             createSymptomDialog.open();
-            createSymptomDialog.addDialogCloseActionListener(event -> refreshGrids());
+            createSymptomDialog.addOpenedChangeListener(event -> {
+                if (!event.isOpened()) {
+                    refreshGrids();
+                }
+            });
 
         });
         Button manageRelationsButton = new Button("Manage Relations");
@@ -109,21 +113,7 @@ public class ManageSymptomsComponent extends VerticalLayout {
 
         // Add the grids layout to the component
         add(gridsLayout);
-
-        // Rest of your code
-        createOrganButton.addClickListener(e -> {
-            CreateOrganDialog createOrganDialog = new CreateOrganDialog(organService);
-            createOrganDialog.open();
-            createOrganDialog.addDialogCloseActionListener(event -> refreshGrids());
-        });
-
-        // Refresh the grids when a new symptom is added
-        createSymptomButton.addClickListener(e -> {
-            CreateSymptomDialog createSymptomDialog = new CreateSymptomDialog(symptomService);
-            createSymptomDialog.open();
-            createSymptomDialog.addDialogCloseActionListener(event -> refreshGrids());
-        });
-
+        
         refreshGrids();
     }
 

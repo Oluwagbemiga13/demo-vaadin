@@ -42,7 +42,7 @@ public class CreateOrganDialog extends Dialog {
         // Add a button to save the new organ
         Button saveButton = new Button("Save", e -> {
             saveOrgan(nameField.getValue());
-
+            close();
         });
         Button backButton = new Button("Back", e -> close());
         HorizontalLayout buttonsLayout = new HorizontalLayout();
