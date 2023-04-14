@@ -7,45 +7,57 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
-import com.vaadin.flow.router.Route;
-import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Route("create-organ")
+@Slf4j
 public class CreateOrganComponent extends Dialog {
 
-    @Autowired
     private OrganService organService;
+
     private Binder<OrganDTO> binder = new Binder<>(OrganDTO.class);
 
-    public CreateOrganComponent() {;
-    }
-
-    @PostConstruct
-    public void init(){
-        setSizeFull();
+    public CreateOrganComponent(OrganService organService) {
+        this.organService = organService;
+        VerticalLayout layout = new VerticalLayout();
+        layout.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
+        layout.setSizeFull();
 
         // Set up the form layout with a text field for the organ name
         FormLayout formLayout = new FormLayout();
+        formLayout.setWidth("400px");
+        formLayout.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1));
         TextField nameField = new TextField("Organ Name");
-        formLayout.add(nameField);
+        nameField.setWidth("100%");
+        formLayout.addFormItem(nameField, "Name");
 
         // Bind the text field to the organ DTO
-        binder.bind(nameField, OrganDTO::name, OrganDTO::withName);
+        binder.forField(nameField)
+                .asRequired("Organ name is required")
+                .bind(OrganDTO::name, OrganDTO::withName);
 
         // Add a button to save the new organ
-        Button saveButton = new Button("Save", e -> saveOrgan());
-        formLayout.add(saveButton);
+        Button saveButton = new Button("Save", e -> saveOrgan(nameField.getValue()));
+        Button backButton = new Button("Back", e -> close());
+        HorizontalLayout buttonsLayout = new HorizontalLayout();
+        buttonsLayout.add(saveButton);
+        buttonsLayout.add(backButton);
 
-        add(formLayout);
+        formLayout.addFormItem(buttonsLayout, "");
+
+        layout.add(formLayout);
+        add(layout);
 
     }
 
-    private void saveOrgan() {
-        OrganDTO organDTO = binder.getBean();
+
+    private void saveOrgan(String name) {
+        OrganDTO organDTO = new OrganDTO(null,name);
         try {
             // Validate the binder and populate the DTO with the form data
             binder.validate();

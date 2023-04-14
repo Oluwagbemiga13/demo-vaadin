@@ -1,14 +1,19 @@
 package com.example.demo.component;
 
+import com.example.demo.service.OrganService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Route("welcome")
 @RouteAlias("welcome/:username")
 public class WelcomeComponent extends VerticalLayout implements BeforeEnterObserver {
+
+    @Autowired
+    private OrganService organService;
 
     private Label usernameLabel = new Label();
 
@@ -29,7 +34,11 @@ public class WelcomeComponent extends VerticalLayout implements BeforeEnterObser
 
         // Create buttons for each menu item and add them to the vertical layout
         Button logoutButton = new Button("Log out", e -> getUI().ifPresent(ui -> ui.navigate(LoginComponent.class)));
-        Button createOrganButton = new Button("Create new Organ", e -> getUI().ifPresent(ui -> ui.navigate(CreateOrganComponent.class)));
+        /*e -> getUI().ifPresent(ui -> ui.navigate(CreateOrganComponent.class))*/
+        Button createOrganButton = new Button("Create new Organ", e -> {
+            CreateOrganComponent createOrganComponent = new CreateOrganComponent(organService);
+            createOrganComponent.open();
+        });
         Button createSymptomButton = new Button("Create new Symptom", e -> {/* Implement the logic for creating a new symptom */});
 
         menuLayout.add(logoutButton, createOrganButton, createSymptomButton);
@@ -43,6 +52,10 @@ public class WelcomeComponent extends VerticalLayout implements BeforeEnterObser
     public void beforeEnter(BeforeEnterEvent event) {
         String username = event.getRouteParameters().get("username").orElse("Anonymous");
         usernameLabel.setText("Hello, " + username + "!");
+    }
+
+    private void displayOrganDialog(){
+
     }
 }
 
