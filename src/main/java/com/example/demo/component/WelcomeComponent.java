@@ -41,7 +41,9 @@ public class WelcomeComponent extends VerticalLayout implements BeforeEnterObser
         });
         Button createSymptomButton = new Button("Create new Symptom", e -> {/* Implement the logic for creating a new symptom */});
 
-        menuLayout.add(logoutButton, createOrganButton, createSymptomButton);
+        Button manageOrgans = new Button("Manage Symptoms", e -> getUI().ifPresent((ui -> ui.navigate(ManageSymptomsComponent.class))));
+
+        menuLayout.add(logoutButton, createOrganButton, createSymptomButton, manageOrgans);
 
         RouterLink backToLogin = new RouterLink("Back to Login", LoginComponent.class);
 
