@@ -15,13 +15,13 @@ import com.vaadin.flow.data.binder.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class CreateOrganComponent extends Dialog {
+public class CreateOrganDialog extends Dialog {
 
     private OrganService organService;
 
     private Binder<OrganDTO> binder = new Binder<>(OrganDTO.class);
 
-    public CreateOrganComponent(OrganService organService) {
+    public CreateOrganDialog(OrganService organService) {
         this.organService = organService;
         VerticalLayout layout = new VerticalLayout();
         layout.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
@@ -40,7 +40,10 @@ public class CreateOrganComponent extends Dialog {
                 .bind(OrganDTO::name, OrganDTO::withName);
 
         // Add a button to save the new organ
-        Button saveButton = new Button("Save", e -> saveOrgan(nameField.getValue()));
+        Button saveButton = new Button("Save", e -> {
+            saveOrgan(nameField.getValue());
+
+        });
         Button backButton = new Button("Back", e -> close());
         HorizontalLayout buttonsLayout = new HorizontalLayout();
         buttonsLayout.add(saveButton);

@@ -34,10 +34,10 @@ public class WelcomeComponent extends VerticalLayout implements BeforeEnterObser
 
         // Create buttons for each menu item and add them to the vertical layout
         Button logoutButton = new Button("Log out", e -> getUI().ifPresent(ui -> ui.navigate(LoginComponent.class)));
-        /*e -> getUI().ifPresent(ui -> ui.navigate(CreateOrganComponent.class))*/
+        /*e -> getUI().ifPresent(ui -> ui.navigate(CreateOrganDialog.class))*/
         Button createOrganButton = new Button("Create new Organ", e -> {
-            CreateOrganComponent createOrganComponent = new CreateOrganComponent(organService);
-            createOrganComponent.open();
+            CreateOrganDialog createOrganDialog = new CreateOrganDialog(organService);
+            createOrganDialog.open();
         });
         Button createSymptomButton = new Button("Create new Symptom", e -> {/* Implement the logic for creating a new symptom */});
 

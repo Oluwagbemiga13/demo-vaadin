@@ -15,13 +15,13 @@ import com.vaadin.flow.data.binder.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class CreateSymptomComponent extends Dialog {
+public class CreateSymptomDialog extends Dialog {
 
     private SymptomService symptomService;
 
     private Binder<SymptomDTO> binder = new Binder<>(SymptomDTO.class);
 
-    public CreateSymptomComponent(SymptomService symptomService) {
+    public CreateSymptomDialog(SymptomService symptomService) {
         this.symptomService = symptomService;
         VerticalLayout layout = new VerticalLayout();
         layout.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);

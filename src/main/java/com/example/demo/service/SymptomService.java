@@ -6,6 +6,8 @@ import com.example.demo.repository.SymptomRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class SymptomService {
@@ -22,5 +24,10 @@ public class SymptomService {
         Symptom savedSymptom = symptomRepository.save(symptom);
         return SymptomDTO.withId(symptomDTO, String.valueOf(savedSymptom.getId()));
     }
+
+    public List<Symptom> findAll(){
+        return symptomRepository.findAll();
+    }
+
 
 }
