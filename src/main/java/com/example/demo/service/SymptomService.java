@@ -22,7 +22,7 @@ public class SymptomService {
         Symptom symptom = new Symptom();
         symptom.setName(symptomDTO.name());
         Symptom savedSymptom = symptomRepository.save(symptom);
-        return SymptomDTO.withId(symptomDTO, String.valueOf(savedSymptom.getId()));
+        return SymptomDTO.withId(symptomDTO, savedSymptom.getId());
     }
 
     public List<Symptom> findAll(){
@@ -30,4 +30,7 @@ public class SymptomService {
     }
 
 
+    public void delete(Long id) {
+        symptomRepository.deleteById(id);
+    }
 }

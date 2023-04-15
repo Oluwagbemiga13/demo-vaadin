@@ -35,4 +35,8 @@ public class OrganService {
     public List<Organ> findAll() {
         return organRepository.findAll();
     }
+
+    public void delete(Long id) {
+        organRepository.deleteById(id);
+    }
 }

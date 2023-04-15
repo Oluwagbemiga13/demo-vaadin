@@ -1,8 +1,8 @@
 package com.example.demo.dto;
 
-public record SymptomDTO(String id, String name) {
+public record SymptomDTO(Long id, String name) {
 
-    public static SymptomDTO withId(SymptomDTO symptomDTO, String id) {
+    public static SymptomDTO withId(SymptomDTO symptomDTO, Long id) {
         return new SymptomDTO(id, symptomDTO.name());
     }
 

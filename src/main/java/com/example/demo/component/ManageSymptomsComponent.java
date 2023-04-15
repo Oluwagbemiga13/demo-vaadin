@@ -6,6 +6,7 @@ import com.example.demo.service.OrganService;
 import com.example.demo.service.SymptomService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.Query;
@@ -113,8 +114,56 @@ public class ManageSymptomsComponent extends VerticalLayout {
 
         // Add the grids layout to the component
         add(gridsLayout);
-        
+
+        Button deleteOrganButton = new Button("Delete selected Organ", e -> {
+            Organ selectedOrgan = organGrid.asSingleSelect().getValue();
+            if (selectedOrgan != null) {
+                ConfirmationDialog confirmationDialog = new ConfirmationDialog("Are you sure you want to delete this Organ?", () -> {
+                    organService.delete(selectedOrgan.getId());
+                    Notification.show("Organ deleted successfully.");
+                    refreshGrids();
+                    organGrid.asSingleSelect().clear();
+                });
+                confirmationDialog.open();
+            }
+        });
+
+        Button deleteSymptomButton = new Button("Delete selected Symptom", e -> {
+            Symptom selectedSymptom = symptomGrid.asSingleSelect().getValue();
+            if (selectedSymptom != null) {
+                ConfirmationDialog confirmationDialog = new ConfirmationDialog("Are you sure you want to delete this Symptom?", () -> {
+                    symptomService.delete(selectedSymptom.getId());
+                    Notification.show("Symptom deleted successfully.");
+                    refreshGrids();
+                    symptomGrid.asSingleSelect().clear();
+                });
+                confirmationDialog.open();
+            }
+        });
+
+        deleteOrganButton.setWidth(menuItemWidth + "px");
+        deleteSymptomButton.setWidth(menuItemWidth + "px");
+
+        // Create a horizontal layout for the delete buttons
+        HorizontalLayout deleteButtonsLayout = new HorizontalLayout(
+                deleteOrganButton,
+                deleteSymptomButton
+        );
+
+        deleteButtonsLayout.setAlignItems(Alignment.CENTER);
+        deleteButtonsLayout.setSpacing(true);
+        deleteButtonsLayout.setMargin(false);
+        deleteButtonsLayout.getElement().getStyle().set("margin-left", "auto");
+        deleteButtonsLayout.getElement().getStyle().set("margin-right", "auto");
+
+        // Set the alignment of the deleteButtonsLayout to the top of the component
+        setAlignSelf(Alignment.START, deleteButtonsLayout);
+
+        // Add the delete buttons layout to the top of the component
+        add(deleteButtonsLayout);
+
         refreshGrids();
+
     }
 
 
