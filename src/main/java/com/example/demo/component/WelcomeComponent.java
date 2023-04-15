@@ -16,6 +16,7 @@ public class WelcomeComponent extends VerticalLayout implements BeforeEnterObser
     private OrganService organService;
 
     private Label usernameLabel = new Label();
+    private static final String BUTTON_WIDTH = "200px";
 
     public WelcomeComponent() {
     }
@@ -26,38 +27,49 @@ public class WelcomeComponent extends VerticalLayout implements BeforeEnterObser
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
 
+        // Display the welcome message with the username or "Daniel" as the default
+        usernameLabel.setText("Hello, Daniel!");
+        add(usernameLabel);
+
         Label welcomeMessage = new Label("Welcome to our application!");
+        add(welcomeMessage);
 
         // Create a vertical layout for the menu items
         VerticalLayout menuLayout = new VerticalLayout();
         menuLayout.setAlignItems(Alignment.CENTER);
 
         // Create buttons for each menu item and add them to the vertical layout
-        Button logoutButton = new Button("Log out", e -> getUI().ifPresent(ui -> ui.navigate(LoginComponent.class)));
-        /*e -> getUI().ifPresent(ui -> ui.navigate(CreateOrganDialog.class))*/
-        Button createOrganButton = new Button("Create new Organ", e -> {
-            CreateOrganDialog createOrganDialog = new CreateOrganDialog(organService);
-            createOrganDialog.open();
-        });
-        Button createSymptomButton = new Button("Create new Symptom", e -> {/* Implement the logic for creating a new symptom */});
+        Button manageSymptoms = new Button("Manage Symptoms", e -> getUI().ifPresent((ui -> ui.navigate(ManageSymptomsComponent.class))));
+        manageSymptoms.setWidth(BUTTON_WIDTH);
 
-        Button manageOrgans = new Button("Manage Symptoms", e -> getUI().ifPresent((ui -> ui.navigate(ManageSymptomsComponent.class))));
+        Button manageLogs = new Button("Manage Logs");
+        manageLogs.setWidth(BUTTON_WIDTH);
 
-        menuLayout.add(logoutButton, createOrganButton, createSymptomButton, manageOrgans);
+        Button questionnaires = new Button("Questionnaires");
+        questionnaires.setWidth(BUTTON_WIDTH);
+
+        Button notes = new Button("Notes");
+        notes.setWidth(BUTTON_WIDTH);
+
+        Button settings = new Button("Settings");
+        settings.setWidth(BUTTON_WIDTH);
+
+        Button helpAndSupport = new Button("Help & Support");
+        helpAndSupport.setWidth(BUTTON_WIDTH);
+
+        Button about = new Button("About");
+        about.setWidth(BUTTON_WIDTH);
+
+        menuLayout.add(manageSymptoms, manageLogs, questionnaires, notes, settings, helpAndSupport, about);
 
         RouterLink backToLogin = new RouterLink("Back to Login", LoginComponent.class);
 
-        add(menuLayout,backToLogin);
+        add(menuLayout, backToLogin);
     }
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
-        String username = event.getRouteParameters().get("username").orElse("Anonymous");
+        String username = event.getRouteParameters().get("username").orElse("Daniel");
         usernameLabel.setText("Hello, " + username + "!");
     }
-
-    private void displayOrganDialog(){
-
-    }
 }
-
