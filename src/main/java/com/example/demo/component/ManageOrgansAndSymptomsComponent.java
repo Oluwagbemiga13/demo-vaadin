@@ -1,7 +1,6 @@
 package com.example.demo.component;
 
 import com.example.demo.entity.Organ;
-import com.example.demo.entity.OrganSymptom;
 import com.example.demo.entity.Symptom;
 import com.example.demo.service.OrganService;
 import com.example.demo.service.OrganSymptomService;
@@ -72,16 +71,17 @@ public class ManageOrgansAndSymptomsComponent extends VerticalLayout {
 
         add(menuLayout);
 
+        Label organSelectionLabel = new Label("Select an organ from the list:");
+
         organComboBox = new ComboBox<>("Select an organ");
         organComboBox.setItems(organService.findAll());
         organComboBox.setItemLabelGenerator(Organ::getName);
 
 
-
         organComboBox.addValueChangeListener(event -> {
             Organ selectedOrgan = event.getValue();
             if (selectedOrgan != null) {
-               attachedSymptoms.setItems(organSymptomService.findSymptomsByOrganId(selectedOrgan.getId()));
+                attachedSymptoms.setItems(organSymptomService.findSymptomsByOrganId(selectedOrgan.getId()));
                 freeSymptoms.setItems(organSymptomService.findSymptomsNotMappedToOrgan(selectedOrgan));
             } else {
                 attachedSymptoms.setItems(Collections.emptyList());
@@ -89,28 +89,33 @@ public class ManageOrgansAndSymptomsComponent extends VerticalLayout {
             }
         });
 
+        VerticalLayout comboLayout = new VerticalLayout(organSelectionLabel, organComboBox);
+
+        add(comboLayout);
+
         attachedSymptoms = new Grid<>(Symptom.class);
         freeSymptoms = new Grid<>(Symptom.class);
 
-        attachedSymptoms.setColumns("id", "name");
-        freeSymptoms.setColumns("id", "name");
+        attachedSymptoms.setColumns("name");
+        freeSymptoms.setColumns("name");
 
 
-        Label organSelectionLabel = new Label("Select an organ from the list:");
         Label organGridLabel = new Label("Attached:");
         Label symptomGridLabel = new Label("Free:");
 
+        VerticalLayout leftGrid = new VerticalLayout(organGridLabel, attachedSymptoms);
+        VerticalLayout rightGrid = new VerticalLayout(symptomGridLabel, freeSymptoms);
+        leftGrid.setAlignItems(Alignment.CENTER);
+        rightGrid.setAlignItems(Alignment.CENTER);
 
-        VerticalLayout gridLayout = new VerticalLayout(organSelectionLabel, organComboBox, organGridLabel, attachedSymptoms, symptomGridLabel, freeSymptoms);
-        gridLayout.setWidth("100%");
-        gridLayout.setAlignItems(Alignment.CENTER);
-        gridLayout.setSpacing(true);
-        gridLayout.setMargin(false);
-
-        add(gridLayout);
+        HorizontalLayout grids = new HorizontalLayout(leftGrid,rightGrid);
+        grids.setWidth("100%");
+        grids.setSpacing(true);
+        grids.setMargin(false);
+        add(grids);
 
         // Set the alignment of the menuLayout to the top of the component
-        setAlignSelf(Alignment.START, menuLayout);
+        setAlignSelf(Alignment.CENTER, menuLayout);
 
     }
 }
