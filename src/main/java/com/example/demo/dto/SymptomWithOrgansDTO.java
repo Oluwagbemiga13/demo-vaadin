@@ -1,12 +1,9 @@
 package com.example.demo.dto;
 
-import java.util.Objects;
-import java.util.Set;
+import com.example.demo.entity.Organ;
+import com.example.demo.entity.Symptom;
 
-public record SymptomWithOrgansDTO(Long id, String name, Set<OrganWithSymptomsDTO> organs) {
+import java.util.List;
 
-    public SymptomWithOrgansDTO withName(String name) {
-        return new SymptomWithOrgansDTO(this.id, name, this.organs);
-    }
-
+public record SymptomWithOrgansDTO(Symptom symptom, List<Organ> organs) {
 }

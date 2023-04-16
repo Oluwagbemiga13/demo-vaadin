@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.LongStream;
 
 @Service
 @Transactional
@@ -73,6 +74,12 @@ public class DummyDataCreator {
                 .map(name -> new Symptom(null, name,new HashSet<>()))
                 .toList();
         symptomRepository.saveAll(symptoms);
+
+        LongStream.range(1L,10)
+                        .forEach(l -> {
+                            organSymptomService.createRelation(l, l);
+                            log.info("Created relation " + l + ":" + l);
+                        });
     }
 
 //    @org.springframework.transaction.annotation.Transactional
