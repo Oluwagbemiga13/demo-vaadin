@@ -70,7 +70,7 @@ public class ManageSymptomsComponent extends VerticalLayout {
             });
 
         });
-        Button manageRelationsButton = new Button("Manage Relations");
+        Button manageRelationsButton = new Button("Manage Relations", e -> getUI().ifPresent(ui -> ui.navigate(ManageOrgansAndSymptomsComponent.class)));
         Button backButton = new Button("Back", e -> getUI().ifPresent(ui -> ui.navigate(WelcomeComponent.class)));
 
         // Set the width of all menu items to the fixed width

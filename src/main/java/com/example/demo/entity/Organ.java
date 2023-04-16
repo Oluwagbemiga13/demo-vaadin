@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,4 +21,9 @@ public class Organ {
 
     @Column(nullable = false, unique = true)
     private String name;
+
+    @OneToMany(mappedBy = "organ", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private Set<OrganSymptom> symptoms = new HashSet<>();
+
+    // Other fields if any
 }
