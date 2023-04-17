@@ -21,7 +21,7 @@ public class OrganService {
     public void saveOrgan(OrganDTO organDTO) {
         log.info("{} was accepted", organDTO);
         Organ organ = new Organ();
-        organ.setName(organDTO.name());
+        organ.setName(organDTO.getName());
         organRepository.save(organ);
        Optional<Organ> organ1 = organRepository.findById(organ.getId());
        if(organ1.isEmpty()){

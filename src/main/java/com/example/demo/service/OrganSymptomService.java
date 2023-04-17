@@ -3,11 +3,13 @@ package com.example.demo.service;
 import com.example.demo.entity.Organ;
 import com.example.demo.entity.OrganSymptom;
 import com.example.demo.entity.Symptom;
+import com.example.demo.mapper.OrganMapper;
 import com.example.demo.repository.OrganRepository;
 import com.example.demo.repository.OrganSymptomRepository;
 import com.example.demo.repository.SymptomRepository;
 import jakarta.el.PropertyNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,6 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class OrganSymptomService {
 
     @Autowired
@@ -29,6 +32,9 @@ public class OrganSymptomService {
     @Autowired
     private SymptomRepository symptomRepository;
 
+    @Autowired
+    private OrganMapper organMapper;
+
     @Transactional
     public OrganSymptom createRelation(Long organId, Long symptomId) {
         Organ organ = organRepository.findById(organId).orElseThrow(() -> new EntityNotFoundException("Organ not found with ID: " + organId));
@@ -37,6 +43,8 @@ public class OrganSymptomService {
         OrganSymptom organSymptom = new OrganSymptom();
         organSymptom.setOrgan(organ);
         organSymptom.setSymptom(symptom);
+
+        log.info(organMapper.toDto(organ).getName());
 
         return organSymptomRepository.save(organSymptom);
     }

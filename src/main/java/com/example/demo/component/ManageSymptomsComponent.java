@@ -1,5 +1,6 @@
 package com.example.demo.component;
 
+import com.example.demo.dto.SymptomDTO;
 import com.example.demo.entity.Organ;
 import com.example.demo.entity.Symptom;
 import com.example.demo.service.OrganService;
@@ -27,7 +28,7 @@ public class ManageSymptomsComponent extends VerticalLayout {
     private int menuItemWidth;
 
     private Grid<Organ> organGrid;
-    private Grid<Symptom> symptomGrid;
+    private Grid<SymptomDTO> symptomGrid;
 
     @Autowired
     public ManageSymptomsComponent(OrganService organService, SymptomService symptomService) {
@@ -40,7 +41,7 @@ public class ManageSymptomsComponent extends VerticalLayout {
     @PostConstruct
     private void init() {
         organGrid = new Grid<>(Organ.class);
-        symptomGrid = new Grid<>(Symptom.class);
+        symptomGrid = new Grid<>(SymptomDTO.class);
 
         organGrid.setVisible(true);
 
@@ -129,7 +130,7 @@ public class ManageSymptomsComponent extends VerticalLayout {
         });
 
         Button deleteSymptomButton = new Button("Delete selected Symptom", e -> {
-            Symptom selectedSymptom = symptomGrid.asSingleSelect().getValue();
+            SymptomDTO selectedSymptom = symptomGrid.asSingleSelect().getValue();
             if (selectedSymptom != null) {
                 ConfirmationDialog confirmationDialog = new ConfirmationDialog("Are you sure you want to delete this Symptom?", () -> {
                     symptomService.delete(selectedSymptom.getId());
@@ -169,7 +170,7 @@ public class ManageSymptomsComponent extends VerticalLayout {
 
     private void refreshGrids() {
         List<Organ> organs = organService.findAll();
-        List<Symptom> symptoms = symptomService.findAll();
+        List<SymptomDTO> symptoms = symptomService.findAll();
 
         log.info("Fetched Organs: {}", organs);
         log.info("Fetched Symptoms: {}", symptoms);

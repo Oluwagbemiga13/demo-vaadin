@@ -51,7 +51,8 @@ public class ManageOrgansAndSymptomsComponent extends VerticalLayout {
             // Add logic to manage symptom relations
         });
 
-        Button backButton = new Button("Back", e -> getUI().ifPresent(ui -> ui.navigate(ManageSymptomsComponent.class)));
+        Button backButton = new Button("Back",
+                e -> getUI().ifPresent(ui -> ui.navigate(ManageSymptomsComponent.class)));
 
         manageOrganRelationsButton.setWidth(menuItemWidth + "px");
         manageSymptomRelationsButton.setWidth(menuItemWidth + "px");
@@ -71,9 +72,12 @@ public class ManageOrgansAndSymptomsComponent extends VerticalLayout {
 
         add(menuLayout);
 
-        Label organSelectionLabel = new Label("Select an organ from the list:");
+        //Label organSelectionLabel = new Label("Select an organ from the list:");
+        //organSelectionLabel.getStyle().set("font-size", "30px");
+
 
         organComboBox = new ComboBox<>("Select an organ");
+        organComboBox.setWidth("500px");
         organComboBox.setItems(organService.findAll());
         organComboBox.setItemLabelGenerator(Organ::getName);
 
@@ -89,7 +93,9 @@ public class ManageOrgansAndSymptomsComponent extends VerticalLayout {
             }
         });
 
-        VerticalLayout comboLayout = new VerticalLayout(organSelectionLabel, organComboBox);
+//        VerticalLayout comboLayout = new VerticalLayout(organSelectionLabel, organComboBox);
+
+        VerticalLayout comboLayout = new VerticalLayout(organComboBox);
 
         add(comboLayout);
 

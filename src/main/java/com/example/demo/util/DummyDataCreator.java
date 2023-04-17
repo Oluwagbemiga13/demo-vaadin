@@ -75,34 +75,11 @@ public class DummyDataCreator {
                 .toList();
         symptomRepository.saveAll(symptoms);
 
+        // Generate organSymptoms
         LongStream.range(1L,10)
                         .forEach(l -> {
                             organSymptomService.createRelation(l, l);
                             log.info("Created relation " + l + ":" + l);
                         });
     }
-
-//    @org.springframework.transaction.annotation.Transactional
-//    public void createDummyOrganWithSymptoms() {
-//        Organ organ1 = new Organ(null, "Heart");
-//        Organ organ2 = new Organ(null, "Lungs");
-//        organRepository.saveAll(List.of(organ1,organ2));
-//        List<Organ> organsFromDB = organRepository.findAll();
-//
-//        Symptom symptom1 = new Symptom(null, "Cough");
-//        Symptom symptom2 = new Symptom(null, "Shortness of breath");
-//        symptomRepository.saveAll(List.of(symptom1,symptom2));
-//        List<Symptom> symptomsFromDB = symptomRepository.findAll();
-//
-////        OrganWithSymptoms organWithSymptoms1 = new OrganWithSymptoms(null, organsFromDB.get(0).getName(), Set.of(new SymptomWithOrgans(symptomsFromDB.get(0), organsFromDB.get(0))));
-////        OrganWithSymptoms organWithSymptoms2 = new OrganWithSymptoms(null, organsFromDB.get(1).getName(), Set.of(new SymptomWithOrgans(symptomsFromDB.get(1), organsFromDB.get(1))));
-////
-////        List<OrganWithSymptoms> organWithSymptomsList = new ArrayList<>();
-////        organWithSymptomsList.add(organWithSymptoms1);
-////        organWithSymptomsList.add(organWithSymptoms2);
-////
-////        organWithSymptomsRepository.saveAll(organWithSymptomsList);
-//    }
-
-
 }
