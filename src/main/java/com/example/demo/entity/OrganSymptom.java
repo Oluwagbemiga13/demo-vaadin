@@ -2,6 +2,8 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 
 //@Data
@@ -19,10 +21,12 @@ public class OrganSymptom {
 
     @ManyToOne
     @JoinColumn(name = "organ_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Organ organ;
 
     @ManyToOne
     @JoinColumn(name = "symptom_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Symptom symptom;
 
     // Additional fields, if any (e.g., relationship strength)

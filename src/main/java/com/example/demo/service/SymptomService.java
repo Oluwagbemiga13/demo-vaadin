@@ -1,12 +1,16 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.SymptomDTO;
+import com.example.demo.entity.OrganSymptom;
 import com.example.demo.entity.Symptom;
 import com.example.demo.mapper.SymptomMapper;
+import com.example.demo.repository.OrganSymptomRepository;
 import com.example.demo.repository.SymptomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,6 +19,9 @@ public class SymptomService {
 
     @Autowired
     private SymptomRepository symptomRepository;
+
+    @Autowired
+    private OrganSymptomRepository organSymptomRepository;
 
     @Autowired
     private SymptomMapper symptomMapper;
@@ -35,7 +42,21 @@ public class SymptomService {
     }
 
 
+    @Transactional
     public void delete(Long id) {
-        symptomRepository.deleteById(id);
+        List<OrganSymptom> organSymptoms = organSymptomRepository.findAllBySymptomId(id);
+        if(organSymptoms.isEmpty()) {
+            symptomRepository.deleteById(id);
+        }
+        else {
+            deleteAll(organSymptoms);
+            //organSymptoms.forEach(organSymptom -> organSymptomRepository.delete(organSymptom));
+            symptomRepository.deleteById(id);
+        }
+    }
+
+    @Transactional
+    public void deleteAll(List<OrganSymptom> organSymptoms){
+        organSymptomRepository.deleteAll(organSymptoms);
     }
 }
