@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dto.OrganDTO;
 import com.example.demo.entity.Organ;
+import com.example.demo.mapper.OrganMapper;
 import com.example.demo.repository.OrganRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class OrganService {
     @Autowired
     private OrganRepository organRepository;
 
+    @Autowired
+    private OrganMapper organMapper;
+
     public void saveOrgan(OrganDTO organDTO) {
         log.info("{} was accepted", organDTO);
         Organ organ = new Organ();
@@ -32,8 +36,8 @@ public class OrganService {
        }
     }
 
-    public List<Organ> findAll() {
-        return organRepository.findAll();
+    public List<OrganDTO> findAll() {
+        return organMapper.toDto(organRepository.findAll());
     }
 
     public void delete(Long id) {

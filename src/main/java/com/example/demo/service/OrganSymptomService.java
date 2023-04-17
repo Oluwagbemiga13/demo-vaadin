@@ -1,9 +1,12 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.OrganDTO;
+import com.example.demo.dto.SymptomDTO;
 import com.example.demo.entity.Organ;
 import com.example.demo.entity.OrganSymptom;
 import com.example.demo.entity.Symptom;
 import com.example.demo.mapper.OrganMapper;
+import com.example.demo.mapper.SymptomMapper;
 import com.example.demo.repository.OrganRepository;
 import com.example.demo.repository.OrganSymptomRepository;
 import com.example.demo.repository.SymptomRepository;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,6 +38,9 @@ public class OrganSymptomService {
 
     @Autowired
     private OrganMapper organMapper;
+
+    @Autowired
+    private SymptomMapper symptomMapper;
 
     @Transactional
     public OrganSymptom createRelation(Long organId, Long symptomId) {
@@ -56,24 +63,29 @@ public class OrganSymptomService {
         organSymptomRepository.delete(organSymptom);
     }
 
-    public List<Symptom> findSymptomsByOrganId(Long organId) {
-        return organSymptomRepository.findAllByOrganId(organId).stream()
+    public List<SymptomDTO> findSymptomsByOrganId(Long organId) {
+        return symptomMapper.toDto(organSymptomRepository.findAllByOrganId(organId).stream()
                 .map(OrganSymptom::getSymptom)
-                .collect(Collectors.toList());
+                .toList());
     }
 
-    public List<Organ> findOrgansBySymptomId(Long symptomId) {
-        return organSymptomRepository.findAllBySymptomId(symptomId).stream()
+    public List<OrganDTO> findOrgansBySymptomId(Long symptomId) {
+        return organMapper.toDto(organSymptomRepository.findAllBySymptomId(symptomId).stream()
                 .map(OrganSymptom::getOrgan)
-                .collect(Collectors.toList());
+                .toList());
     }
 
     public List<Symptom> findSymptomsNotMappedToAnyOrgan() {
         return symptomRepository.findSymptomsNotMappedToAnyOrgan();
     }
 
-    public List<Symptom> findSymptomsNotMappedToOrgan(Organ organ){
-        return symptomRepository.findSymptomsNotMappedToOrgan(organ.getId());
+    public List<SymptomDTO> findSymptomsNotMappedToOrgan(OrganDTO organ){
+        return symptomMapper.toDto(symptomRepository.findSymptomsNotMappedToOrgan(organ.getId()));
+    }
+
+    public void deleteRelation(OrganDTO organ, SymptomDTO symptom){
+        Optional<OrganSymptom> organSymptom = organSymptomRepository.findByOrganIdAndSymptomId(organ.getId(), symptom.getId());
+        organSymptomRepository.delete(organSymptom.get());
     }
 
 }

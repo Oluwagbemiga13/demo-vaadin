@@ -16,7 +16,7 @@ public interface OrganMapper {
 
     Organ toEntity(OrganDTO dto);
 
-    List<OrganDTO> toDtoList(List<Organ> entities);
+    List<OrganDTO> toDto(List<Organ> entities);
 
-    List<Organ> toEntityList(List<OrganDTO> dtos);
+    List<Organ> toEntity(List<OrganDTO> dtos);
 }
