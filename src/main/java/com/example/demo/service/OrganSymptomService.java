@@ -79,13 +79,38 @@ public class OrganSymptomService {
         return symptomRepository.findSymptomsNotMappedToAnyOrgan();
     }
 
-    public List<SymptomDTO> findSymptomsNotMappedToOrgan(OrganDTO organ){
+    public List<SymptomDTO> findSymptomsNotMappedToOrgan(OrganDTO organ) {
         return symptomMapper.toDto(symptomRepository.findSymptomsNotMappedToOrgan(organ.getId()));
     }
 
-    public void deleteRelation(OrganDTO organ, SymptomDTO symptom){
-        Optional<OrganSymptom> organSymptom = organSymptomRepository.findByOrganIdAndSymptomId(organ.getId(), symptom.getId());
-        organSymptomRepository.delete(organSymptom.get());
-    }
+    //    public void deleteRelation(OrganDTO organ, SymptomDTO symptom) {
+//        Optional<OrganSymptom> organSymptom = organSymptomRepository.findByOrganIdAndSymptomId(organ.getId(), symptom.getId());
+//        organSymptom.ifPresent(value -> organSymptomRepository.delete(value));
+//
+////        Long idOrganSymptom = organSymptom.get().getId();
+////        organSymptomRepository.deleteById(idOrganSymptom);
+//    }
+//
 
+    @Transactional
+    public void deleteRelation(OrganDTO organDTO, SymptomDTO symptomDTO) {
+        Optional<OrganSymptom> organSymptomOptional = organSymptomRepository.findByOrganIdAndSymptomId(organDTO.getId(), symptomDTO.getId());
+
+        if (organSymptomOptional.isPresent()) {
+            OrganSymptom organSymptom = organSymptomOptional.get();
+
+            // Remove the relationship from the parent entities
+            Organ organ = organSymptom.getOrgan();
+            Symptom symptom = organSymptom.getSymptom();
+            organ.getSymptoms().remove(organSymptom);
+            symptom.getOrgans().remove(organSymptom);
+
+            // Update the parent entities
+            organRepository.save(organ);
+            symptomRepository.save(symptom);
+
+            // Delete the OrganSymptom entity
+            organSymptomRepository.delete(organSymptom);
+        }
+    }
 }

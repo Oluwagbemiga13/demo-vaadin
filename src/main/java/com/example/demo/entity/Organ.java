@@ -22,7 +22,7 @@ public class Organ {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "organ", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "organ", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH}, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<OrganSymptom> symptoms = new HashSet<>();
 
     // Other fields if any

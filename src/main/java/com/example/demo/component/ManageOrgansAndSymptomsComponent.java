@@ -115,14 +115,27 @@ public class ManageOrgansAndSymptomsComponent extends VerticalLayout {
         attachedSymptoms = new Grid<>(SymptomDTO.class);
         freeSymptoms = new Grid<>(SymptomDTO.class);
 
-        attachedSymptoms.setColumns("name");
-        freeSymptoms.setColumns("name");
+        attachedSymptoms.setColumns("id","name");
+        freeSymptoms.setColumns("id","name");
 
 
         Label organGridLabel = new Label("Attached:");
         Label symptomGridLabel = new Label("Free:");
 
         Button removeButton = new Button("Remove");
+        removeButton.addClickListener(event -> {
+            OrganDTO selectedOrgan = organComboBox.getValue();
+            SymptomDTO selectedSymptom = attachedSymptoms.asSingleSelect().getValue();
+
+            if (selectedOrgan != null && selectedSymptom != null) {
+               organSymptomService.deleteRelation(selectedOrgan, selectedSymptom);
+               log.info("deleted {}  from {}", selectedSymptom.getName(), selectedOrgan.getName());
+
+                // Refresh the grid to show the updated data
+                refreshGrids();
+            }
+        });
+
         Button addButton = new Button("Add");
         addButton.addClickListener(event -> {
             OrganDTO selectedOrgan = organComboBox.getValue();

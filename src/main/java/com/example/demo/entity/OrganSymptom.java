@@ -29,8 +29,5 @@ public class OrganSymptom {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Symptom symptom;
 
-    // Additional fields, if any (e.g., relationship strength)
-
-    // Constructors, getters, and setters
 }
 
