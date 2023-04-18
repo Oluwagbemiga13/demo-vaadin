@@ -6,6 +6,7 @@ import com.example.demo.entity.OrganSymptom;
 import com.example.demo.service.OrganService;
 import com.example.demo.service.OrganSymptomService;
 import com.example.demo.service.SymptomService;
+import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.grid.Grid;
@@ -32,20 +33,15 @@ public class ManageOrganSymptoms extends VerticalLayout {
     @Autowired
     private SymptomService symptomService;
 
-    private int menuItemWidth = 250;
+
 
     private ComboBox<OrganDTO> organComboBox;
     private Grid<SymptomDTO> attachedSymptoms;
     private Grid<SymptomDTO> freeSymptoms;
 
-//    @Autowired
-//    public ManageOrganSymptoms(OrganService organService, OrganSymptomService organSymptomService) {
-//        this.organSymptomService = organSymptomService;
-//        this.organService = organService;
-//        menuItemWidth = 250;
-//
-//        init();
-//    }
+    private String editButtonsWidth = "250px";
+    private String menuItemWidth = "250px";
+    private String menuButtonsHeight = "75px";
 
     @PostConstruct
     private void init() {
@@ -56,12 +52,15 @@ public class ManageOrganSymptoms extends VerticalLayout {
             getUI().ifPresent(ui -> ui.navigate(ManageSymptomOrgans.class));
         });
 
+        manageSymptomRelationsButton.setHeight(menuButtonsHeight);
+        manageSymptomRelationsButton.setWidth(menuItemWidth);
+
         Button backButton = new Button("Back",
                 e -> getUI().ifPresent(ui -> ui.navigate(AddSymptomAndOrganComponent.class)));
 
 
-        manageSymptomRelationsButton.setWidth(menuItemWidth + "px");
-        backButton.setWidth(menuItemWidth + "px");
+        backButton.setHeight(menuButtonsHeight);
+        backButton.setWidth(menuItemWidth);
 
         HorizontalLayout menuLayout = new HorizontalLayout(
                 manageSymptomRelationsButton,
@@ -69,19 +68,13 @@ public class ManageOrganSymptoms extends VerticalLayout {
         );
 
         menuLayout.setAlignItems(Alignment.CENTER);
-        menuLayout.setSpacing(false);
+        menuLayout.setSpacing(true);
         menuLayout.setMargin(false);
         menuLayout.getElement().getStyle().set("margin-left", "auto");
         menuLayout.getElement().getStyle().set("margin-right", "auto");
 
-        add(menuLayout);
-
-        //Label organSelectionLabel = new Label("Select an organ from the list:");
-        //organSelectionLabel.getStyle().set("font-size", "30px");
-
-
         organComboBox = new ComboBox<>("Select an organ");
-        organComboBox.setWidth("500px");
+        organComboBox.setWidth("510px");
         organComboBox.setItems(organService.findAll());
         organComboBox.setItemLabelGenerator(OrganDTO::getName);
 
@@ -97,21 +90,26 @@ public class ManageOrganSymptoms extends VerticalLayout {
             }
         });
 
-//        VerticalLayout comboLayout = new VerticalLayout(organSelectionLabel, organComboBox);
+        VerticalLayout wholeMenuLayout = new VerticalLayout(menuLayout, organComboBox);
+        wholeMenuLayout.setSpacing(true);
+        wholeMenuLayout.setAlignItems(Alignment.CENTER);
 
-        VerticalLayout comboLayout = new VerticalLayout(organComboBox);
+        add(wholeMenuLayout);
 
-        add(comboLayout);
+        //Label organSelectionLabel = new Label("Select an organ from the list:");
+        //organSelectionLabel.getStyle().set("font-size", "30px");
+
 
         attachedSymptoms = new Grid<>(SymptomDTO.class);
         freeSymptoms = new Grid<>(SymptomDTO.class);
 
-        attachedSymptoms.setColumns("id","name");
-        freeSymptoms.setColumns("id","name");
+        attachedSymptoms.setColumns("name");
+        freeSymptoms.setColumns("name");
+
+        Html attachedGridLabel = new Html("<div style='font-weight: bold; font-size: 25px; color: gray;'>Attached</div>");
+        Html freeGridLabel = new Html("<div style='font-weight: bold; font-size: 25px; color: gray;'>Free</div>");
 
 
-        Label organGridLabel = new Label("Attached:");
-        Label symptomGridLabel = new Label("Free:");
 
         Button removeButton = new Button("Remove");
         removeButton.addClickListener(event -> {
@@ -126,6 +124,7 @@ public class ManageOrganSymptoms extends VerticalLayout {
                 refreshGrids();
             }
         });
+        removeButton.setWidth(editButtonsWidth);
 
         Button addButton = new Button("Add");
         addButton.addClickListener(event -> {
@@ -139,38 +138,22 @@ public class ManageOrganSymptoms extends VerticalLayout {
                 refreshGrids();
             }
         });
+        addButton.setWidth(editButtonsWidth);
 
-        VerticalLayout leftGrid = new VerticalLayout(organGridLabel, attachedSymptoms, removeButton);
-        VerticalLayout rightGrid = new VerticalLayout(symptomGridLabel, freeSymptoms, addButton);
+        VerticalLayout leftGrid = new VerticalLayout(attachedGridLabel, attachedSymptoms, removeButton);
+        VerticalLayout rightGrid = new VerticalLayout(freeGridLabel, freeSymptoms, addButton);
         leftGrid.setAlignItems(Alignment.CENTER);
         rightGrid.setAlignItems(Alignment.CENTER);
 
         HorizontalLayout grids = new HorizontalLayout(leftGrid,rightGrid);
-        grids.setWidth("100%");
+        grids.setWidth("80%");
         grids.setSpacing(true);
         grids.setMargin(false);
+        grids.setAlignSelf(Alignment.CENTER);
         add(grids);
 
-
-//        HorizontalLayout removeLayout = new HorizontalLayout(removeButton);
-//        removeLayout.setAlignItems(Alignment.CENTER);
-//        removeLayout.setWidth("500px");
-//        removeLayout.setAlignSelf(Alignment.CENTER, removeButton);
-
-
-//        HorizontalLayout addLayout = new HorizontalLayout(addButton);
-//        addLayout.setAlignItems(Alignment.CENTER);
-//        addLayout.setWidth("500px");
-//        addLayout.setAlignSelf(Alignment.CENTER, addButton);
-
-//        HorizontalLayout manipulateLayout = new HorizontalLayout(removeLayout,addLayout);
-//        manipulateLayout.setAlignItems(Alignment.CENTER);
-//
-//        add(manipulateLayout);
-
-
         // Set the alignment of the menuLayout to the top of the component
-        setAlignSelf(Alignment.CENTER, menuLayout);
+        setAlignSelf(Alignment.CENTER, menuLayout, grids);
 
     }
 

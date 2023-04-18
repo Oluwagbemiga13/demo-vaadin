@@ -4,6 +4,7 @@ import com.example.demo.dto.OrganDTO;
 import com.example.demo.dto.SymptomDTO;
 import com.example.demo.service.OrganService;
 import com.example.demo.service.SymptomService;
+import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.notification.Notification;
@@ -24,16 +25,25 @@ public class AddSymptomAndOrganComponent extends VerticalLayout {
     private final OrganService organService;
     private final SymptomService symptomService;
 
-    private int menuItemWidth;
+    private String menuItemWidth = "250px";
+
+    private String editButtonsWidth = "300px";
+
+    private String menuButtonsHeight = "75px";
 
     private Grid<OrganDTO> organGrid;
     private Grid<SymptomDTO> symptomGrid;
+    private Button createOrganButton;
+    private Button createSymptomButton;
+    private Button manageRelationsButton;
+    private Button backButton;
+    private Button deleteSymptomButton;
+    private Button deleteOrganButton;
 
     @Autowired
     public AddSymptomAndOrganComponent(OrganService organService, SymptomService symptomService) {
         this.organService = organService;
         this.symptomService = symptomService;
-        menuItemWidth = 200;
 
     }
 
@@ -44,51 +54,27 @@ public class AddSymptomAndOrganComponent extends VerticalLayout {
 
         organGrid.setVisible(true);
 
-//        setAlignItems(Alignment.CENTER);
-//        setJustifyContentMode(JustifyContentMode.CENTER);
         setMargin(false);
         setPadding(false);
 
         // Create the menu items
-        Button createOrganButton = new Button("Create new Organ", e -> {
-            CreateOrganDialog createOrganDialog = new CreateOrganDialog(organService);
-            createOrganDialog.open();
-            createOrganDialog.addOpenedChangeListener(event -> {
-                if (!event.isOpened()) {
-                    refreshGrids();
-                }
-            });
-        });
 
-        Button createSymptomButton = new Button("Create Symptom", e -> {
-            CreateSymptomDialog createSymptomDialog = new CreateSymptomDialog(symptomService);
-            createSymptomDialog.open();
-            createSymptomDialog.addOpenedChangeListener(event -> {
-                if (!event.isOpened()) {
-                    refreshGrids();
-                }
-            });
+        manageRelationsButton = new Button("Manage Relations", e -> getUI().ifPresent(ui -> ui.navigate(ManageOrganSymptoms.class)));
+        manageRelationsButton.setHeight(menuButtonsHeight);
+        manageRelationsButton.setWidth(menuItemWidth);
 
-        });
-        Button manageRelationsButton = new Button("Manage Relations", e -> getUI().ifPresent(ui -> ui.navigate(ManageOrganSymptoms.class)));
-        Button backButton = new Button("Back", e -> getUI().ifPresent(ui -> ui.navigate(WelcomeComponent.class)));
-
-        // Set the width of all menu items to the fixed width
-        createOrganButton.setWidth(menuItemWidth + "px");
-        createSymptomButton.setWidth(menuItemWidth + "px");
-        manageRelationsButton.setWidth(menuItemWidth + "px");
-        backButton.setWidth(menuItemWidth + "px");
+        backButton = new Button("Back", e -> getUI().ifPresent(ui -> ui.navigate(WelcomeComponent.class)));
+        backButton.setHeight(menuButtonsHeight);
+        backButton.setWidth(menuItemWidth);
 
         // Create a horizontal layout for the menu items
         HorizontalLayout menuLayout = new HorizontalLayout(
-                createOrganButton,
-                createSymptomButton,
                 manageRelationsButton,
                 backButton
         );
 
         menuLayout.setAlignItems(Alignment.CENTER);
-        menuLayout.setSpacing(false);
+        menuLayout.setSpacing(true);
         menuLayout.setMargin(false);
         menuLayout.getElement().getStyle().set("margin-left", "auto");
         menuLayout.getElement().getStyle().set("margin-right", "auto");
@@ -99,23 +85,28 @@ public class AddSymptomAndOrganComponent extends VerticalLayout {
         // Add the menu layout to the top of the component
         add(menuLayout);
 
-        organGrid.setColumns("id", "name"); // Adjust the column names according to your Organ entity
-        symptomGrid.setColumns("id", "name"); // Adjust the column names according to your Symptom entity
+        Html organLabel = new Html("<div style='font-weight: bold; font-size: 25px;'>Organs</div>");
+        Html symptomLabel = new Html("<div style='font-weight: bold; font-size: 25px;'>Symptoms</div>");
+
+
+        organGrid.setColumns("name"); // Adjust the column names according to your Organ entity
+        symptomGrid.setColumns("name"); // Adjust the column names according to your Symptom entity
 
         organGrid.setWidth("100%");
         symptomGrid.setWidth("100%");
 
+        createOrganButton = new Button("Create new Organ", e -> {
+            CreateOrganDialog createOrganDialog = new CreateOrganDialog(organService);
+            createOrganDialog.open();
+            createOrganDialog.addOpenedChangeListener(event -> {
+                if (!event.isOpened()) {
+                    refreshGrids();
+                }
+            });
+        });
+        createOrganButton.setWidth(editButtonsWidth);
 
-        HorizontalLayout gridsLayout = new HorizontalLayout(organGrid, symptomGrid);
-        gridsLayout.setWidth("100%");
-        gridsLayout.setAlignItems(Alignment.CENTER);
-        gridsLayout.setSpacing(true);
-        gridsLayout.setMargin(false);
-
-        // Add the grids layout to the component
-        add(gridsLayout);
-
-        Button deleteOrganButton = new Button("Delete selected Organ", e -> {
+        deleteOrganButton = new Button("Delete selected Organ", e -> {
             OrganDTO selectedOrgan = organGrid.asSingleSelect().getValue();
             if (selectedOrgan != null) {
                 ConfirmationDialog confirmationDialog = new ConfirmationDialog("Are you sure you want to delete this Organ?", () -> {
@@ -128,7 +119,21 @@ public class AddSymptomAndOrganComponent extends VerticalLayout {
             }
         });
 
-        Button deleteSymptomButton = new Button("Delete selected Symptom", e -> {
+        deleteOrganButton.setWidth(editButtonsWidth);
+
+        createSymptomButton = new Button("Create Symptom", e -> {
+            CreateSymptomDialog createSymptomDialog = new CreateSymptomDialog(symptomService);
+            createSymptomDialog.open();
+            createSymptomDialog.addOpenedChangeListener(event -> {
+                if (!event.isOpened()) {
+                    refreshGrids();
+                }
+            });
+        });
+        createSymptomButton.setWidth(editButtonsWidth);
+
+
+        deleteSymptomButton = new Button("Delete selected Symptom", e -> {
             SymptomDTO selectedSymptom = symptomGrid.asSingleSelect().getValue();
             if (selectedSymptom != null) {
                 ConfirmationDialog confirmationDialog = new ConfirmationDialog("Are you sure you want to delete this Symptom?", () -> {
@@ -141,26 +146,30 @@ public class AddSymptomAndOrganComponent extends VerticalLayout {
             }
         });
 
-        deleteOrganButton.setWidth(menuItemWidth + "px");
-        deleteSymptomButton.setWidth(menuItemWidth + "px");
+        deleteSymptomButton.setWidth(editButtonsWidth);
 
-        // Create a horizontal layout for the delete buttons
-        HorizontalLayout deleteButtonsLayout = new HorizontalLayout(
-                deleteOrganButton,
-                deleteSymptomButton
-        );
 
-        deleteButtonsLayout.setAlignItems(Alignment.CENTER);
-        deleteButtonsLayout.setSpacing(true);
-        deleteButtonsLayout.setMargin(false);
-        deleteButtonsLayout.getElement().getStyle().set("margin-left", "auto");
-        deleteButtonsLayout.getElement().getStyle().set("margin-right", "auto");
+        VerticalLayout organLayout = new VerticalLayout(organLabel, organGrid, createOrganButton, deleteOrganButton);
+        organLayout.setAlignItems(Alignment.CENTER);
+
+        VerticalLayout symptomLayout = new VerticalLayout(symptomLabel, symptomGrid, createSymptomButton, deleteSymptomButton);
+        symptomLayout.setAlignItems(Alignment.CENTER);
+
+
+        HorizontalLayout gridsLayout = new HorizontalLayout(organLayout, symptomLayout);
+        gridsLayout.setWidth("80%");
+        gridsLayout.setAlignItems(Alignment.CENTER);
+        gridsLayout.setSpacing(true);
+        gridsLayout.setMargin(false);
+
+        // Add the grids layout to the component
+        add(gridsLayout);
 
         // Set the alignment of the deleteButtonsLayout to the top of the component
-        setAlignSelf(Alignment.START, deleteButtonsLayout);
+        setAlignSelf(Alignment.CENTER,menuLayout,gridsLayout);
 
         // Add the delete buttons layout to the top of the component
-        add(deleteButtonsLayout);
+        //add(deleteButtonsLayout);
 
         refreshGrids();
 
