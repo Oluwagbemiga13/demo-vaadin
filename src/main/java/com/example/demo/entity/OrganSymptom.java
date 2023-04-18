@@ -1,15 +1,17 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 
-@Data
+//@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Getter
+@Setter
 @Table(name = "organ_symptom")
 public class OrganSymptom {
 
@@ -19,14 +21,13 @@ public class OrganSymptom {
 
     @ManyToOne
     @JoinColumn(name = "organ_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Organ organ;
 
     @ManyToOne
     @JoinColumn(name = "symptom_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Symptom symptom;
 
-    // Additional fields, if any (e.g., relationship strength)
-
-    // Constructors, getters, and setters
 }
 

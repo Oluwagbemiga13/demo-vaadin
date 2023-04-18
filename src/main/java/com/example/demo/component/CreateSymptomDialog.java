@@ -38,7 +38,7 @@ public class CreateSymptomDialog extends Dialog {
         // Bind the text fields to the symptom DTO
         binder.forField(nameField)
                 .asRequired("Symptom name is required")
-                .bind(SymptomDTO::name, SymptomDTO::withName);
+                .bind(SymptomDTO::getName, SymptomDTO::withName);
 
         // Add a button to save the new symptom
         Button saveButton = new Button("Save", e -> saveSymptom(nameField.getValue()));

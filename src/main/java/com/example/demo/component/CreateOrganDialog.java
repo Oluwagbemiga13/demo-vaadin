@@ -37,7 +37,7 @@ public class CreateOrganDialog extends Dialog {
 
         // Bind the text field to the organ DTO
         binder.forField(nameField)
-                .bind(OrganDTO::name, OrganDTO::withName);
+                .bind(OrganDTO::getName, OrganDTO::withName);
 
         // Add a button to save the new organ
         Button saveButton = new Button("Save", e -> {
