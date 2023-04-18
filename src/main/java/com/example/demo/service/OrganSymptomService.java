@@ -83,14 +83,10 @@ public class OrganSymptomService {
         return symptomMapper.toDto(symptomRepository.findSymptomsNotMappedToOrgan(organ.getId()));
     }
 
-    //    public void deleteRelation(OrganDTO organ, SymptomDTO symptom) {
-//        Optional<OrganSymptom> organSymptom = organSymptomRepository.findByOrganIdAndSymptomId(organ.getId(), symptom.getId());
-//        organSymptom.ifPresent(value -> organSymptomRepository.delete(value));
-//
-////        Long idOrganSymptom = organSymptom.get().getId();
-////        organSymptomRepository.deleteById(idOrganSymptom);
-//    }
-//
+    public List<OrganDTO> findOrgansNotMappedToSymptom(SymptomDTO symptom) {
+        return organMapper.toDto(organRepository.findOrgansNotMappedToSymptom(symptom.getId()));
+    }
+
 
     @Transactional
     public void deleteRelation(OrganDTO organDTO, SymptomDTO symptomDTO) {
