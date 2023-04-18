@@ -39,7 +39,7 @@ public class WelcomeComponent extends VerticalLayout implements BeforeEnterObser
         menuLayout.setAlignItems(Alignment.CENTER);
 
         // Create buttons for each menu item and add them to the vertical layout
-        Button manageSymptoms = new Button("Manage Symptoms", e -> getUI().ifPresent((ui -> ui.navigate(ManageSymptomsComponent.class))));
+        Button manageSymptoms = new Button("Manage Symptoms", e -> getUI().ifPresent((ui -> ui.navigate(AddSymptomAndOrganComponent.class))));
         manageSymptoms.setWidth(BUTTON_WIDTH);
 
         Button manageLogs = new Button("Manage Logs");

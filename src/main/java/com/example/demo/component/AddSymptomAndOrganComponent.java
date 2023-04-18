@@ -2,8 +2,6 @@ package com.example.demo.component;
 
 import com.example.demo.dto.OrganDTO;
 import com.example.demo.dto.SymptomDTO;
-import com.example.demo.entity.Organ;
-import com.example.demo.entity.Symptom;
 import com.example.demo.service.OrganService;
 import com.example.demo.service.SymptomService;
 import com.vaadin.flow.component.button.Button;
@@ -21,7 +19,7 @@ import java.util.List;
 
 @Route("manage-symptoms")
 @Slf4j
-public class ManageSymptomsComponent extends VerticalLayout {
+public class AddSymptomAndOrganComponent extends VerticalLayout {
 
     private final OrganService organService;
     private final SymptomService symptomService;
@@ -32,7 +30,7 @@ public class ManageSymptomsComponent extends VerticalLayout {
     private Grid<SymptomDTO> symptomGrid;
 
     @Autowired
-    public ManageSymptomsComponent(OrganService organService, SymptomService symptomService) {
+    public AddSymptomAndOrganComponent(OrganService organService, SymptomService symptomService) {
         this.organService = organService;
         this.symptomService = symptomService;
         menuItemWidth = 200;
@@ -72,7 +70,7 @@ public class ManageSymptomsComponent extends VerticalLayout {
             });
 
         });
-        Button manageRelationsButton = new Button("Manage Relations", e -> getUI().ifPresent(ui -> ui.navigate(ManageOrgansAndSymptomsComponent.class)));
+        Button manageRelationsButton = new Button("Manage Relations", e -> getUI().ifPresent(ui -> ui.navigate(ManageOrganSymptoms.class)));
         Button backButton = new Button("Back", e -> getUI().ifPresent(ui -> ui.navigate(WelcomeComponent.class)));
 
         // Set the width of all menu items to the fixed width
