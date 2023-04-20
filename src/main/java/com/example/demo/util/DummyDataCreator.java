@@ -12,10 +12,10 @@ import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
 import java.util.stream.LongStream;
 
 @Service
@@ -34,7 +34,7 @@ public class DummyDataCreator {
 
 
     @PostConstruct
-    void init (){
+    void init() {
         generateLongLists();
         //createDummyOrganWithSymptoms();
 
@@ -85,25 +85,25 @@ public class DummyDataCreator {
 
         // Generate symptoms
         List<Symptom> symptoms = symptomNames.stream()
-                .map(name -> new Symptom(null, name,new HashSet<>(), new HashSet<>()))
+                .map(name -> new Symptom(null, name, new HashSet<>(), new HashSet<>()))
                 .toList();
         symptomRepository.saveAll(symptoms);
 
         List<Part> parts = partNames.stream()
-                        .map(name -> new Part(null,name, new HashSet<>(), new HashSet<>()))
-                        .toList();
+                .map(name -> new Part(null, name, new HashSet<>(), new HashSet<>()))
+                .toList();
         partRepository.saveAll(parts);
 
-                // Generate organSymptoms
-        LongStream.range(1L,10)
-                        .forEach(l -> {
-                            organSymptomService.createRelation(l, l);
-                            log.info("Created relation " + l + ":" + l);
-                        });
-
-        LongStream.range(1,10)
+        // Generate organSymptoms
+        LongStream.range(1L, 10)
                 .forEach(l -> {
-                    partService.createRelation(l,l);
+                    organSymptomService.createRelation(l, l);
+                    log.info("Created relation " + l + ":" + l);
+                });
+
+        LongStream.range(1, 10)
+                .forEach(l -> {
+                    partService.createRelation(l, l);
                     log.info("Created relation " + l + ":" + l);
                 });
 

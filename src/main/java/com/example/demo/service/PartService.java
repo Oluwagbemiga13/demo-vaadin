@@ -3,8 +3,8 @@ package com.example.demo.service;
 import com.example.demo.dto.PartDTO;
 import com.example.demo.dto.SymptomDTO;
 import com.example.demo.entity.Part;
-import com.example.demo.entity.SymptomPart;
 import com.example.demo.entity.Symptom;
+import com.example.demo.entity.SymptomPart;
 import com.example.demo.mapper.PartMapper;
 import com.example.demo.mapper.SymptomMapper;
 import com.example.demo.repository.PartRepository;
@@ -41,10 +41,9 @@ public class PartService {
         part.setName(partDTO.getName());
         partRepository.save(part);
         Optional<Part> part1 = partRepository.findById(part.getId());
-        if(part1.isEmpty()){
+        if (part1.isEmpty()) {
             log.error("Part ID: {} was not found", part.getId());
-        }
-        else {
+        } else {
             log.info("{} was retrieved", part1);
         }
     }
@@ -71,12 +70,11 @@ public class PartService {
     }
 
 
-
     public List<PartDTO> findPartsNotMappedToSymptom(SymptomDTO symptom) {
         return partMapper.toDto(partRepository.findPartsNotMappedToSymptom(symptom.getId()));
     }
 
-    public List<PartDTO> findAllPartsBySymptomId(Long symptomId){
+    public List<PartDTO> findAllPartsBySymptomId(Long symptomId) {
         return partMapper.toDto(partRepository.findPartsMappedToSymptom(symptomId));
     }
 

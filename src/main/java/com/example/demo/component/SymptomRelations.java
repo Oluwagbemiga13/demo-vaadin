@@ -43,7 +43,6 @@ public class SymptomRelations extends VerticalLayout {
     Html freeLabel_2 = new Html("<div style='font-weight: bold; font-size: 25px; color: gray;'>Free</div>");
 
 
-
     private ComboBox<SymptomDTO> symptomComboBox;
     private Grid<OrganDTO> attachedOrgans;
     private Grid<OrganDTO> freeOrgans;
@@ -184,7 +183,7 @@ public class SymptomRelations extends VerticalLayout {
             PartDTO selectedPart = attachedParts.asSingleSelect().getValue();
 
             if (selectedSymptom != null && selectedPart != null) {
-                partService.deleteRelation(selectedPart,selectedSymptom);
+                partService.deleteRelation(selectedPart, selectedSymptom);
                 log.info("deleted {} from {}", selectedPart.getName(), selectedSymptom.getName());
 
                 // Refresh the grid to show the updated data
@@ -202,7 +201,7 @@ public class SymptomRelations extends VerticalLayout {
             if (selectedSymptom != null && selectedPart != null) {
                 SymptomPart symptomPart = partService.createRelation(selectedPart.getId(), selectedSymptom.getId());
 
-                log.info("Created relation between {} and  {}", selectedPart,selectedSymptom);
+                log.info("Created relation between {} and  {}", selectedPart, selectedSymptom);
                 // Refresh the grid to show the updated data
                 refreshGrids();
             }
@@ -239,7 +238,7 @@ public class SymptomRelations extends VerticalLayout {
 
     private void refreshGrids() {
         SymptomDTO selectedSymptom = symptomComboBox.getValue();
-        if(selectedSymptom != null) {
+        if (selectedSymptom != null) {
 
             attachedOrgans.setItems(organSymptomService.findOrgansBySymptomId(selectedSymptom.getId()));
             freeOrgans.setItems(organSymptomService.findOrgansNotMappedToSymptom(selectedSymptom));

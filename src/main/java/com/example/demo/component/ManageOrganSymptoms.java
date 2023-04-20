@@ -34,7 +34,6 @@ public class ManageOrganSymptoms extends VerticalLayout {
     private SymptomService symptomService;
 
 
-
     private ComboBox<OrganDTO> organComboBox;
     private Grid<SymptomDTO> attachedSymptoms;
     private Grid<SymptomDTO> freeSymptoms;
@@ -110,15 +109,14 @@ public class ManageOrganSymptoms extends VerticalLayout {
         Html freeGridLabel = new Html("<div style='font-weight: bold; font-size: 25px; color: gray;'>Free</div>");
 
 
-
         Button removeButton = new Button("Remove");
         removeButton.addClickListener(event -> {
             OrganDTO selectedOrgan = organComboBox.getValue();
             SymptomDTO selectedSymptom = attachedSymptoms.asSingleSelect().getValue();
 
             if (selectedOrgan != null && selectedSymptom != null) {
-               organSymptomService.deleteRelation(selectedOrgan, selectedSymptom);
-               log.info("deleted {}  from {}", selectedSymptom.getName(), selectedOrgan.getName());
+                organSymptomService.deleteRelation(selectedOrgan, selectedSymptom);
+                log.info("deleted {}  from {}", selectedSymptom.getName(), selectedOrgan.getName());
 
                 // Refresh the grid to show the updated data
                 refreshGrids();
@@ -145,7 +143,7 @@ public class ManageOrganSymptoms extends VerticalLayout {
         leftGrid.setAlignItems(Alignment.CENTER);
         rightGrid.setAlignItems(Alignment.CENTER);
 
-        HorizontalLayout grids = new HorizontalLayout(leftGrid,rightGrid);
+        HorizontalLayout grids = new HorizontalLayout(leftGrid, rightGrid);
         grids.setWidth("80%");
         grids.setSpacing(true);
         grids.setMargin(false);

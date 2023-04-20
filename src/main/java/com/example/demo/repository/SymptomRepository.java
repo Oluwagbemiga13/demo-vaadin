@@ -19,5 +19,4 @@ public interface SymptomRepository extends JpaRepository<Symptom, Long> {
     List<Symptom> findSymptomsNotMappedToPart(@Param("partId") Long partId);
 
 
-
 }

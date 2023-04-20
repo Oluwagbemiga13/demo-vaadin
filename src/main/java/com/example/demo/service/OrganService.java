@@ -27,13 +27,12 @@ public class OrganService {
         Organ organ = new Organ();
         organ.setName(organDTO.getName());
         organRepository.save(organ);
-       Optional<Organ> organ1 = organRepository.findById(organ.getId());
-       if(organ1.isEmpty()){
-           log.error("Organ ID: {} was not found", organ.getId());
-       }
-       else {
-           log.info("{} was retrieved", organ1);
-       }
+        Optional<Organ> organ1 = organRepository.findById(organ.getId());
+        if (organ1.isEmpty()) {
+            log.error("Organ ID: {} was not found", organ.getId());
+        } else {
+            log.info("{} was retrieved", organ1);
+        }
     }
 
     public List<OrganDTO> findAll() {

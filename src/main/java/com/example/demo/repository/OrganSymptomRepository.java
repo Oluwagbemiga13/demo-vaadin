@@ -10,7 +10,9 @@ import java.util.Optional;
 
 public interface OrganSymptomRepository extends JpaRepository<OrganSymptom, Long> {
     List<OrganSymptom> findAllByOrganId(Long organId);
+
     List<OrganSymptom> findAllBySymptomId(Long symptomId);
+
     Optional<OrganSymptom> findByOrganIdAndSymptomId(Long organId, Long symptomId);
 
     @Query("SELECT s FROM Symptom s WHERE s.id NOT IN (SELECT os.symptom.id FROM OrganSymptom os)")

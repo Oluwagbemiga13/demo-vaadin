@@ -1,7 +1,6 @@
 package com.example.demo.component;
 
 import com.example.demo.dto.OrganDTO;
-import com.example.demo.dto.SymptomDTO;
 import com.example.demo.service.OrganService;
 import com.example.demo.service.SymptomService;
 import com.vaadin.flow.component.Html;
@@ -22,7 +21,7 @@ import java.util.List;
 @Route("manage-organs")
 @Slf4j
 @RequiredArgsConstructor
-public class ManageOrgans extends VerticalLayout{
+public class ManageOrgans extends VerticalLayout {
 
     private final OrganService organService;
     private final SymptomService symptomService;
@@ -138,7 +137,6 @@ public class ManageOrgans extends VerticalLayout{
 
 
         organGrid.setItems(organs);
-
 
 
         log.info("OrganGrid Items: {}", organGrid.getDataProvider().size(new Query<>()));

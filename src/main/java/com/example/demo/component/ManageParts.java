@@ -1,6 +1,5 @@
 package com.example.demo.component;
 
-import com.example.demo.dto.OrganDTO;
 import com.example.demo.dto.PartDTO;
 import com.example.demo.dto.SymptomDTO;
 import com.example.demo.service.OrganService;
@@ -165,7 +164,7 @@ public class ManageParts extends VerticalLayout {
         add(gridsLayout);
 
         // Set the alignment of the deleteButtonsLayout to the top of the component
-        setAlignSelf(Alignment.CENTER,menuLayout,gridsLayout);
+        setAlignSelf(Alignment.CENTER, menuLayout, gridsLayout);
 
         // Add the delete buttons layout to the top of the component
         //add(deleteButtonsLayout);

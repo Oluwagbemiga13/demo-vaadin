@@ -55,9 +55,6 @@ public class ManageSymptoms extends VerticalLayout {
         // Create the menu items
 
 
-
-
-
 //        Html organLabel = new Html("<div style='font-weight: bold; font-size: 25px;'>Organs</div>");
         Html symptomLabel = new Html("<div style='font-weight: bold; font-size: 45px;'>Symptoms</div>");
 
@@ -158,7 +155,7 @@ public class ManageSymptoms extends VerticalLayout {
         rightOptions.setAlignItems(Alignment.START);
 
 
-        HorizontalLayout gridsLayout = new HorizontalLayout(/*organLayout,*/ leftGrid,rightOptions);
+        HorizontalLayout gridsLayout = new HorizontalLayout(/*organLayout,*/ leftGrid, rightOptions);
         gridsLayout.setWidth("80%");
         gridsLayout.setAlignItems(Alignment.CENTER);
         gridsLayout.setSpacing(true);
@@ -168,7 +165,7 @@ public class ManageSymptoms extends VerticalLayout {
         add(gridsLayout);
 
         // Set the alignment of the deleteButtonsLayout to the top of the component
-        setAlignSelf(Alignment.CENTER,menuLayout,gridsLayout);
+        setAlignSelf(Alignment.CENTER, menuLayout, gridsLayout);
 
         refreshGrids();
 

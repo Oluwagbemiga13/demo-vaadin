@@ -8,8 +8,8 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan
 public class VaadinDemoApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(VaadinDemoApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(VaadinDemoApplication.class, args);
+    }
 
 }
