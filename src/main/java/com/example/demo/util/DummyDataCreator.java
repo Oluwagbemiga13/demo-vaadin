@@ -7,7 +7,10 @@ import com.example.demo.repository.OrganRepository;
 import com.example.demo.repository.PartRepository;
 import com.example.demo.repository.SymptomRepository;
 import com.example.demo.service.OrganSymptomService;
+import com.example.demo.service.PartService;
+import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,7 @@ import java.util.stream.LongStream;
 @Service
 @Transactional
 @Slf4j
+@RequiredArgsConstructor
 public class DummyDataCreator {
 
     private final OrganRepository organRepository;
@@ -25,17 +29,15 @@ public class DummyDataCreator {
 
     private final OrganSymptomService organSymptomService;
 
+    private final PartService partService;
     private final PartRepository partRepository;
 
-    @Autowired
-    public DummyDataCreator(OrganRepository organRepository, SymptomRepository symptomRepository, OrganSymptomService organSymptomService, PartRepository partRepository) {
-        this.organRepository = organRepository;
-        this.symptomRepository = symptomRepository;
-        this.organSymptomService = organSymptomService;
-        this.partRepository = partRepository;
 
+    @PostConstruct
+    void init (){
         generateLongLists();
         //createDummyOrganWithSymptoms();
+
     }
 
     private void generateLongLists() {
@@ -98,6 +100,13 @@ public class DummyDataCreator {
                             organSymptomService.createRelation(l, l);
                             log.info("Created relation " + l + ":" + l);
                         });
+
+        LongStream.range(1,10)
+                .forEach(l -> {
+                    partService.createRelation(l,l);
+                    log.info("Created relation " + l + ":" + l);
+                });
+
     }
 
 

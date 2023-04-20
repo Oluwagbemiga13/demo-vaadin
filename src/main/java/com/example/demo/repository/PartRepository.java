@@ -12,5 +12,13 @@ public interface PartRepository extends JpaRepository<Part, Long> {
 //    @Query("SELECT b FROM Part b WHERE b.id NOT IN (SELECT o.bodyPart.id FROM Organ o WHERE o.symptoms.id = :symptomId)")
 //    List<Part> findBodyPartsNotMappedToSymptom(@Param("symptomId") Long symptomId);
 
+    @Query("SELECT p FROM Part p WHERE p.id NOT IN (SELECT ps.part.id FROM SymptomPart ps WHERE ps.symptom.id = :symptomId)")
+    List<Part> findPartsNotMappedToSymptom(@Param("symptomId") Long symptomId);
+
+
+    @Query("SELECT ps.part FROM SymptomPart ps WHERE ps.symptom.id = :symptomId")
+    List<Part> findPartsMappedToSymptom(@Param("symptomId") Long symptomId);
+
 }
+
 

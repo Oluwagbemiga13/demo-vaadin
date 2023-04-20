@@ -75,10 +75,6 @@ public class OrganSymptomService {
                 .toList());
     }
 
-    public List<Symptom> findSymptomsNotMappedToAnyOrgan() {
-        return symptomRepository.findSymptomsNotMappedToAnyOrgan();
-    }
-
     public List<SymptomDTO> findSymptomsNotMappedToOrgan(OrganDTO organ) {
         return symptomMapper.toDto(symptomRepository.findSymptomsNotMappedToOrgan(organ.getId()));
     }

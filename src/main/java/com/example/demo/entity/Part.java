@@ -26,7 +26,7 @@ public class Part {
     private Set<PartOrgan> organs = new HashSet<>();
 
     @OneToMany(mappedBy = "part", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH}, orphanRemoval = true, fetch = FetchType.EAGER)
-    private Set<PartSymptom> symptoms = new HashSet<>();
+    private Set<SymptomPart> symptoms = new HashSet<>();
 
 
     // Other fields if any

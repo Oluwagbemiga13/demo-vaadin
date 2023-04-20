@@ -15,7 +15,6 @@ import com.vaadin.flow.router.Route;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -122,7 +121,7 @@ public class ManageSymptoms extends VerticalLayout {
 
         deleteSymptomButton.setWidth(editButtonsWidth);
 
-        manageRelationsButton = new Button("Manage Relations", e -> getUI().ifPresent(ui -> ui.navigate(ManageOrganSymptoms.class)));
+        manageRelationsButton = new Button("Manage Relations", e -> getUI().ifPresent(ui -> ui.navigate(SymptomRelations.class)));
         manageRelationsButton.setHeight(menuButtonsHeight);
         manageRelationsButton.setWidth(menuItemWidth);
 

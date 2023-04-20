@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.PartDTO;
 import com.example.demo.dto.SymptomDTO;
 import com.example.demo.entity.OrganSymptom;
 import com.example.demo.entity.Symptom;
@@ -53,6 +54,10 @@ public class SymptomService {
             //organSymptoms.forEach(organSymptom -> organSymptomRepository.delete(organSymptom));
             symptomRepository.deleteById(id);
         }
+    }
+
+    public List<SymptomDTO> findSymptomsNotMappedToPart(PartDTO part) {
+        return symptomMapper.toDto(symptomRepository.findSymptomsNotMappedToPart(part.getId()));
     }
 
     @Transactional

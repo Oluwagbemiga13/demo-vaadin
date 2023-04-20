@@ -28,7 +28,7 @@ public class Symptom {
 
     @OneToMany(mappedBy = "symptom", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH}, orphanRemoval = true, fetch = FetchType.EAGER)
-    private Set<PartSymptom> parts = new HashSet<>();
+    private Set<SymptomPart> parts = new HashSet<>();
 
     // Other fields if any
 }

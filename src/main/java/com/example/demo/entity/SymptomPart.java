@@ -6,16 +6,13 @@ import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Getter
 @Setter
-@Table(name = "part_symptom")
-public class PartSymptom {
+@Table(name = "symptom_part")
+public class SymptomPart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
