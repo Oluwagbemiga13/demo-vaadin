@@ -10,7 +10,7 @@ import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
@@ -56,7 +56,7 @@ public class ManageOrganSymptoms extends VerticalLayout {
         manageSymptomRelationsButton.setWidth(menuItemWidth);
 
         Button backButton = new Button("Back",
-                e -> getUI().ifPresent(ui -> ui.navigate(AddSymptomAndOrganComponent.class)));
+                e -> getUI().ifPresent(ui -> ui.navigate(ManageSymptoms.class)));
 
 
         backButton.setHeight(menuButtonsHeight);
@@ -67,7 +67,7 @@ public class ManageOrganSymptoms extends VerticalLayout {
                 backButton
         );
 
-        menuLayout.setAlignItems(Alignment.CENTER);
+        menuLayout.setAlignItems(FlexComponent.Alignment.CENTER);
         menuLayout.setSpacing(true);
         menuLayout.setMargin(false);
         menuLayout.getElement().getStyle().set("margin-left", "auto");

@@ -1,8 +1,10 @@
 package com.example.demo.component;
 
 import com.example.demo.dto.OrganDTO;
+import com.example.demo.dto.PartDTO;
 import com.example.demo.dto.SymptomDTO;
 import com.example.demo.service.OrganService;
+import com.example.demo.service.PartService;
 import com.example.demo.service.SymptomService;
 import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
@@ -13,17 +15,20 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.Query;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-@Route("manage-symptoms")
+@Route("manage-parts")
 @Slf4j
-public class AddSymptomAndOrganComponent extends VerticalLayout {
+@RequiredArgsConstructor
+public class ManageParts extends VerticalLayout {
 
     private final OrganService organService;
     private final SymptomService symptomService;
+
+    private final PartService partService;
 
     private String menuItemWidth = "250px";
 
@@ -31,7 +36,7 @@ public class AddSymptomAndOrganComponent extends VerticalLayout {
 
     private String menuButtonsHeight = "75px";
 
-    private Grid<OrganDTO> organGrid;
+    private Grid<PartDTO> partGrid;
     private Grid<SymptomDTO> symptomGrid;
     private Button createOrganButton;
     private Button createSymptomButton;
@@ -40,19 +45,13 @@ public class AddSymptomAndOrganComponent extends VerticalLayout {
     private Button deleteSymptomButton;
     private Button deleteOrganButton;
 
-    @Autowired
-    public AddSymptomAndOrganComponent(OrganService organService, SymptomService symptomService) {
-        this.organService = organService;
-        this.symptomService = symptomService;
-
-    }
 
     @PostConstruct
     private void init() {
-        organGrid = new Grid<>(OrganDTO.class);
+        partGrid = new Grid<>(PartDTO.class);
         symptomGrid = new Grid<>(SymptomDTO.class);
 
-        organGrid.setVisible(true);
+        partGrid.setVisible(true);
 
         setMargin(false);
         setPadding(false);
@@ -89,10 +88,10 @@ public class AddSymptomAndOrganComponent extends VerticalLayout {
         Html symptomLabel = new Html("<div style='font-weight: bold; font-size: 25px;'>Symptoms</div>");
 
 
-        organGrid.setColumns("name"); // Adjust the column names according to your Organ entity
+        partGrid.setColumns("name"); // Adjust the column names according to your Organ entity
         symptomGrid.setColumns("name"); // Adjust the column names according to your Symptom entity
 
-        organGrid.setWidth("100%");
+        partGrid.setWidth("100%");
         symptomGrid.setWidth("100%");
 
         createOrganButton = new Button("Create new Organ", e -> {
@@ -107,13 +106,13 @@ public class AddSymptomAndOrganComponent extends VerticalLayout {
         createOrganButton.setWidth(editButtonsWidth);
 
         deleteOrganButton = new Button("Delete selected Organ", e -> {
-            OrganDTO selectedOrgan = organGrid.asSingleSelect().getValue();
+            PartDTO selectedOrgan = partGrid.asSingleSelect().getValue();
             if (selectedOrgan != null) {
                 ConfirmationDialog confirmationDialog = new ConfirmationDialog("Are you sure you want to delete this Organ?", () -> {
                     organService.delete(selectedOrgan.getId());
                     Notification.show("Organ deleted successfully.");
                     refreshGrids();
-                    organGrid.asSingleSelect().clear();
+                    partGrid.asSingleSelect().clear();
                 });
                 confirmationDialog.open();
             }
@@ -149,7 +148,7 @@ public class AddSymptomAndOrganComponent extends VerticalLayout {
         deleteSymptomButton.setWidth(editButtonsWidth);
 
 
-        VerticalLayout organLayout = new VerticalLayout(organLabel, organGrid, createOrganButton, deleteOrganButton);
+        VerticalLayout organLayout = new VerticalLayout(organLabel, partGrid, createOrganButton, deleteOrganButton);
         organLayout.setAlignItems(Alignment.CENTER);
 
         VerticalLayout symptomLayout = new VerticalLayout(symptomLabel, symptomGrid, createSymptomButton, deleteSymptomButton);
@@ -177,17 +176,17 @@ public class AddSymptomAndOrganComponent extends VerticalLayout {
 
 
     private void refreshGrids() {
-        List<OrganDTO> organs = organService.findAll();
+        List<PartDTO> organs = partService.findAll();
         List<SymptomDTO> symptoms = symptomService.findAll();
 
         log.info("Fetched Organs: {}", organs);
         log.info("Fetched Symptoms: {}", symptoms);
 
-        organGrid.setItems(organs);
+        partGrid.setItems(organs);
         symptomGrid.setItems(symptoms);
 
 
-        log.info("OrganGrid Items: {}", organGrid.getDataProvider().size(new Query<>()));
+        log.info("OrganGrid Items: {}", partGrid.getDataProvider().size(new Query<>()));
         log.info("SymptomGrid Items: {}", symptomGrid.getDataProvider().size(new Query<>()));
     }
 

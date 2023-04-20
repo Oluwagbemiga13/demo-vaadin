@@ -10,7 +10,6 @@ import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -58,7 +57,7 @@ public class ManageSymptomOrgans extends VerticalLayout{
         manageOrganRelationsButton.setHeight(menuButtonsHeight);
 
         Button backButton = new Button("Back",
-                e -> getUI().ifPresent(ui -> ui.navigate(AddSymptomAndOrganComponent.class)));
+                e -> getUI().ifPresent(ui -> ui.navigate(ManageSymptoms.class)));
 
         backButton.setHeight(menuButtonsHeight);
         backButton.setWidth(menuItemWidth);
@@ -97,14 +96,6 @@ public class ManageSymptomOrgans extends VerticalLayout{
         wholeMenuLayout.setAlignItems(Alignment.CENTER);
 
         add(wholeMenuLayout);
-
-
-
-//        VerticalLayout comboLayout = new VerticalLayout(organSelectionLabel, organComboBox);
-
-//        VerticalLayout comboLayout = new VerticalLayout(symptomComboBox);
-//
-//        add(comboLayout);
 
         attachedOrgans = new Grid<>(OrganDTO.class);
         freeOrgans = new Grid<>(OrganDTO.class);

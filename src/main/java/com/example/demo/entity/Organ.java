@@ -25,5 +25,8 @@ public class Organ {
     @OneToMany(mappedBy = "organ", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH}, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<OrganSymptom> symptoms = new HashSet<>();
 
+    @OneToMany(mappedBy = "organ", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH}, orphanRemoval = true, fetch = FetchType.EAGER)
+    private Set<PartOrgan> parts = new HashSet<>();
+
     // Other fields if any
 }

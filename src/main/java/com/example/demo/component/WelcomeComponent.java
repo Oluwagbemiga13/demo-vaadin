@@ -39,8 +39,14 @@ public class WelcomeComponent extends VerticalLayout implements BeforeEnterObser
         menuLayout.setAlignItems(Alignment.CENTER);
 
         // Create buttons for each menu item and add them to the vertical layout
-        Button manageSymptoms = new Button("Manage Symptoms", e -> getUI().ifPresent((ui -> ui.navigate(AddSymptomAndOrganComponent.class))));
+        Button manageSymptoms = new Button("Manage Symptoms", e -> getUI().ifPresent((ui -> ui.navigate(ManageSymptoms.class))));
         manageSymptoms.setWidth(BUTTON_WIDTH);
+
+        Button manageOrgans = new Button("Manage Organs", event -> getUI().ifPresent(ui -> ui.navigate(ManageOrgans.class)));
+        manageOrgans.setWidth(BUTTON_WIDTH);
+
+        Button manageBodyParts = new Button("Manage Body", event -> getUI().ifPresent(ui -> ui.navigate(ManageParts.class)));
+        manageBodyParts.setWidth(BUTTON_WIDTH);
 
         Button manageLogs = new Button("Manage Logs");
         manageLogs.setWidth(BUTTON_WIDTH);
@@ -60,7 +66,7 @@ public class WelcomeComponent extends VerticalLayout implements BeforeEnterObser
         Button about = new Button("About");
         about.setWidth(BUTTON_WIDTH);
 
-        menuLayout.add(manageSymptoms, manageLogs, questionnaires, notes, settings, helpAndSupport, about);
+        menuLayout.add(manageSymptoms, manageOrgans, manageBodyParts, manageLogs, questionnaires, notes, settings, helpAndSupport, about);
 
         RouterLink backToLogin = new RouterLink("Back to Login", LoginComponent.class);
 

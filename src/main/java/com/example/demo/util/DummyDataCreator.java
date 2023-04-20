@@ -1,8 +1,10 @@
 package com.example.demo.util;
 
 import com.example.demo.entity.Organ;
+import com.example.demo.entity.Part;
 import com.example.demo.entity.Symptom;
 import com.example.demo.repository.OrganRepository;
+import com.example.demo.repository.PartRepository;
 import com.example.demo.repository.SymptomRepository;
 import com.example.demo.service.OrganSymptomService;
 import jakarta.transaction.Transactional;
@@ -23,11 +25,14 @@ public class DummyDataCreator {
 
     private final OrganSymptomService organSymptomService;
 
+    private final PartRepository partRepository;
+
     @Autowired
-    public DummyDataCreator(OrganRepository organRepository, SymptomRepository symptomRepository, OrganSymptomService organSymptomService) {
+    public DummyDataCreator(OrganRepository organRepository, SymptomRepository symptomRepository, OrganSymptomService organSymptomService, PartRepository partRepository) {
         this.organRepository = organRepository;
         this.symptomRepository = symptomRepository;
         this.organSymptomService = organSymptomService;
+        this.partRepository = partRepository;
 
         generateLongLists();
         //createDummyOrganWithSymptoms();
@@ -63,23 +68,37 @@ public class DummyDataCreator {
                 "Missed periods", "Premenstrual syndrome", "Premenstrual dysphoric disorder",
                 "Erectile dysfunction", "Premature ejaculation", "Delayed ejaculation"
         );
+
+        List<String> partNames = List.of("Head", "Neck", "Shoulder", "Arm", "Elbow", "Forearm",
+                "Wrist", "Hand", "Chest", "Abdomen", "Hip", "Thigh", "Knee", "Leg",
+                "Ankle", "Foot", "Spine", "Skull", "Jaw", "Face", "Ear", "Nose",
+                "Mouth", "Tongue", "Teeth"
+        );
+
         // Generate organs
         List<Organ> organs = organNames.stream()
-                .map(name -> new Organ(null, name, new HashSet<>()))
+                .map(name -> new Organ(null, name, new HashSet<>(), new HashSet<>()))
                 .toList();
         organRepository.saveAll(organs);
 
         // Generate symptoms
         List<Symptom> symptoms = symptomNames.stream()
-                .map(name -> new Symptom(null, name,new HashSet<>()))
+                .map(name -> new Symptom(null, name,new HashSet<>(), new HashSet<>()))
                 .toList();
         symptomRepository.saveAll(symptoms);
 
-        // Generate organSymptoms
+        List<Part> parts = partNames.stream()
+                        .map(name -> new Part(null,name, new HashSet<>(), new HashSet<>()))
+                        .toList();
+        partRepository.saveAll(parts);
+
+                // Generate organSymptoms
         LongStream.range(1L,10)
                         .forEach(l -> {
                             organSymptomService.createRelation(l, l);
                             log.info("Created relation " + l + ":" + l);
                         });
     }
+
+
 }
