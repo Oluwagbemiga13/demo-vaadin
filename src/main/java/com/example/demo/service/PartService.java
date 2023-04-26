@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.OrganDTO;
 import com.example.demo.dto.PartDTO;
 import com.example.demo.dto.SymptomDTO;
 import com.example.demo.entity.Part;
@@ -40,12 +41,8 @@ public class PartService {
         Part part = new Part();
         part.setName(partDTO.getName());
         partRepository.save(part);
-        Optional<Part> part1 = partRepository.findById(part.getId());
-        if (part1.isEmpty()) {
-            log.error("Part ID: {} was not found", part.getId());
-        } else {
-            log.info("{} was retrieved", part1);
-        }
+        log.info("{} was saved", part.getName());
+
     }
 
     @Transactional
@@ -57,16 +54,9 @@ public class PartService {
         symptomPart.setPart(part);
         symptomPart.setSymptom(symptom);
 
-        log.info(partMapper.toDto(part).getName());
+        log.info("Relation between {} and {} was created.", part.getName(), symptom.getName());
 
         return symptomPartRepository.save(symptomPart);
-    }
-
-    @Transactional
-    public void removeSymptomRelation(Long symptomId, Long partId) throws PropertyNotFoundException {
-        SymptomPart symptomPart = symptomPartRepository.findBySymptomIdAndPartId(symptomId, partId)
-                .orElseThrow(() -> new PropertyNotFoundException("OrganSymptom relationship not found for Organ ID: " + partId + " and Symptom ID: " + symptomId));
-        symptomPartRepository.delete(symptomPart);
     }
 
 
@@ -106,6 +96,30 @@ public class PartService {
 
             // Delete the SymptomPart entity
             symptomPartRepository.delete(symptomPart);
+            log.info("Relation between {} and {} was removed.", symptom.getName(), part.getName());
+        }
+    }
+
+    @Transactional
+    public void deleteRelation(PartDTO partDTO, OrganDTO organDTO) {
+        Optional<SymptomPart> symptomPartOptional = symptomPartRepository.findBySymptomIdAndPartId(organDTO.getId(), partDTO.getId());
+
+        if (symptomPartOptional.isPresent()) {
+            SymptomPart symptomPart = symptomPartOptional.get();
+
+            // Remove the relationship from the parent entities
+            Part part = symptomPart.getPart();
+            Symptom symptom = symptomPart.getSymptom();
+            part.getSymptoms().remove(symptomPart);
+            symptom.getParts().remove(symptomPart);
+
+            // Update the parent entities
+            partRepository.save(part);
+            symptomRepository.save(symptom);
+
+            // Delete the SymptomPart entity
+            symptomPartRepository.delete(symptomPart);
+            log.info("Relation between {} and {} was removed.", symptom.getName(), part.getName());
         }
     }
 }
