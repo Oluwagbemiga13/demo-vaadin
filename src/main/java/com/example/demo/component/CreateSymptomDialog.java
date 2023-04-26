@@ -61,7 +61,7 @@ public class CreateSymptomDialog extends Dialog {
             binder.writeBean(symptomDTO);
 
             // Save the new symptom using the symptom service
-            symptomService.saveSymptom(symptomDTO);
+            symptomService.saveEntity(symptomDTO);
 
             Notification.show("Symptom created successfully.");
             close();

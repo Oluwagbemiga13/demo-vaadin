@@ -1,12 +1,12 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.PartDTO;
 import com.example.demo.dto.SymptomDTO;
 import com.example.demo.entity.OrganSymptom;
 import com.example.demo.entity.Symptom;
 import com.example.demo.mapper.SymptomMapper;
 import com.example.demo.repository.OrganSymptomRepository;
 import com.example.demo.repository.SymptomRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Slf4j
 //@Transactional
-public class SymptomService {
+public class SymptomService implements EntityService<Symptom, SymptomDTO, OrganSymptom> {
 
     @Autowired
     private SymptomRepository symptomRepository;
@@ -30,13 +31,22 @@ public class SymptomService {
 //        this.symptomRepository = symptomRepository;
 //    }
 
-    public SymptomDTO saveSymptom(SymptomDTO symptomDTO) {
+    @Override
+    public void saveEntity(SymptomDTO symptomDTO) {
         Symptom symptom = new Symptom();
         symptom.setName(symptomDTO.getName());
-        Symptom savedSymptom = symptomRepository.save(symptom);
-        return new SymptomDTO(symptomDTO, savedSymptom.getId());
+        log.info("Symptom {} was saved.", symptomDTO.getName());
+        symptomRepository.save(symptom);
     }
 
+//    @Override
+//    public void saveEntity(SymptomDTO symptomDTO) {
+//        Symptom symptom = new Symptom();
+//        symptom.setName(symptomDTO.getName());
+//        symptomRepository.save(symptom);
+//    }
+
+    @Override
     public List<SymptomDTO> findAll() {
         return symptomMapper.toDto(symptomRepository.findAll());
     }
@@ -48,18 +58,25 @@ public class SymptomService {
         if (organSymptoms.isEmpty()) {
             symptomRepository.deleteById(id);
         } else {
-            deleteAll(organSymptoms);
+            deleteAllIntermediate(organSymptoms);
             //organSymptoms.forEach(organSymptom -> organSymptomRepository.delete(organSymptom));
             symptomRepository.deleteById(id);
         }
     }
 
-    public List<SymptomDTO> findSymptomsNotMappedToPart(PartDTO part) {
-        return symptomMapper.toDto(symptomRepository.findSymptomsNotMappedToPart(part.getId()));
+    @Override
+    public void deleteAllIntermediate(List<OrganSymptom> organSymptoms) {
+
     }
 
-    @Transactional
-    public void deleteAll(List<OrganSymptom> organSymptoms) {
-        organSymptomRepository.deleteAll(organSymptoms);
+    public void deleteAll(List<SymptomDTO> symptomsDTOs) {
+        List<Symptom> symptoms = symptomsDTOs.stream()
+                .map(d -> symptomMapper.toEntity(d))
+                .toList();
+
+        symptomRepository.deleteAll(symptoms);
+
     }
+
+
 }

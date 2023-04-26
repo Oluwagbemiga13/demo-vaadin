@@ -1,5 +1,6 @@
 package com.example.demo.component;
 
+import com.example.demo.component.tool.GridInitializer;
 import com.example.demo.dto.OrganDTO;
 import com.example.demo.dto.SymptomDTO;
 import com.example.demo.service.OrganService;
@@ -26,6 +27,8 @@ public class ManageSymptoms extends VerticalLayout {
     private final OrganService organService;
     private final SymptomService symptomService;
 
+    private final GridInitializer gridInitializer;
+
     private String menuItemWidth = "300px";
 
     private String editButtonsWidth = "300px";
@@ -45,14 +48,12 @@ public class ManageSymptoms extends VerticalLayout {
     @PostConstruct
     private void init() {
 //        organGrid = new Grid<>(OrganDTO.class);
-        symptomGrid = new Grid<>(SymptomDTO.class);
+        symptomGrid = gridInitializer.createSingleGrid(SymptomDTO.class,symptomService.findAll(),new String[]{"name"});
 
 //        organGrid.setVisible(true);
 
         setMargin(false);
         setPadding(false);
-
-        // Create the menu items
 
 
 //        Html organLabel = new Html("<div style='font-weight: bold; font-size: 25px;'>Organs</div>");
@@ -60,10 +61,10 @@ public class ManageSymptoms extends VerticalLayout {
 
 
 //        organGrid.setColumns("name"); // Adjust the column names according to your Organ entity
-        symptomGrid.setColumns("name"); // Adjust the column names according to your Symptom entity
+
 
 //        organGrid.setWidth("100%");
-        symptomGrid.setWidth("100%");
+
 
 //        createOrganButton = new Button("Create new Organ", e -> {
 //            CreateOrganDialog createOrganDialog = new CreateOrganDialog(organService);
@@ -174,13 +175,13 @@ public class ManageSymptoms extends VerticalLayout {
 
     private void refreshGrids() {
 //        List<OrganDTO> organs = organService.findAll();
-        List<SymptomDTO> symptoms = symptomService.findAll();
+        symptomGrid.setItems(symptomService.findAll());
 
 //        log.info("Fetched Organs: {}", organs);
-        log.info("Fetched Symptoms: {}", symptoms);
+        log.info("Fetched Symptoms: {}", symptomService.findAll());
 
 //        organGrid.setItems(organs);
-        symptomGrid.setItems(symptoms);
+       // symptomGrid.setItems(symptoms);
 
 
 //        log.info("OrganGrid Items: {}", organGrid.getDataProvider().size(new Query<>()));
