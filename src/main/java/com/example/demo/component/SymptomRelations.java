@@ -44,15 +44,15 @@ public class SymptomRelations extends VerticalLayout {
 
 
     private ComboBox<SymptomDTO> symptomComboBox;
+
     private Grid<OrganDTO> attachedOrgans;
     private Grid<OrganDTO> freeOrgans;
+    private Grid<PartDTO> attachedParts;
+    private Grid<PartDTO> freeParts;
 
     private String editButtonsWidth = "250px";
     private String menuButtonsHeight = "75px";
     private String menuItemWidth = "250px";
-
-    private Grid<PartDTO> attachedParts;
-    private Grid<PartDTO> freeParts;
 
 
     @PostConstruct
@@ -72,8 +72,6 @@ public class SymptomRelations extends VerticalLayout {
 
         backButton.setHeight(menuButtonsHeight);
         backButton.setWidth(menuItemWidth);
-
-//        HorizontalLayout menuButtonsLayout = new HorizontalLayout(manageOrganRelationsButton,backButton);
 
         symptomComboBox = new ComboBox<>("Select an symptom");
         symptomComboBox.setWidth("510px");
@@ -201,7 +199,7 @@ public class SymptomRelations extends VerticalLayout {
             if (selectedSymptom != null && selectedPart != null) {
                 SymptomPart symptomPart = partService.createRelation(selectedPart.getId(), selectedSymptom.getId());
 
-                log.info("Created relation between {} and  {}", selectedPart, selectedSymptom);
+                log.info("Created relation between {} and  {}", selectedPart.getName(), selectedSymptom.getName());
                 // Refresh the grid to show the updated data
                 refreshGrids();
             }
