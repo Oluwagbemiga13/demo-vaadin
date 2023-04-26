@@ -1,25 +1,31 @@
 package com.example.demo.component;
 
-import com.example.demo.service.OrganService;
+import com.example.demo.component.tool.ButtonInitializer;
+import com.example.demo.component.tool.MenuInitializer;
+import com.example.demo.component.tool.TestComponent;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Route("welcome")
 @RouteAlias("welcome/:username")
+@RequiredArgsConstructor
 public class WelcomeComponent extends VerticalLayout implements BeforeEnterObserver {
 
-    @Autowired
-    private OrganService organService;
+    private final MenuInitializer menuInitializer;
+
+    private final ButtonInitializer buttonInitializer;
 
     private Label usernameLabel = new Label();
-    private static final String BUTTON_WIDTH = "200px";
+    private static final String MENU_BUTTON_WIDTH = "200px";
 
-    public WelcomeComponent() {
-    }
 
     @PostConstruct
     public void init() {
@@ -27,55 +33,38 @@ public class WelcomeComponent extends VerticalLayout implements BeforeEnterObser
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
 
-        // Display the welcome message with the username or "Daniel" as the default
         usernameLabel.setText("Hello, Daniel!");
         add(usernameLabel);
 
         Label welcomeMessage = new Label("Welcome to our application!");
         add(welcomeMessage);
 
-        // Create a vertical layout for the menu items
-        VerticalLayout menuLayout = new VerticalLayout();
-        menuLayout.setAlignItems(Alignment.CENTER);
+        add(initMenu());
 
-        // Create buttons for each menu item and add them to the vertical layout
-        Button manageSymptoms = new Button("Manage Symptoms", e -> getUI().ifPresent((ui -> ui.navigate(ManageSymptoms.class))));
-        manageSymptoms.setWidth(BUTTON_WIDTH);
 
-        Button manageOrgans = new Button("Manage Organs", event -> getUI().ifPresent(ui -> ui.navigate(ManageOrgans.class)));
-        manageOrgans.setWidth(BUTTON_WIDTH);
-
-        Button manageBodyParts = new Button("Manage Body", event -> getUI().ifPresent(ui -> ui.navigate(ManageParts.class)));
-        manageBodyParts.setWidth(BUTTON_WIDTH);
-
-        Button manageLogs = new Button("Manage Logs");
-        manageLogs.setWidth(BUTTON_WIDTH);
-
-        Button questionnaires = new Button("Questionnaires");
-        questionnaires.setWidth(BUTTON_WIDTH);
-
-        Button notes = new Button("Notes");
-        notes.setWidth(BUTTON_WIDTH);
-
-        Button settings = new Button("Settings");
-        settings.setWidth(BUTTON_WIDTH);
-
-        Button helpAndSupport = new Button("Help & Support");
-        helpAndSupport.setWidth(BUTTON_WIDTH);
-
-        Button about = new Button("About");
-        about.setWidth(BUTTON_WIDTH);
-
-        menuLayout.add(manageSymptoms, manageOrgans, manageBodyParts, manageLogs, questionnaires, notes, settings, helpAndSupport, about);
-
-        RouterLink backToLogin = new RouterLink("Back to Login", LoginComponent.class);
-
-        add(menuLayout, backToLogin);
     }
-
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
         String username = event.getRouteParameters().get("username").orElse("Daniel");
         usernameLabel.setText("Hello, " + username + "!");
+    }
+
+    public VerticalLayout initMenu() {
+        Button manageSymptoms = buttonInitializer.createNavButton("Manage Symptoms", this, ManageSymptoms.class, MENU_BUTTON_WIDTH);
+        Button manageOrgans = buttonInitializer.createNavButton("Manage Organs", this, ManageOrgans.class, MENU_BUTTON_WIDTH);
+        Button manageBodyParts = buttonInitializer.createNavButton("Manage Body", this, ManageParts.class, MENU_BUTTON_WIDTH);
+        Button manageLogs = buttonInitializer.createNavButton("Manage Logs", this, TestComponent.class, MENU_BUTTON_WIDTH);
+        Button questionnaires = buttonInitializer.createNavButton("Questionnaires", this, TestComponent.class, MENU_BUTTON_WIDTH);
+        Button notes = buttonInitializer.createNavButton("Notes", this, TestComponent.class, MENU_BUTTON_WIDTH);
+        Button settings = buttonInitializer.createNavButton("Settings", this, TestComponent.class, MENU_BUTTON_WIDTH);
+        Button helpAndSupport = buttonInitializer.createNavButton("Help & Support", this, TestComponent.class, MENU_BUTTON_WIDTH);
+        Button about = buttonInitializer.createNavButton("About", this, TestComponent.class, MENU_BUTTON_WIDTH);
+
+        RouterLink backToLogin = new RouterLink("Back to Login", LoginComponent.class);
+
+        List<Component> buttons = Arrays.asList(manageSymptoms, manageOrgans, manageBodyParts, manageLogs,
+                questionnaires, notes, settings, helpAndSupport, about, backToLogin);
+
+        return menuInitializer.createVerticalMenu(buttons);
     }
 }
