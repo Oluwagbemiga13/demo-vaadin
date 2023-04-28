@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-public class OrganSymptomService {
+public class OrganSymptomService implements JoinService<OrganSymptom, OrganDTO, SymptomDTO> {
 
     @Autowired
     private OrganSymptomRepository organSymptomRepository;
@@ -40,6 +40,7 @@ public class OrganSymptomService {
     private SymptomMapper symptomMapper;
 
     @Transactional
+    @Override
     public OrganSymptom createRelation(Long organId, Long symptomId) {
         Organ organ = organRepository.findById(organId).orElseThrow(() -> new EntityNotFoundException("Organ not found with ID: " + organId));
         Symptom symptom = symptomRepository.findById(symptomId).orElseThrow(() -> new EntityNotFoundException("Symptom not found with ID: " + symptomId));
@@ -54,29 +55,34 @@ public class OrganSymptomService {
     }
 
     @Transactional
+    @Override
     public void removeRelation(Long organId, Long symptomId) throws PropertyNotFoundException {
         OrganSymptom organSymptom = organSymptomRepository.findByOrganIdAndSymptomId(organId, symptomId)
                 .orElseThrow(() -> new PropertyNotFoundException("OrganSymptom relationship not found for Organ ID: " + organId + " and Symptom ID: " + symptomId));
         organSymptomRepository.delete(organSymptom);
     }
 
-    public List<SymptomDTO> findSymptomsByOrganId(Long organId) {
+    @Override
+    public List<SymptomDTO> findSecondsByFirstId(Long organId) {
         return symptomMapper.toDto(organSymptomRepository.findAllByOrganId(organId).stream()
                 .map(OrganSymptom::getSymptom)
                 .toList());
     }
 
-    public List<OrganDTO> findOrgansBySymptomId(Long symptomId) {
-        return organMapper.toDto(organSymptomRepository.findAllBySymptomId(symptomId).stream()
+    @Override
+    public List<OrganDTO> findFirstsBySecondId(Long secondId) {
+        return organMapper.toDto(organSymptomRepository.findAllBySymptomId(secondId).stream()
                 .map(OrganSymptom::getOrgan)
                 .toList());
     }
 
-    public List<SymptomDTO> findSymptomsNotMappedToOrgan(OrganDTO organ) {
+    @Override
+    public List<SymptomDTO> findSecondNotMappedToFirst(OrganDTO organ) {
         return symptomMapper.toDto(symptomRepository.findSymptomsNotMappedToOrgan(organ.getId()));
     }
 
-    public List<OrganDTO> findOrgansNotMappedToSymptom(SymptomDTO symptom) {
+    @Override
+    public List<OrganDTO> findOFirstNotMappedToSecond(SymptomDTO symptom) {
         return organMapper.toDto(organRepository.findOrgansNotMappedToSymptom(symptom.getId()));
     }
 

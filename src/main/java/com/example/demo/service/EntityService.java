@@ -1,22 +1,18 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.PartDTO;
-import com.example.demo.dto.SymptomDTO;
-import com.example.demo.entity.OrganSymptom;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface EntityService<E, D, I> {
-    void saveEntity(D dto);
+public interface EntityService<E, D> {
+    void save(D dto);
 
-    public List<D> findAll();
-
-    @Transactional
-    public void delete(Long id);
+    List<D> findAll();
 
     @Transactional
-    public void deleteAllIntermediate(List<I> list);
+    void delete(Long id);
 
-    public void deleteAll(List<D> dtos);
+
+    void deleteAll(List<D> dtos);
+
 }

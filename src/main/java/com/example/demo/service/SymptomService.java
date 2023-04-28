@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 @Slf4j
 //@Transactional
-public class SymptomService implements EntityService<Symptom, SymptomDTO, OrganSymptom> {
+public class SymptomService implements EntityService<Symptom, SymptomDTO> {
 
     @Autowired
     private SymptomRepository symptomRepository;
@@ -27,24 +27,14 @@ public class SymptomService implements EntityService<Symptom, SymptomDTO, OrganS
     @Autowired
     private SymptomMapper symptomMapper;
 
-//    public SymptomService(SymptomRepository symptomRepository) {
-//        this.symptomRepository = symptomRepository;
-//    }
 
     @Override
-    public void saveEntity(SymptomDTO symptomDTO) {
+    public void save(SymptomDTO symptomDTO) {
         Symptom symptom = new Symptom();
         symptom.setName(symptomDTO.getName());
         log.info("Symptom {} was saved.", symptomDTO.getName());
         symptomRepository.save(symptom);
     }
-
-//    @Override
-//    public void saveEntity(SymptomDTO symptomDTO) {
-//        Symptom symptom = new Symptom();
-//        symptom.setName(symptomDTO.getName());
-//        symptomRepository.save(symptom);
-//    }
 
     @Override
     public List<SymptomDTO> findAll() {
@@ -58,16 +48,12 @@ public class SymptomService implements EntityService<Symptom, SymptomDTO, OrganS
         if (organSymptoms.isEmpty()) {
             symptomRepository.deleteById(id);
         } else {
-            deleteAllIntermediate(organSymptoms);
+            //deleteAllIntermediate(organSymptoms);
             //organSymptoms.forEach(organSymptom -> organSymptomRepository.delete(organSymptom));
             symptomRepository.deleteById(id);
         }
     }
 
-    @Override
-    public void deleteAllIntermediate(List<OrganSymptom> organSymptoms) {
-
-    }
 
     public void deleteAll(List<SymptomDTO> symptomsDTOs) {
         List<Symptom> symptoms = symptomsDTOs.stream()

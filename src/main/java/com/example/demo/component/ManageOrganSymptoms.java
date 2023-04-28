@@ -81,8 +81,8 @@ public class ManageOrganSymptoms extends VerticalLayout {
         organComboBox.addValueChangeListener(event -> {
             OrganDTO selectedOrgan = event.getValue();
             if (selectedOrgan != null) {
-                attachedSymptoms.setItems(organSymptomService.findSymptomsByOrganId(selectedOrgan.getId()));
-                freeSymptoms.setItems(organSymptomService.findSymptomsNotMappedToOrgan(selectedOrgan));
+                attachedSymptoms.setItems(organSymptomService.findSecondsByFirstId(selectedOrgan.getId()));
+                freeSymptoms.setItems(organSymptomService.findSecondNotMappedToFirst(selectedOrgan));
             } else {
                 attachedSymptoms.setItems(Collections.emptyList());
                 freeSymptoms.setItems(Collections.emptyList());
@@ -157,7 +157,7 @@ public class ManageOrganSymptoms extends VerticalLayout {
 
     private void refreshGrids() {
         OrganDTO selectedOrgan = organComboBox.getValue();
-        attachedSymptoms.setItems(organSymptomService.findSymptomsByOrganId(selectedOrgan.getId()));
-        freeSymptoms.setItems(organSymptomService.findSymptomsNotMappedToOrgan(selectedOrgan));
+        attachedSymptoms.setItems(organSymptomService.findSecondsByFirstId(selectedOrgan.getId()));
+        freeSymptoms.setItems(organSymptomService.findSecondNotMappedToFirst(selectedOrgan));
     }
 }
