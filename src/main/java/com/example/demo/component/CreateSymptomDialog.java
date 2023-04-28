@@ -1,6 +1,7 @@
 package com.example.demo.component;
 
 import com.example.demo.dto.SymptomDTO;
+import com.example.demo.service.EntityService;
 import com.example.demo.service.SymptomService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -17,11 +18,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CreateSymptomDialog extends Dialog {
 
-    private SymptomService symptomService;
+    private EntityService symptomService;
 
     private Binder<SymptomDTO> binder = new Binder<>(SymptomDTO.class);
 
-    public CreateSymptomDialog(SymptomService symptomService) {
+    public CreateSymptomDialog(EntityService symptomService) {
         this.symptomService = symptomService;
         VerticalLayout layout = new VerticalLayout();
         layout.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);

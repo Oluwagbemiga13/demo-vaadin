@@ -17,8 +17,6 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.List;
-
 @Route("manage-symptoms")
 @Slf4j
 @RequiredArgsConstructor
@@ -48,7 +46,7 @@ public class ManageSymptoms extends VerticalLayout {
     @PostConstruct
     private void init() {
 //        organGrid = new Grid<>(OrganDTO.class);
-        symptomGrid = gridInitializer.createSingleGrid(SymptomDTO.class,symptomService.findAll(),new String[]{"name"});
+        symptomGrid = gridInitializer.createLonelyGrid(SymptomDTO.class,symptomService.findAll(),new String[]{"name"});
 
 //        organGrid.setVisible(true);
 
