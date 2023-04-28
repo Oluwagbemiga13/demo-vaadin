@@ -10,12 +10,13 @@ import com.example.demo.service.SymptomService;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
-import java.text.BreakIterator;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
@@ -23,6 +24,7 @@ import java.util.function.Consumer;
 
 @Route("/api/test")
 @RequiredArgsConstructor
+@Slf4j
 public class TestComponent extends VerticalLayout {
 
     private final MenuInitializer menuInitializer;
@@ -34,6 +36,7 @@ public class TestComponent extends VerticalLayout {
     private final SymptomService symptomService;
 
     private final OrganService organService;
+
     final String MENU_BUTTON_WIDTH = "200px";
 
 
@@ -44,7 +47,9 @@ public class TestComponent extends VerticalLayout {
 
         //add(initGrid());
 
-        add(initButton());
+        //add(initButton());
+
+        add(initGrid_2());
 
 
     }
@@ -66,7 +71,7 @@ public class TestComponent extends VerticalLayout {
     }
 
     public Grid<OrganDTO> initGrid(){
-        return gridInitializer.createSingleGrid(OrganDTO.class,organService.findAll(), new String[]{"name"});
+        return gridInitializer.createLonelyGrid(OrganDTO.class,organService.findAll(), new String[]{"name"});
     }
 
 
@@ -81,6 +86,12 @@ public class TestComponent extends VerticalLayout {
             });
         };
         return buttonInitializer.createActButton("123",action, "120px");
+    }
+
+    public VerticalLayout initGrid_2(){
+
+        return gridInitializer.createGrid_DeleteButton(OrganDTO.class, organService.findAll(),
+                new String[]{"name"}, symptomService);
     }
 
 
