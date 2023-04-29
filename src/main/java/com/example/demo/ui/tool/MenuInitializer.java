@@ -1,4 +1,4 @@
-package com.example.demo.component.tool;
+package com.example.demo.ui.tool;
 
 
 import com.vaadin.flow.component.Component;
@@ -12,6 +12,7 @@ import java.util.List;
 
 
 @Service
+@org.springframework.stereotype.Component
 public class MenuInitializer {
 
     public HorizontalLayout createHorizontalMenu(List<Button> buttons) {

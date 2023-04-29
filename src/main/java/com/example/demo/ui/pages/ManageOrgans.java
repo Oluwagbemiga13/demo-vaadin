@@ -1,8 +1,9 @@
-package com.example.demo.component;
+package com.example.demo.ui.pages;
 
 import com.example.demo.dto.OrganDTO;
 import com.example.demo.service.OrganService;
 import com.example.demo.service.SymptomService;
+import com.example.demo.ui.dialogs.ConfirmationDialog;
 import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;

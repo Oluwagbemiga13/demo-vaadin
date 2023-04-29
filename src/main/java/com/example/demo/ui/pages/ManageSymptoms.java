@@ -1,6 +1,7 @@
-package com.example.demo.component;
+package com.example.demo.ui.pages;
 
-import com.example.demo.component.tool.GridInitializer;
+import com.example.demo.ui.dialogs.ConfirmationDialog;
+import com.example.demo.ui.tool.GridManager;
 import com.example.demo.dto.OrganDTO;
 import com.example.demo.dto.SymptomDTO;
 import com.example.demo.service.OrganService;
@@ -25,7 +26,7 @@ public class ManageSymptoms extends VerticalLayout {
     private final OrganService organService;
     private final SymptomService symptomService;
 
-    private final GridInitializer gridInitializer;
+    private final GridManager gridManager;
 
     private String menuItemWidth = "300px";
 
@@ -46,7 +47,7 @@ public class ManageSymptoms extends VerticalLayout {
     @PostConstruct
     private void init() {
 //        organGrid = new Grid<>(OrganDTO.class);
-        symptomGrid = gridInitializer.createLonelyGrid(SymptomDTO.class,symptomService.findAll(),new String[]{"name"});
+        symptomGrid = gridManager.createLonelyGrid(SymptomDTO.class,symptomService.findAll(),new String[]{"name"});
 
 //        organGrid.setVisible(true);
 
@@ -65,7 +66,7 @@ public class ManageSymptoms extends VerticalLayout {
 
 
 //        createOrganButton = new Button("Create new Organ", e -> {
-//            CreateOrganDialog createOrganDialog = new CreateOrganDialog(organService);
+//            CreateEntityDialog createOrganDialog = new CreateEntityDialog(organService);
 //            createOrganDialog.open();
 //            createOrganDialog.addOpenedChangeListener(event -> {
 //                if (!event.isOpened()) {

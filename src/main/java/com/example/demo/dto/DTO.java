@@ -5,16 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-public class OrganDTO extends DTO {
+@NoArgsConstructor
+@AllArgsConstructor
+public class DTO {
     Long id;
     String name;
 
-    public OrganDTO withName(String name) {
+    public DTO withName(String name) {
         return new OrganDTO(this.id, name);
     }
-
 }
