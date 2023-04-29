@@ -1,16 +1,16 @@
-package com.example.demo.component.tool;
+package com.example.demo.ui.tool;
 
-import com.example.demo.component.CreateSymptomDialog;
-import com.example.demo.component.ManageOrgans;
-import com.example.demo.component.ManageParts;
-import com.example.demo.component.ManageSymptoms;
+import com.example.demo.ui.pages.CreateSymptomDialog;
+import com.example.demo.ui.pages.ManageOrgans;
+import com.example.demo.ui.pages.ManageParts;
+import com.example.demo.ui.pages.ManageSymptoms;
 import com.example.demo.dto.OrganDTO;
+import com.example.demo.dto.SymptomDTO;
 import com.example.demo.service.OrganService;
 import com.example.demo.service.SymptomService;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.PostConstruct;
@@ -29,7 +29,7 @@ public class TestComponent extends VerticalLayout {
 
     private final MenuInitializer menuInitializer;
 
-    private final GridInitializer gridInitializer;
+    private final GridManager gridManager;
 
     private final ButtonInitializer buttonInitializer;
 
@@ -51,6 +51,8 @@ public class TestComponent extends VerticalLayout {
 
         add(initGrid_2());
 
+        add(initGrid_3());
+
 
     }
 
@@ -71,7 +73,7 @@ public class TestComponent extends VerticalLayout {
     }
 
     public Grid<OrganDTO> initGrid(){
-        return gridInitializer.createLonelyGrid(OrganDTO.class,organService.findAll(), new String[]{"name"});
+        return gridManager.createLonelyGrid(OrganDTO.class,organService.findAll(), new String[]{"name"});
     }
 
 
@@ -90,7 +92,13 @@ public class TestComponent extends VerticalLayout {
 
     public VerticalLayout initGrid_2(){
 
-        return gridInitializer.createGrid_DeleteButton(OrganDTO.class, organService.findAll(),
+        return gridManager.createGrid_CreateButton(OrganDTO.class, organService.findAll(),
+                new String[]{"name"}, organService);
+    }
+
+    public VerticalLayout initGrid_3(){
+
+        return gridManager.createGrid_CreateButton(SymptomDTO.class, symptomService.findAll(),
                 new String[]{"name"}, symptomService);
     }
 

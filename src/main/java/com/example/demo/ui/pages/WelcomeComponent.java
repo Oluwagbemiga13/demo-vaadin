@@ -1,8 +1,8 @@
-package com.example.demo.component;
+package com.example.demo.ui.pages;
 
-import com.example.demo.component.tool.ButtonInitializer;
-import com.example.demo.component.tool.MenuInitializer;
-import com.example.demo.component.tool.TestComponent;
+import com.example.demo.ui.tool.ButtonInitializer;
+import com.example.demo.ui.tool.MenuInitializer;
+import com.example.demo.ui.tool.TestComponent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;

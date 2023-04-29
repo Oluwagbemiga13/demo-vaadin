@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-public class OrganService {
+public class OrganService implements EntityService<Organ, OrganDTO> {
 
     @Autowired
     private OrganRepository organRepository;
@@ -22,7 +22,18 @@ public class OrganService {
     @Autowired
     private OrganMapper organMapper;
 
-    public void saveOrgan(OrganDTO organDTO) {
+    @Override
+    public Class<OrganDTO> getDTOClass() {
+        return OrganDTO.class;
+    }
+
+    @Override
+    public Class<Organ> getEntityClass() {
+        return Organ.class;
+    }
+
+    @Override
+    public void save(OrganDTO organDTO) {
         log.info("{} was accepted", organDTO);
         Organ organ = new Organ();
         organ.setName(organDTO.getName());
@@ -35,11 +46,17 @@ public class OrganService {
         }
     }
 
+
     public List<OrganDTO> findAll() {
         return organMapper.toDto(organRepository.findAll());
     }
 
     public void delete(Long id) {
         organRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteAll(List dtos) {
+
     }
 }

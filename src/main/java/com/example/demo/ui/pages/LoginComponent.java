@@ -1,4 +1,4 @@
-package com.example.demo.component;
+package com.example.demo.ui.pages;
 
 import com.example.demo.dto.UserDTO;
 import com.example.demo.service.UserService;

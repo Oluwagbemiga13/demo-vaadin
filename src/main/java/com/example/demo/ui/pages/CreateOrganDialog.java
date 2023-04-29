@@ -1,4 +1,4 @@
-package com.example.demo.component;
+package com.example.demo.ui.pages;
 
 import com.example.demo.dto.OrganDTO;
 import com.example.demo.service.OrganService;
@@ -63,7 +63,7 @@ public class CreateOrganDialog extends Dialog {
             binder.writeBean(organDTO);
 
             // Save the new organ using the organ service
-            organService.saveOrgan(organDTO);
+            organService.save(organDTO);
 
             Notification.show("Organ created successfully.");
             close();

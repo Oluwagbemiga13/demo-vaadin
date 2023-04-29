@@ -29,6 +29,16 @@ public class SymptomService implements EntityService<Symptom, SymptomDTO> {
 
 
     @Override
+    public Class<SymptomDTO> getDTOClass() {
+        return SymptomDTO.class;
+    }
+
+    @Override
+    public Class<Symptom> getEntityClass() {
+        return Symptom.class;
+    }
+
+    @Override
     public void save(SymptomDTO symptomDTO) {
         Symptom symptom = new Symptom();
         symptom.setName(symptomDTO.getName());

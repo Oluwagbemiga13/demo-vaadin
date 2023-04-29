@@ -1,4 +1,4 @@
-package com.example.demo.component.tool;
+package com.example.demo.ui.tool;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.function.Consumer;
 
-@Service
+@org.springframework.stereotype.Component
 public class ButtonInitializer {
 
     public Button createNavButton(String text, Component currentUI, Class navigationTarget, String buttonWidth) {

@@ -1,8 +1,7 @@
-package com.example.demo.component;
+package com.example.demo.ui.pages;
 
 import com.example.demo.dto.SymptomDTO;
 import com.example.demo.service.EntityService;
-import com.example.demo.service.SymptomService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;

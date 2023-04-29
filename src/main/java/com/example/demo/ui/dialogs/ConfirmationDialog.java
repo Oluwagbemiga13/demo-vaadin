@@ -1,17 +1,16 @@
-package com.example.demo.component;
+package com.example.demo.ui.dialogs;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 public class ConfirmationDialog extends Dialog {
-
-    private final Div dialogContent = new Div();
+//
+//    private final Div dialogContent = new Div();
     private final Button cancelButton;
     private final Button confirmButton;
 
