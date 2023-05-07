@@ -25,5 +25,4 @@ public interface EntityService<E, D> {
     String getEntityName();
 
 
-
 }

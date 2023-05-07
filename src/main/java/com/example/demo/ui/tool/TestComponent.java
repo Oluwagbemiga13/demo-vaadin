@@ -1,5 +1,7 @@
 package com.example.demo.ui.tool;
 
+import com.example.demo.dto.DTO;
+import com.example.demo.service.OrganSymptomService;
 import com.example.demo.ui.dialogs.EntityCreationDialog;
 import com.example.demo.ui.pages.ManageOrgans;
 import com.example.demo.ui.pages.ManageParts;
@@ -10,6 +12,7 @@ import com.example.demo.service.SymptomService;
 import com.example.demo.ui.pages.WelcomeComponent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -20,7 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Consumer;
 
 
 @Route("/api/test")
@@ -40,6 +42,10 @@ public class TestComponent extends VerticalLayout {
 
     private final ComponentBuilder componentBuilder;
 
+    private final OrganSymptomService organSymptomService;
+
+    private final ComboBoxManager comboBoxManager;
+
     final String MENU_BUTTON_WIDTH = "200px";
 
 
@@ -56,7 +62,9 @@ public class TestComponent extends VerticalLayout {
 //
 //        add(initGrid_3());
 
-        add(initGrid_4());
+        //add(initGrid_4());
+
+        add(initGrid_5());
 
 
 
@@ -107,8 +115,16 @@ public class TestComponent extends VerticalLayout {
     }
 
     public HorizontalLayout initGrid_4(){
-//        return gridManager.createGrid_sideMenu(new String[]{"name"}, symptomService);
-        return componentBuilder.grid_menu2(symptomService, this, WelcomeComponent.class);
+        return componentBuilder.simple_entity_grid_options(symptomService, this, WelcomeComponent.class);
+    }
+
+    public HorizontalLayout initGrid_5(){
+        ComboBox<DTO> combo  = comboBoxManager.getComboBox(organService);
+        Grid<DTO> freeEntitiesGrid = new Grid<>(DTO.class);
+        Grid<DTO> attachedEntities = new Grid<>(DTO.class);
+        return new HorizontalLayout(combo, componentBuilder.create_attached_entities_option(organSymptomService, organService, combo, attachedEntities, freeEntitiesGrid),
+                componentBuilder.create_free_entities_option(organSymptomService, organService, combo, freeEntitiesGrid, attachedEntities));
+
     }
 
 

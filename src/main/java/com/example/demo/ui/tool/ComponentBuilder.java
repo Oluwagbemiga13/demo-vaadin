@@ -2,11 +2,12 @@ package com.example.demo.ui.tool;
 
 import com.example.demo.dto.DTO;
 import com.example.demo.service.EntityService;
-import com.example.demo.service.SymptomService;
+import com.example.demo.service.JoinService;
 import com.example.demo.ui.dialogs.ConfirmationDialog;
 import com.example.demo.ui.dialogs.EntityCreationDialog;
 import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -15,15 +16,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
 public class ComponentBuilder {
-
-    private final SymptomService symptomService;
 
     private final GridManager gridManager;
 
@@ -35,9 +36,13 @@ public class ComponentBuilder {
 
     private final LabelManager labelManager;
 
+    private final ComboBoxManager comboBoxManager;
+
+    //private final GenericMapper genericMapper;
+
     private String MENU_BUTTON_WIGHT = "300px";
 
-    public HorizontalLayout grid_menu2(EntityService entityService, com.vaadin.flow.component.Component currentUI, Class backDestination){
+    public HorizontalLayout simple_entity_grid_options (EntityService entityService, com.vaadin.flow.component.Component currentUI, Class backDestination){
 
         Html symptomLabel = labelManager.createLabel("bold", "25px", entityService.getEntityName()+"s");
 
@@ -92,5 +97,89 @@ public class ComponentBuilder {
         //layout.setSpacing(true);
 
         return layout;
+    }
+
+
+
+
+    public HorizontalLayout create_attached_entities_option(JoinService joinService, EntityService entityService, ComboBox comboBox,
+                                                            Grid<DTO> attachedEntities, Grid<DTO> freeEntities){
+
+        attachedEntities.setWidth("100%");
+        AtomicReference<DTO> selectedDTO = new AtomicReference<>();
+
+        comboBox.addValueChangeListener(event -> {
+            DTO selectedEntity = (DTO) event.getValue();
+            selectedDTO.set(selectedEntity);
+
+            if (selectedEntity != null) {
+                attachedEntities.setItems(joinService.findSecondsByFirstId(selectedEntity.getId()));
+                freeEntities.setItems(joinService.findSecondNotMappedToFirst(selectedEntity.getId()));
+
+            } else {
+                attachedEntities.setItems(Collections.emptyList());
+            }
+        });
+
+        Button removeButton = buttonInitializer.createActButton("Remove", () -> {
+            if(selectedDTO.get() != null && attachedEntities.asSingleSelect() != null){
+                joinService.deleteRelation(selectedDTO.get(), attachedEntities.asSingleSelect().getValue());
+                log.info(selectedDTO.get().getName() + " was removed from" + attachedEntities.asSingleSelect().getValue().getName());
+                gridManager.refreshGrid(attachedEntities, joinService.findSecondsByFirstId(selectedDTO.get().getId()));
+                gridManager.refreshGrid(freeEntities, joinService.findSecondNotMappedToFirst(selectedDTO.get().getId()));
+            }
+            else throw new IllegalArgumentException("Something was not selected.");
+        }, MENU_BUTTON_WIGHT);
+
+        VerticalLayout attachedLayout = new VerticalLayout(attachedEntities,removeButton);
+        attachedLayout.setWidth("100%");
+        attachedLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+
+
+        HorizontalLayout layout = new HorizontalLayout(attachedLayout);
+        layout.setWidth("100%");
+        return layout;
+
+
+    }
+
+    public HorizontalLayout create_free_entities_option(JoinService joinService, EntityService entityService, ComboBox comboBox, Grid<DTO> freeEntities, Grid<DTO> attachedEntities){
+
+        freeEntities.setWidth("100%");
+        AtomicReference<DTO> selectedDTO = new AtomicReference<>();
+
+        comboBox.addValueChangeListener(event -> {
+            DTO selectedEntity = (DTO) event.getValue();
+            selectedDTO.set(selectedEntity);
+
+            if (selectedEntity != null) {
+                freeEntities.setItems(joinService.findSecondNotMappedToFirst(selectedEntity.getId()));
+                attachedEntities.setItems(joinService.findSecondsByFirstId(selectedEntity.getId()));
+
+            } else {
+                freeEntities.setItems(Collections.emptyList());
+            }
+        });
+
+        Button addButton = buttonInitializer.createActButton("Add", () -> {
+            if(selectedDTO.get() != null && freeEntities.asSingleSelect() != null){
+                joinService.createRelation(selectedDTO.get().getId(), freeEntities.asSingleSelect().getValue().getId());
+                log.info(selectedDTO.get().getName() + " was connected to" + freeEntities.asSingleSelect().getValue().getName());
+                gridManager.refreshGrid(attachedEntities, joinService.findSecondsByFirstId(selectedDTO.get().getId()));
+                gridManager.refreshGrid(freeEntities, joinService.findSecondNotMappedToFirst(selectedDTO.get().getId()));
+            }
+            else throw new IllegalArgumentException("Something was not selected.");
+        }, MENU_BUTTON_WIGHT);
+
+        VerticalLayout attachedLayout = new VerticalLayout(freeEntities,addButton);
+        attachedLayout.setWidth("100%");
+        attachedLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+
+
+        HorizontalLayout layout = new HorizontalLayout(attachedLayout);
+        layout.setWidth("100%");
+        return layout;
+
+
     }
 }

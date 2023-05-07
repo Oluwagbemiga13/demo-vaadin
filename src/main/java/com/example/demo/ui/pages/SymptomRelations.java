@@ -82,7 +82,7 @@ public class SymptomRelations extends VerticalLayout {
             SymptomDTO selectedSymptom = event.getValue();
             if (selectedSymptom != null) {
                 attachedOrgans.setItems(organSymptomService.findFirstsBySecondId(selectedSymptom.getId()));
-                freeOrgans.setItems(organSymptomService.findOFirstNotMappedToSecond(selectedSymptom));
+                freeOrgans.setItems(organSymptomService.findOFirstNotMappedToSecond(selectedSymptom.getId()));
                 attachedParts.setItems(partService.findAllPartsBySymptomId(selectedSymptom.getId()));
                 freeParts.setItems(partService.findPartsNotMappedToSymptom(selectedSymptom));
             } else {
@@ -239,7 +239,7 @@ public class SymptomRelations extends VerticalLayout {
         if (selectedSymptom != null) {
 
             attachedOrgans.setItems(organSymptomService.findFirstsBySecondId(selectedSymptom.getId()));
-            freeOrgans.setItems(organSymptomService.findOFirstNotMappedToSecond(selectedSymptom));
+            freeOrgans.setItems(organSymptomService.findOFirstNotMappedToSecond(selectedSymptom.getId()));
 
             attachedParts.setItems(partService.findAllPartsBySymptomId(selectedSymptom.getId()));
             freeParts.setItems(partService.findPartsNotMappedToSymptom(selectedSymptom));
