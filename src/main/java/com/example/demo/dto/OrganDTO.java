@@ -17,4 +17,6 @@ public class OrganDTO extends DTO {
         return new OrganDTO(this.id, name);
     }
 
+
+
 }

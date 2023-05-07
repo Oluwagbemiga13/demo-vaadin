@@ -1,11 +1,13 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.OrganDTO;
 import com.example.demo.dto.SymptomDTO;
 import com.example.demo.entity.OrganSymptom;
 import com.example.demo.entity.Symptom;
 import com.example.demo.mapper.SymptomMapper;
 import com.example.demo.repository.OrganSymptomRepository;
 import com.example.demo.repository.SymptomRepository;
+import com.vaadin.flow.data.binder.Binder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,8 @@ import java.util.List;
 @Slf4j
 //@Transactional
 public class SymptomService implements EntityService<Symptom, SymptomDTO> {
+
+    Binder<SymptomDTO> binder = new Binder<>(SymptomDTO.class);
 
     @Autowired
     private SymptomRepository symptomRepository;
@@ -31,6 +35,11 @@ public class SymptomService implements EntityService<Symptom, SymptomDTO> {
     @Override
     public Class<SymptomDTO> getDTOClass() {
         return SymptomDTO.class;
+    }
+
+    @Override
+    public Binder<SymptomDTO> getBinder() {
+        return this.binder;
     }
 
     @Override
@@ -72,6 +81,11 @@ public class SymptomService implements EntityService<Symptom, SymptomDTO> {
 
         symptomRepository.deleteAll(symptoms);
 
+    }
+
+    @Override
+    public String getEntityName() {
+        return "Symptom";
     }
 
 

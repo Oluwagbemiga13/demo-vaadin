@@ -13,6 +13,10 @@ public class DTO {
     Long id;
     String name;
 
+    public DTO(String name){
+        this.name = name;
+    }
+
     public DTO withName(String name) {
         return new OrganDTO(this.id, name);
     }
