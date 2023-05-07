@@ -102,10 +102,10 @@ public class ComponentBuilder {
 
 
 
-    public HorizontalLayout create_attached_entities_option(JoinService joinService, EntityService entityService, ComboBox comboBox,
-                                                            Grid<DTO> attachedEntities, Grid<DTO> freeEntities){
+    public VerticalLayout create_attached_entities_option(JoinService joinService, EntityService entityService, ComboBox comboBox,
+                                                            Grid<DTO> attachedEntities, Grid<DTO> freeEntities, String gridSize){
 
-        attachedEntities.setWidth("100%");
+        attachedEntities.setWidth(gridSize);
         AtomicReference<DTO> selectedDTO = new AtomicReference<>();
 
         comboBox.addValueChangeListener(event -> {
@@ -132,20 +132,24 @@ public class ComponentBuilder {
         }, MENU_BUTTON_WIGHT);
 
         VerticalLayout attachedLayout = new VerticalLayout(attachedEntities,removeButton);
-        attachedLayout.setWidth("100%");
+        attachedLayout.setSpacing(true);
+        attachedLayout.setMargin(true);
+
         attachedLayout.setAlignItems(FlexComponent.Alignment.CENTER);
 
 
-        HorizontalLayout layout = new HorizontalLayout(attachedLayout);
-        layout.setWidth("100%");
+        VerticalLayout layout = new VerticalLayout(attachedLayout);
+        layout.setAlignItems(FlexComponent.Alignment.CENTER);
+
         return layout;
 
 
     }
 
-    public HorizontalLayout create_free_entities_option(JoinService joinService, EntityService entityService, ComboBox comboBox, Grid<DTO> freeEntities, Grid<DTO> attachedEntities){
+    public VerticalLayout create_free_entities_option(JoinService joinService, EntityService entityService, ComboBox comboBox, Grid<DTO> freeEntities,
+                                                        Grid<DTO> attachedEntities, String gridSize){
 
-        freeEntities.setWidth("100%");
+        freeEntities.setWidth(gridSize);
         AtomicReference<DTO> selectedDTO = new AtomicReference<>();
 
         comboBox.addValueChangeListener(event -> {
@@ -171,15 +175,36 @@ public class ComponentBuilder {
             else throw new IllegalArgumentException("Something was not selected.");
         }, MENU_BUTTON_WIGHT);
 
-        VerticalLayout attachedLayout = new VerticalLayout(freeEntities,addButton);
-        attachedLayout.setWidth("100%");
-        attachedLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+        VerticalLayout freeLayout = new VerticalLayout(freeEntities,addButton);
+        freeLayout.setSpacing(true);
+        freeLayout.setMargin(true);
 
+        freeLayout.setAlignItems(FlexComponent.Alignment.CENTER);
 
-        HorizontalLayout layout = new HorizontalLayout(attachedLayout);
-        layout.setWidth("100%");
+        VerticalLayout layout = new VerticalLayout(freeLayout);
+        layout.setAlignItems(FlexComponent.Alignment.CENTER);
+
+        layout.setSpacing(true);
+        layout.setMargin(true);
+
         return layout;
+    }
 
+    public HorizontalLayout create_managing_relation_layout(JoinService joinService, EntityService entityService, ComboBox comboBox,
+                                                            Grid<DTO> freeEntities, Grid<DTO> attachedEntities, String gridSize){
+        HorizontalLayout layout = new HorizontalLayout(create_attached_entities_option(joinService,entityService,comboBox,attachedEntities,freeEntities, gridSize),
+                create_free_entities_option(joinService,entityService,comboBox,freeEntities,attachedEntities, gridSize));
+
+        //layout.setSpacing(true);
+        layout.setMargin(false);
+        layout.setAlignSelf(FlexComponent.Alignment.CENTER);
+        layout.setAlignItems(FlexComponent.Alignment.CENTER);
+        layout.setWidth(gridSize);
+
+
+        layout.setSpacing(true);
+        layout.setMargin(true);
+        return layout;
 
     }
 }
