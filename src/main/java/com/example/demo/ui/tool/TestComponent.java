@@ -1,15 +1,17 @@
 package com.example.demo.ui.tool;
 
-import com.example.demo.ui.pages.EntityCreationDialogDialog;
+import com.example.demo.ui.dialogs.EntityCreationDialog;
 import com.example.demo.ui.pages.ManageOrgans;
 import com.example.demo.ui.pages.ManageParts;
 import com.example.demo.ui.pages.ManageSymptoms;
 import com.example.demo.dto.OrganDTO;
 import com.example.demo.service.OrganService;
 import com.example.demo.service.SymptomService;
+import com.example.demo.ui.pages.WelcomeComponent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.PostConstruct;
@@ -36,6 +38,8 @@ public class TestComponent extends VerticalLayout {
 
     private final OrganService organService;
 
+    private final ComponentBuilder componentBuilder;
+
     final String MENU_BUTTON_WIDTH = "200px";
 
 
@@ -48,9 +52,12 @@ public class TestComponent extends VerticalLayout {
 
         //add(initButton());
 
-        add(initGrid_2());
+//        add(initGrid_2());
+//
+//        add(initGrid_3());
 
-        add(initGrid_3());
+        add(initGrid_4());
+
 
 
     }
@@ -72,16 +79,16 @@ public class TestComponent extends VerticalLayout {
     }
 
     public Grid<OrganDTO> initGrid(){
-        return gridManager.createLonelyGrid(OrganDTO.class,organService.findAll(), new String[]{"name"});
+        return gridManager.createLonelyGrid(organService, new String[]{"name"});
     }
 
 
     public Button initButton(){
 
-        Consumer<Button> action = button -> {
-            EntityCreationDialogDialog entityCreationDialogDialog = new EntityCreationDialogDialog(symptomService);
-            entityCreationDialogDialog.open();
-            entityCreationDialogDialog.addOpenedChangeListener(event -> {
+       Runnable action = () -> {
+            EntityCreationDialog entityCreationDialog = new EntityCreationDialog(symptomService);
+            entityCreationDialog.open();
+            entityCreationDialog.addOpenedChangeListener(event -> {
                 if (!event.isOpened()) {
                 }
             });
@@ -97,6 +104,11 @@ public class TestComponent extends VerticalLayout {
     public VerticalLayout initGrid_3(){
 
         return gridManager.createGrid_CreateButton(new String[]{"name"}, symptomService);
+    }
+
+    public HorizontalLayout initGrid_4(){
+//        return gridManager.createGrid_sideMenu(new String[]{"name"}, symptomService);
+        return componentBuilder.grid_menu2(symptomService, this, WelcomeComponent.class);
     }
 
 

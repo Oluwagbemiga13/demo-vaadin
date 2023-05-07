@@ -6,6 +6,7 @@ import com.example.demo.service.OrganService;
 import com.example.demo.service.PartService;
 import com.example.demo.service.SymptomService;
 import com.example.demo.ui.dialogs.ConfirmationDialog;
+import com.example.demo.ui.dialogs.EntityCreationDialog;
 import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
@@ -121,9 +122,9 @@ public class ManageParts extends VerticalLayout {
         deleteOrganButton.setWidth(editButtonsWidth);
 
         createSymptomButton = new Button("Create Symptom", e -> {
-            EntityCreationDialogDialog entityCreationDialogDialog = new EntityCreationDialogDialog(symptomService);
-            entityCreationDialogDialog.open();
-            entityCreationDialogDialog.addOpenedChangeListener(event -> {
+            EntityCreationDialog entityCreationDialog = new EntityCreationDialog(symptomService);
+            entityCreationDialog.open();
+            entityCreationDialog.addOpenedChangeListener(event -> {
                 if (!event.isOpened()) {
                     refreshGrids();
                 }

@@ -15,9 +15,9 @@ public class ButtonInitializer {
         return button;
     }
 
-    public Button createActButton(String text, Consumer<Button> action, String buttonWidth){
+    public Button createActButton(String text, Runnable action, String buttonWidth){
         Button button = new Button(text);
-        action.accept(button);
+        button.addClickListener(e -> action.run());
         button.setWidth(buttonWidth);
         return button;
     }

@@ -1,7 +1,6 @@
-package com.example.demo.ui.pages;
+package com.example.demo.ui.dialogs;
 
 import com.example.demo.dto.DTO;
-import com.example.demo.dto.SymptomDTO;
 import com.example.demo.service.EntityService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -18,10 +17,10 @@ import lombok.extern.slf4j.Slf4j;
 import java.lang.reflect.InvocationTargetException;
 
 @Slf4j
-public class EntityCreationDialogDialog extends Dialog {
+public class EntityCreationDialog extends Dialog {
 
 
-    public EntityCreationDialogDialog(EntityService managingService) {
+    public EntityCreationDialog(EntityService managingService) {
         VerticalLayout layout = new VerticalLayout();
         layout.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
         layout.setSizeFull();

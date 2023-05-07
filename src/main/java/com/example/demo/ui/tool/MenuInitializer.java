@@ -12,7 +12,6 @@ import java.util.List;
 
 
 @Service
-@org.springframework.stereotype.Component
 public class MenuInitializer {
 
     public HorizontalLayout createHorizontalMenu(List<Button> buttons) {
