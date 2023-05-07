@@ -1,6 +1,6 @@
 package com.example.demo.ui.tool;
 
-import com.example.demo.ui.pages.CreateSymptomDialog;
+import com.example.demo.ui.pages.EntityCreationDialogDialog;
 import com.example.demo.service.EntityService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
@@ -22,24 +22,25 @@ public class GridManager {
         return grid;
     }
 
-    public <T> VerticalLayout createGrid_CreateButton(Class<T> dtoClass, List<T> dtoList,
-                                                      String[] displayedAttributes,
+    public <T> VerticalLayout createGrid_CreateButton(String[] displayedAttributes,
                                                       EntityService entityService){
 
         VerticalLayout layout = new VerticalLayout();
-        Grid grid = createLonelyGrid(dtoClass,dtoList,displayedAttributes);
+
+        Grid grid = createLonelyGrid(entityService.getDTOClass(),entityService.findAll(),displayedAttributes);
         layout.add(grid);
 
-        Button button = new Button("Create Symptom", e -> {
-            CreateSymptomDialog createSymptomDialog = new CreateSymptomDialog(entityService);
-            createSymptomDialog.open();
-            createSymptomDialog.addOpenedChangeListener(event -> {
+        Button button = new Button("Create " + entityService.getEntityName(), e -> {
+            EntityCreationDialogDialog entityCreationDialogDialog = new EntityCreationDialogDialog(entityService);
+            entityCreationDialogDialog.open();
+            entityCreationDialogDialog.addOpenedChangeListener(event -> {
                 if (!event.isOpened()) {
                     refreshGrid(grid, entityService);
                    log.info("PRINT SOMETHING!");
                 }
             });
         });
+
 
         layout.add(button);
         layout.setAlignItems(FlexComponent.Alignment.CENTER);

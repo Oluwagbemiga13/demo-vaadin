@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class SymptomDTO {
+public class SymptomDTO extends DTO {
 
     private Long id;
     private String name;
@@ -19,7 +19,7 @@ public class SymptomDTO {
         this.name = symptomDTO.name;
     }
 
-    public static SymptomDTO withName(SymptomDTO symptomDTO, String name) {
-        return new SymptomDTO(symptomDTO.getId(), name);
-    }
+//    public static SymptomDTO withName(SymptomDTO symptomDTO, String name) {
+//        return new SymptomDTO(symptomDTO.getId(), name);
+//    }
 }

@@ -4,7 +4,9 @@ import com.example.demo.dto.OrganDTO;
 import com.example.demo.entity.Organ;
 import com.example.demo.mapper.OrganMapper;
 import com.example.demo.repository.OrganRepository;
+import com.vaadin.flow.data.binder.Binder;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,8 @@ import java.util.Optional;
 @Slf4j
 public class OrganService implements EntityService<Organ, OrganDTO> {
 
+    Binder<OrganDTO> binder = new Binder<>(OrganDTO.class);
+
     @Autowired
     private OrganRepository organRepository;
 
@@ -25,6 +29,11 @@ public class OrganService implements EntityService<Organ, OrganDTO> {
     @Override
     public Class<OrganDTO> getDTOClass() {
         return OrganDTO.class;
+    }
+
+    @Override
+    public Binder<OrganDTO> getBinder() {
+        return this.binder;
     }
 
     @Override
@@ -53,6 +62,11 @@ public class OrganService implements EntityService<Organ, OrganDTO> {
 
     public void delete(Long id) {
         organRepository.deleteById(id);
+    }
+
+    @Override
+    public String getEntityName() {
+        return "Organ";
     }
 
     @Override

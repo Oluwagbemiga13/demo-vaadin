@@ -92,9 +92,9 @@ public class ManageSymptoms extends VerticalLayout {
 //        deleteOrganButton.setWidth(editButtonsWidth);
 
         createSymptomButton = new Button("Create Symptom", e -> {
-            CreateSymptomDialog createSymptomDialog = new CreateSymptomDialog(symptomService);
-            createSymptomDialog.open();
-            createSymptomDialog.addOpenedChangeListener(event -> {
+            EntityCreationDialogDialog entityCreationDialogDialog = new EntityCreationDialogDialog(symptomService);
+            entityCreationDialogDialog.open();
+            entityCreationDialogDialog.addOpenedChangeListener(event -> {
                 if (!event.isOpened()) {
                     refreshGrids();
                 }
