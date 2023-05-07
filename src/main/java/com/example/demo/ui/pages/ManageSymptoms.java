@@ -1,6 +1,7 @@
 package com.example.demo.ui.pages;
 
 import com.example.demo.ui.dialogs.ConfirmationDialog;
+import com.example.demo.ui.dialogs.EntityCreationDialog;
 import com.example.demo.ui.tool.GridManager;
 import com.example.demo.dto.OrganDTO;
 import com.example.demo.dto.SymptomDTO;
@@ -47,7 +48,7 @@ public class ManageSymptoms extends VerticalLayout {
     @PostConstruct
     private void init() {
 //        organGrid = new Grid<>(OrganDTO.class);
-        symptomGrid = gridManager.createLonelyGrid(SymptomDTO.class,symptomService.findAll(),new String[]{"name"});
+        symptomGrid = gridManager.createLonelyGrid(symptomService,new String[]{"name"});
 
 //        organGrid.setVisible(true);
 
@@ -92,9 +93,9 @@ public class ManageSymptoms extends VerticalLayout {
 //        deleteOrganButton.setWidth(editButtonsWidth);
 
         createSymptomButton = new Button("Create Symptom", e -> {
-            EntityCreationDialogDialog entityCreationDialogDialog = new EntityCreationDialogDialog(symptomService);
-            entityCreationDialogDialog.open();
-            entityCreationDialogDialog.addOpenedChangeListener(event -> {
+            EntityCreationDialog entityCreationDialog = new EntityCreationDialog(symptomService);
+            entityCreationDialog.open();
+            entityCreationDialog.addOpenedChangeListener(event -> {
                 if (!event.isOpened()) {
                     refreshGrids();
                 }
