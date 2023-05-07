@@ -5,6 +5,7 @@ import com.example.demo.dto.SymptomDTO;
 import com.example.demo.entity.Organ;
 import com.example.demo.entity.OrganSymptom;
 import com.example.demo.entity.Symptom;
+import com.example.demo.mapper.GenericMapper;
 import com.example.demo.mapper.OrganMapper;
 import com.example.demo.mapper.SymptomMapper;
 import com.example.demo.repository.OrganRepository;
@@ -12,6 +13,7 @@ import com.example.demo.repository.OrganSymptomRepository;
 import com.example.demo.repository.SymptomRepository;
 import jakarta.el.PropertyNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ import java.util.Optional;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class OrganSymptomService implements JoinService<OrganSymptom, OrganDTO, SymptomDTO> {
 
     @Autowired
@@ -33,8 +36,22 @@ public class OrganSymptomService implements JoinService<OrganSymptom, OrganDTO, 
     @Autowired
     private SymptomRepository symptomRepository;
 
+    private final SymptomService symptomService;
+
+    private final OrganService organService;
+
     @Autowired
     private OrganMapper organMapper;
+
+    @Override
+    public EntityService getFirstService() {
+        return organService;
+    }
+
+    @Override
+    public EntityService getSecondService() {
+        return symptomService;
+    }
 
     @Autowired
     private SymptomMapper symptomMapper;
@@ -42,7 +59,7 @@ public class OrganSymptomService implements JoinService<OrganSymptom, OrganDTO, 
     @Transactional
     @Override
     public OrganSymptom createRelation(Long organId, Long symptomId) {
-        Organ organ = organRepository.findById(organId).orElseThrow(() -> new EntityNotFoundException("Organ not found with ID: " + organId));
+        Organ organ = organService.findById(organId);
         Symptom symptom = symptomRepository.findById(symptomId).orElseThrow(() -> new EntityNotFoundException("Symptom not found with ID: " + symptomId));
 
         OrganSymptom organSymptom = new OrganSymptom();
@@ -77,13 +94,13 @@ public class OrganSymptomService implements JoinService<OrganSymptom, OrganDTO, 
     }
 
     @Override
-    public List<SymptomDTO> findSecondNotMappedToFirst(OrganDTO organ) {
-        return symptomMapper.toDto(symptomRepository.findSymptomsNotMappedToOrgan(organ.getId()));
+    public List<SymptomDTO> findSecondNotMappedToFirst(Long longId) {
+        return symptomMapper.toDto(symptomRepository.findSymptomsNotMappedToOrgan(longId));
     }
 
     @Override
-    public List<OrganDTO> findOFirstNotMappedToSecond(SymptomDTO symptom) {
-        return organMapper.toDto(organRepository.findOrgansNotMappedToSymptom(symptom.getId()));
+    public List<OrganDTO> findOFirstNotMappedToSecond(Long id) {
+        return organMapper.toDto(organRepository.findOrgansNotMappedToSymptom(id));
     }
 
 
@@ -107,5 +124,15 @@ public class OrganSymptomService implements JoinService<OrganSymptom, OrganDTO, 
             // Delete the OrganSymptom entity
             organSymptomRepository.delete(organSymptom);
         }
+    }
+
+    @Override
+    public GenericMapper getSecondMapper() {
+        return symptomMapper;
+    }
+
+    @Override
+    public GenericMapper getFirstMapper() {
+        return organMapper;
     }
 }

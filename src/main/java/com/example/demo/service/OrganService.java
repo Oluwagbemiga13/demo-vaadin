@@ -71,6 +71,13 @@ public class OrganService implements EntityService<Organ, OrganDTO> {
 
     @Override
     public void deleteAll(List dtos) {
+    }
 
+    Organ findById(Long id){
+        Optional<Organ> optional = organRepository.findById(id);
+        if (optional.isPresent()){
+            return optional.get();
+        }
+        else throw new IllegalArgumentException("Organ with " + id + "was not found.");
     }
 }

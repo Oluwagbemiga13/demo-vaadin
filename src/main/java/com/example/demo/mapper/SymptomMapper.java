@@ -7,14 +7,6 @@ import org.mapstruct.Mapper;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface SymptomMapper {
-//    SymptomMapper INSTANCE = Mappers.getMapper(SymptomMapper.class);
+public interface SymptomMapper extends GenericMapper<Symptom, SymptomDTO> {
 
-    SymptomDTO toDto(Symptom entity);
-
-    Symptom toEntity(SymptomDTO dto);
-
-    List<SymptomDTO> toDto(List<Symptom> entities);
-
-    List<Symptom> toEntity(List<SymptomDTO> dtos);
 }
