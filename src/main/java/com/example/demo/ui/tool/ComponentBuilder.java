@@ -195,8 +195,6 @@ public class ComponentBuilder {
         HorizontalLayout layout = new HorizontalLayout(create_attached_entities_option(joinService,entityService,comboBox,attachedEntities,freeEntities, gridSize),
                 create_free_entities_option(joinService,entityService,comboBox,freeEntities,attachedEntities, gridSize));
 
-        //layout.setSpacing(true);
-        layout.setMargin(false);
         layout.setAlignSelf(FlexComponent.Alignment.CENTER);
         layout.setAlignItems(FlexComponent.Alignment.CENTER);
         layout.setWidth(gridSize);

@@ -65,7 +65,8 @@ public class TestComponent extends VerticalLayout {
 
         //add(initGrid_4());
 
-        add(initGrid_7());
+        add(initGrid_8());
+        
         setAlignSelf(Alignment.CENTER);
         setAlignItems(Alignment.CENTER);
 
@@ -156,6 +157,23 @@ public class TestComponent extends VerticalLayout {
         layout.setMargin(true);
         return layout;
     }
+    public VerticalLayout initGrid_8(){
+        ComboBox<DTO> combo  = comboBoxManager.getComboBox(symptomService);
+        Grid<DTO> freeEntitiesGrid = new Grid<>(DTO.class);
+        Grid<DTO> attachedEntities = new Grid<>(DTO.class);
+        VerticalLayout layout = new VerticalLayout(combo,componentBuilder.create_managing_relation_layout(organSymptomService,symptomService,combo,
+                freeEntitiesGrid,attachedEntities, "100%"));
+        layout.setAlignItems(Alignment.CENTER);
+        layout.setAlignSelf(Alignment.CENTER);
+        layout.setSpacing(true);
+        layout.setMargin(true);
+        return layout;
+    }
+
+//    public VerticalLayout initGrid_9(){
+//
+//    }
+
 
 
 }
