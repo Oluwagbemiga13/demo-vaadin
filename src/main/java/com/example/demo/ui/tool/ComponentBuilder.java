@@ -113,8 +113,8 @@ public class ComponentBuilder {
             selectedDTO.set(selectedEntity);
 
             if (selectedEntity != null) {
-                attachedEntities.setItems(joinService.findSecondsByFirstId(selectedEntity.getId()));
-                freeEntities.setItems(joinService.findSecondNotMappedToFirst(selectedEntity.getId()));
+                attachedEntities.setItems(joinService.findSecondNotMappedToFirst(selectedEntity));
+                //freeEntities.setItems(joinService.findSecondNotMappedToFirst(selectedEntity));
 
             } else {
                 attachedEntities.setItems(Collections.emptyList());
@@ -126,7 +126,7 @@ public class ComponentBuilder {
                 joinService.deleteRelation(selectedDTO.get(), attachedEntities.asSingleSelect().getValue());
                 log.info(selectedDTO.get().getName() + " was removed from" + attachedEntities.asSingleSelect().getValue().getName());
                 gridManager.refreshGrid(attachedEntities, joinService.findSecondsByFirstId(selectedDTO.get().getId()));
-                gridManager.refreshGrid(freeEntities, joinService.findSecondNotMappedToFirst(selectedDTO.get().getId()));
+                gridManager.refreshGrid(freeEntities, joinService.findSecondNotMappedToFirst(selectedDTO.get()));
             }
             else throw new IllegalArgumentException("Something was not selected.");
         }, MENU_BUTTON_WIGHT);
@@ -157,7 +157,7 @@ public class ComponentBuilder {
             selectedDTO.set(selectedEntity);
 
             if (selectedEntity != null) {
-                freeEntities.setItems(joinService.findSecondNotMappedToFirst(selectedEntity.getId()));
+                freeEntities.setItems(joinService.findSecondNotMappedToFirst(selectedEntity));
                 attachedEntities.setItems(joinService.findSecondsByFirstId(selectedEntity.getId()));
 
             } else {
@@ -170,7 +170,7 @@ public class ComponentBuilder {
                 joinService.createRelation(selectedDTO.get().getId(), freeEntities.asSingleSelect().getValue().getId());
                 log.info(selectedDTO.get().getName() + " was connected to" + freeEntities.asSingleSelect().getValue().getName());
                 gridManager.refreshGrid(attachedEntities, joinService.findSecondsByFirstId(selectedDTO.get().getId()));
-                gridManager.refreshGrid(freeEntities, joinService.findSecondNotMappedToFirst(selectedDTO.get().getId()));
+                gridManager.refreshGrid(freeEntities, joinService.findSecondNotMappedToFirst(selectedDTO.get()));
             }
             else throw new IllegalArgumentException("Something was not selected.");
         }, MENU_BUTTON_WIGHT);

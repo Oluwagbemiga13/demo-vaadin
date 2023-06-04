@@ -24,5 +24,7 @@ public interface EntityService<E, D> {
 
     String getEntityName();
 
+    E findById(Long id);
+
 
 }

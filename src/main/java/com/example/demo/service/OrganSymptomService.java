@@ -71,13 +71,6 @@ public class OrganSymptomService implements JoinService<OrganSymptom, OrganDTO, 
         return organSymptomRepository.save(organSymptom);
     }
 
-    @Transactional
-    @Override
-    public void removeRelation(Long organId, Long symptomId) throws PropertyNotFoundException {
-        OrganSymptom organSymptom = organSymptomRepository.findByOrganIdAndSymptomId(organId, symptomId)
-                .orElseThrow(() -> new PropertyNotFoundException("OrganSymptom relationship not found for Organ ID: " + organId + " and Symptom ID: " + symptomId));
-        organSymptomRepository.delete(organSymptom);
-    }
 
     @Override
     public List<SymptomDTO> findSecondsByFirstId(Long organId) {
@@ -94,13 +87,13 @@ public class OrganSymptomService implements JoinService<OrganSymptom, OrganDTO, 
     }
 
     @Override
-    public List<SymptomDTO> findSecondNotMappedToFirst(Long longId) {
-        return symptomMapper.toDto(symptomRepository.findSymptomsNotMappedToOrgan(longId));
+    public List<SymptomDTO> findSecondNotMappedToFirst(OrganDTO firstDTO) {
+        return symptomService.findSymptomsNotMappedToOrgan(firstDTO);
     }
 
     @Override
-    public List<OrganDTO> findOFirstNotMappedToSecond(Long id) {
-        return organMapper.toDto(organRepository.findOrgansNotMappedToSymptom(id));
+    public List<OrganDTO> findFirstNotMappedToSecond(SymptomDTO secondDTO) {
+        return organService.findOrgansNotMappedToSymptom(secondDTO);
     }
 
 

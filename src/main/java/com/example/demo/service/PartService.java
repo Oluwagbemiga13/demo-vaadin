@@ -11,6 +11,7 @@ import com.example.demo.mapper.SymptomMapper;
 import com.example.demo.repository.PartRepository;
 import com.example.demo.repository.SymptomPartRepository;
 import com.example.demo.repository.SymptomRepository;
+import com.vaadin.flow.data.binder.Binder;
 import jakarta.el.PropertyNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -24,7 +25,7 @@ import java.util.Optional;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class PartService {
+public class PartService implements EntityService<Part,PartDTO> {
 
     private final PartRepository partRepository;
 
@@ -36,14 +37,8 @@ public class PartService {
 
     private final SymptomMapper symptomMapper;
 
-    public void savePart(PartDTO partDTO) {
-        log.info("{} was accepted", partDTO);
-        Part part = new Part();
-        part.setName(partDTO.getName());
-        partRepository.save(part);
-        log.info("{} was saved", part.getName());
+    Binder<PartDTO> binder = new Binder<>(PartDTO.class);
 
-    }
 
     @Transactional
     public SymptomPart createRelation(Long partId, Long symptomId) {
@@ -69,12 +64,56 @@ public class PartService {
     }
 
 
+    @Override
+    public Class<PartDTO> getDTOClass() {
+        return PartDTO.class;
+    }
+
+    @Override
+    public Binder<PartDTO> getBinder() {
+        return this.binder;
+    }
+
+    @Override
+    public Class<Part> getEntityClass() {
+        return Part.class;
+    }
+
+    @Override
+    public void save(PartDTO dto) {
+        log.info("{} was accepted", dto);
+        Part part = new Part();
+        part.setName(dto.getName());
+        partRepository.save(part);
+        log.info("{} was saved", part.getName());
+
+    }
+
     public List<PartDTO> findAll() {
         return partMapper.toDto(partRepository.findAll());
     }
 
     public void delete(Long id) {
         partRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteAll(List<PartDTO> dtos) {
+        dtos.forEach(e -> partRepository.deleteById(e.getId()));
+    }
+
+    @Override
+    public String getEntityName() {
+        return "Part";
+    }
+
+    @Override
+    public Part findById(Long id) {
+        Optional<Part> optional = partRepository.findById(id);
+        if(optional.isEmpty()){
+            throw  new IllegalArgumentException("ID :" + id + " was not found.");
+        }
+        return optional.get();
     }
 
     @Transactional

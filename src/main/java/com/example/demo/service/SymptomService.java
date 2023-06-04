@@ -1,8 +1,10 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.OrganDTO;
+import com.example.demo.dto.PartDTO;
 import com.example.demo.dto.SymptomDTO;
 import com.example.demo.entity.OrganSymptom;
+import com.example.demo.entity.Part;
 import com.example.demo.entity.Symptom;
 import com.example.demo.mapper.SymptomMapper;
 import com.example.demo.repository.OrganSymptomRepository;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -86,6 +89,23 @@ public class SymptomService implements EntityService<Symptom, SymptomDTO> {
     @Override
     public String getEntityName() {
         return "Symptom";
+    }
+
+    @Override
+    public Symptom findById(Long id) {
+        Optional<Symptom> optional = symptomRepository.findById(id);
+        if(optional.isEmpty()){
+            throw  new IllegalArgumentException("ID :" + id + " was not found.");
+        }
+        return optional.get();
+    }
+
+    List<SymptomDTO> findSymptomsNotMappedToOrgan(OrganDTO organDTO){
+        return  symptomMapper.toDto(symptomRepository.findSymptomsNotMappedToOrgan(organDTO.getId()));
+    }
+
+    List<SymptomDTO> findSymptomsNotMappedToPart(PartDTO partDTO){
+        return  symptomMapper.toDto(symptomRepository.findSymptomsNotMappedToPart(partDTO.getId()));
     }
 
 
