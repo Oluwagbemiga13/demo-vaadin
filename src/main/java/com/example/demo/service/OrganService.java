@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.OrganDTO;
+import com.example.demo.dto.SymptomDTO;
 import com.example.demo.entity.Organ;
 import com.example.demo.mapper.OrganMapper;
 import com.example.demo.repository.OrganRepository;
@@ -73,11 +74,16 @@ public class OrganService implements EntityService<Organ, OrganDTO> {
     public void deleteAll(List dtos) {
     }
 
-    Organ findById(Long id){
+    @Override
+    public Organ findById(Long id){
         Optional<Organ> optional = organRepository.findById(id);
         if (optional.isPresent()){
             return optional.get();
         }
         else throw new IllegalArgumentException("Organ with " + id + "was not found.");
+    }
+
+    List<OrganDTO> findOrgansNotMappedToSymptom(SymptomDTO symptomDTO){
+        return organMapper.toDto(organRepository.findOrgansNotMappedToSymptom(symptomDTO.getId()));
     }
 }

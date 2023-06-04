@@ -12,7 +12,7 @@ public class ComboBoxManager {
     public ComboBox<DTO> getComboBox(EntityService entityService){
         ComboBox <DTO> comboBox = new ComboBox<>("Select an "+ entityService.getEntityName());
         comboBox.setWidth("510px");
-        comboBox.setItems(entityService.findAll());
+       // comboBox.setItems(entityService.findAll());
         comboBox.setItemLabelGenerator(com.example.demo.dto.DTO::getName);
         comboBox.setItems(entityService.findAll());
         return comboBox;

@@ -1,20 +1,19 @@
 package com.example.demo.ui.tool;
 
 import com.example.demo.dto.DTO;
+import com.example.demo.dto.OrganDTO;
+import com.example.demo.service.OrganService;
 import com.example.demo.service.OrganSymptomService;
+import com.example.demo.service.SymptomService;
 import com.example.demo.ui.dialogs.EntityCreationDialog;
 import com.example.demo.ui.pages.ManageOrgans;
 import com.example.demo.ui.pages.ManageParts;
 import com.example.demo.ui.pages.ManageSymptoms;
-import com.example.demo.dto.OrganDTO;
-import com.example.demo.service.OrganService;
-import com.example.demo.service.SymptomService;
 import com.example.demo.ui.pages.WelcomeComponent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
@@ -51,7 +50,7 @@ public class TestComponent extends VerticalLayout {
 
 
     @PostConstruct
-    public void init(){
+    public void init() {
 
         //add(initMenu());
 
@@ -65,42 +64,38 @@ public class TestComponent extends VerticalLayout {
 
         //add(initGrid_4());
 
-        add(initGrid_8());
-        
+        add(initGrid_7());
+
         setAlignSelf(Alignment.CENTER);
         setAlignItems(Alignment.CENTER);
 
 
-
-
-
-
     }
 
-    public VerticalLayout initMenu(){
+    public VerticalLayout initMenu() {
         Button manageSymptoms = buttonInitializer.createNavButton("Manage Symptoms", this, ManageSymptoms.class, MENU_BUTTON_WIDTH);
-        Button manageOrgans = buttonInitializer.createNavButton("Manage Organs",this, ManageOrgans.class, MENU_BUTTON_WIDTH);
-        Button manageBodyParts = buttonInitializer.createNavButton("Manage Body",this, ManageParts.class, MENU_BUTTON_WIDTH);
-        Button manageLogs = buttonInitializer.createNavButton("Manage Logs",this, TestComponent.class, MENU_BUTTON_WIDTH);
-        Button questionnaires = buttonInitializer.createNavButton("Questionnaires",this, TestComponent.class, MENU_BUTTON_WIDTH);
-        Button notes = buttonInitializer.createNavButton("Notes",this, TestComponent.class, MENU_BUTTON_WIDTH);
-        Button settings = buttonInitializer.createNavButton("Settings",this, TestComponent.class, MENU_BUTTON_WIDTH);
-        Button helpAndSupport = buttonInitializer.createNavButton("Help & Support",this, TestComponent.class, MENU_BUTTON_WIDTH);
-        Button about = buttonInitializer.createNavButton("About",this, TestComponent.class, MENU_BUTTON_WIDTH);
+        Button manageOrgans = buttonInitializer.createNavButton("Manage Organs", this, ManageOrgans.class, MENU_BUTTON_WIDTH);
+        Button manageBodyParts = buttonInitializer.createNavButton("Manage Body", this, ManageParts.class, MENU_BUTTON_WIDTH);
+        Button manageLogs = buttonInitializer.createNavButton("Manage Logs", this, TestComponent.class, MENU_BUTTON_WIDTH);
+        Button questionnaires = buttonInitializer.createNavButton("Questionnaires", this, TestComponent.class, MENU_BUTTON_WIDTH);
+        Button notes = buttonInitializer.createNavButton("Notes", this, TestComponent.class, MENU_BUTTON_WIDTH);
+        Button settings = buttonInitializer.createNavButton("Settings", this, TestComponent.class, MENU_BUTTON_WIDTH);
+        Button helpAndSupport = buttonInitializer.createNavButton("Help & Support", this, TestComponent.class, MENU_BUTTON_WIDTH);
+        Button about = buttonInitializer.createNavButton("About", this, TestComponent.class, MENU_BUTTON_WIDTH);
 
         List<Component> buttons = Arrays.asList(manageSymptoms, manageOrgans, manageBodyParts, manageLogs, questionnaires, notes, settings, helpAndSupport, about);
 
         return menuInitializer.createVerticalMenu(buttons);
     }
 
-    public Grid<OrganDTO> initGrid(){
+    public Grid<OrganDTO> initGrid() {
         return gridManager.createLonelyGrid(organService, new String[]{"name"});
     }
 
 
-    public Button initButton(){
+    public Button initButton() {
 
-       Runnable action = () -> {
+        Runnable action = () -> {
             EntityCreationDialog entityCreationDialog = new EntityCreationDialog(symptomService);
             entityCreationDialog.open();
             entityCreationDialog.addOpenedChangeListener(event -> {
@@ -108,25 +103,25 @@ public class TestComponent extends VerticalLayout {
                 }
             });
         };
-        return buttonInitializer.createActButton("123",action, "120px");
+        return buttonInitializer.createActButton("123", action, "120px");
     }
 
-    public VerticalLayout initGrid_2(){
+    public VerticalLayout initGrid_2() {
 
         return gridManager.createGrid_CreateButton(new String[]{"name"}, organService);
     }
 
-    public VerticalLayout initGrid_3(){
+    public VerticalLayout initGrid_3() {
 
         return gridManager.createGrid_CreateButton(new String[]{"name"}, symptomService);
     }
 
-    public HorizontalLayout initGrid_4(){
+    public HorizontalLayout initGrid_4() {
         return componentBuilder.simple_entity_grid_options(symptomService, this, WelcomeComponent.class);
     }
 
-    public HorizontalLayout initGrid_5(){
-        ComboBox<DTO> combo  = comboBoxManager.getComboBox(organService);
+    public HorizontalLayout initGrid_5() {
+        ComboBox<DTO> combo = comboBoxManager.getComboBox(organService);
         Grid<DTO> freeEntitiesGrid = new Grid<>(DTO.class);
         Grid<DTO> attachedEntities = new Grid<>(DTO.class);
         return new HorizontalLayout(combo, componentBuilder.create_attached_entities_option(organSymptomService, organService, combo, attachedEntities, freeEntitiesGrid, "200%"),
@@ -134,35 +129,23 @@ public class TestComponent extends VerticalLayout {
 
     }
 
-    public VerticalLayout initGrid_6(){
-        ComboBox<DTO> combo  = comboBoxManager.getComboBox(organService);
+    public VerticalLayout initGrid_6() {
+        ComboBox<DTO> combo = comboBoxManager.getComboBox(organService);
         Grid<DTO> freeEntitiesGrid = new Grid<>(DTO.class);
         Grid<DTO> attachedEntities = new Grid<>(DTO.class);
-        VerticalLayout layout = new VerticalLayout(combo,componentBuilder.create_managing_relation_layout(organSymptomService,organService,combo,
-                freeEntitiesGrid,attachedEntities, "150%"));
+        VerticalLayout layout = new VerticalLayout(combo, componentBuilder.create_managing_relation_layout(organSymptomService, organService, combo,
+                freeEntitiesGrid, attachedEntities, "150%"));
         layout.setAlignItems(Alignment.CENTER);
         layout.setAlignSelf(Alignment.CENTER);
         return layout;
     }
 
-    public VerticalLayout initGrid_7(){
-        ComboBox<DTO> combo  = comboBoxManager.getComboBox(organService);
+    public VerticalLayout initGrid_7() {
+        ComboBox<DTO> combo = comboBoxManager.getComboBox(organService);
         Grid<DTO> freeEntitiesGrid = new Grid<>(DTO.class);
         Grid<DTO> attachedEntities = new Grid<>(DTO.class);
-        VerticalLayout layout = new VerticalLayout(combo,componentBuilder.create_managing_relation_layout(organSymptomService,organService,combo,
-                freeEntitiesGrid,attachedEntities, "100%"));
-        layout.setAlignItems(Alignment.CENTER);
-        layout.setAlignSelf(Alignment.CENTER);
-        layout.setSpacing(true);
-        layout.setMargin(true);
-        return layout;
-    }
-    public VerticalLayout initGrid_8(){
-        ComboBox<DTO> combo  = comboBoxManager.getComboBox(symptomService);
-        Grid<DTO> freeEntitiesGrid = new Grid<>(DTO.class);
-        Grid<DTO> attachedEntities = new Grid<>(DTO.class);
-        VerticalLayout layout = new VerticalLayout(combo,componentBuilder.create_managing_relation_layout(organSymptomService,symptomService,combo,
-                freeEntitiesGrid,attachedEntities, "100%"));
+        VerticalLayout layout = new VerticalLayout(combo, componentBuilder.create_managing_relation_layout(organSymptomService, organService, combo,
+                freeEntitiesGrid, attachedEntities, "100%"));
         layout.setAlignItems(Alignment.CENTER);
         layout.setAlignSelf(Alignment.CENTER);
         layout.setSpacing(true);
@@ -170,10 +153,45 @@ public class TestComponent extends VerticalLayout {
         return layout;
     }
 
-//    public VerticalLayout initGrid_9(){
-//
-//    }
+    public VerticalLayout initGrid_8() {
+        ComboBox<DTO> combo = comboBoxManager.getComboBox(symptomService);
+        Grid<DTO> freeEntitiesGrid = new Grid<>(DTO.class);
+        Grid<DTO> attachedEntities = new Grid<>(DTO.class);
+        VerticalLayout layout = new VerticalLayout(combo, componentBuilder.create_managing_relation_layout(organSymptomService, symptomService, combo,
+                freeEntitiesGrid, attachedEntities, "100%"));
+        layout.setAlignItems(Alignment.CENTER);
+        layout.setAlignSelf(Alignment.CENTER);
+        layout.setSpacing(true);
+        layout.setMargin(true);
+        return layout;
+    }
 
+    public VerticalLayout initGrid_9() {
+        ComboBox<DTO> combo = comboBoxManager.getComboBox(organService);
+        Grid<DTO> freeEntitiesGrid = new Grid<>(DTO.class);
+        Grid<DTO> attachedEntities = new Grid<>(DTO.class);
+        VerticalLayout layout = new VerticalLayout(combo, componentBuilder.create_managing_relation_layout(organSymptomService, organService, combo,
+                freeEntitiesGrid, attachedEntities, "100%"));
+        layout.setAlignItems(Alignment.CENTER);
+        layout.setAlignSelf(Alignment.CENTER);
+        layout.setSpacing(true);
+        layout.setMargin(true);
+        return layout;
+    }
+
+    public VerticalLayout initGrid_10() {
+        ComboBox<DTO> combo = comboBoxManager.getComboBox(organService);
+        Grid<DTO> freeEntitiesGrid = new Grid<>(DTO.class);
+        Grid<DTO> attachedEntities = new Grid<>(DTO.class);
+        VerticalLayout layout = new VerticalLayout(combo, componentBuilder.create_managing_relation_layout(organSymptomService, organService, combo,
+                freeEntitiesGrid, attachedEntities, "100%"), componentBuilder.create_managing_relation_layout(organSymptomService, organService, combo,
+                freeEntitiesGrid, attachedEntities, "100%"));
+        layout.setAlignItems(Alignment.CENTER);
+        layout.setAlignSelf(Alignment.CENTER);
+        layout.setSpacing(true);
+        layout.setMargin(true);
+        return layout;
+    }
 
 
 }

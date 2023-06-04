@@ -95,7 +95,7 @@ public class DummyDataCreator {
         partRepository.saveAll(parts);
 
         // Generate organSymptoms
-        LongStream.range(1L, 10)
+        LongStream.range(1, 10)
                 .forEach(l -> {
                     organSymptomService.createRelation(l, l);
                     log.info("Created relation " + l + ":" + l);
