@@ -4,8 +4,12 @@ import com.example.demo.dto.OrganDTO;
 import com.example.demo.dto.PartDTO;
 import com.example.demo.entity.PartOrgan;
 import com.example.demo.mapper.GenericMapper;
+import com.example.demo.mapper.OrganMapper;
+import com.example.demo.mapper.PartMapper;
+import com.example.demo.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +18,25 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class PartOrganService implements JoinService<PartOrgan, PartDTO, OrganDTO> {
+
+    @Autowired
+    private PartOrganRepository partOrganRepository;
+
+    @Autowired
+    private OrganRepository organRepository;
+
+    @Autowired
+    private PartRepository partRepository;
+
+    private final PartService partService;
+
+    private final OrganService organService;
+
+    @Autowired
+    private PartMapper partMapper;
+
+    @Autowired
+    private OrganMapper organMapper;
 
 
     @Override
@@ -48,7 +71,7 @@ public class PartOrganService implements JoinService<PartOrgan, PartDTO, OrganDT
 
     @Override
     public GenericMapper getFirstMapper() {
-        return null;
+        return partMapper;
     }
 
     @Override

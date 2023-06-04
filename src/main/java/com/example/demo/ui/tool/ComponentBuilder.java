@@ -131,7 +131,9 @@ public class ComponentBuilder {
             else throw new IllegalArgumentException("Something was not selected.");
         }, MENU_BUTTON_WIGHT);
 
-        VerticalLayout attachedLayout = new VerticalLayout(attachedEntities,removeButton);
+        Html attachedGridLabel = new Html("<div style='font-weight: bold; font-size: 25px; color: gray;'>Attached</div>");
+
+        VerticalLayout attachedLayout = new VerticalLayout(attachedGridLabel,attachedEntities,removeButton);
         attachedLayout.setSpacing(true);
         attachedLayout.setMargin(true);
 
@@ -175,7 +177,9 @@ public class ComponentBuilder {
             else throw new IllegalArgumentException("Something was not selected.");
         }, MENU_BUTTON_WIGHT);
 
-        VerticalLayout freeLayout = new VerticalLayout(freeEntities,addButton);
+        Html freeGridLabel = new Html("<div style='font-weight: bold; font-size: 25px; color: gray;'>Free</div>");
+
+        VerticalLayout freeLayout = new VerticalLayout(freeGridLabel,freeEntities,addButton);
         freeLayout.setSpacing(true);
         freeLayout.setMargin(true);
 

@@ -13,5 +13,7 @@ public interface OrganRepository extends JpaRepository<Organ, Long> {
     @Query("SELECT o FROM Organ o WHERE o.id NOT IN (SELECT os.organ.id FROM OrganSymptom os WHERE os.symptom.id = :symptomId)")
     List<Organ> findOrgansNotMappedToSymptom(@Param("symptomId") Long symptomId);
 
+    @Query("SELECT o FROM Organ o WHERE o.id NOT IN (SELECT po.organ.id FROM PartOrgan po WHERE po.part.id = :selectedPartId)")
+    List<Organ> findOrgansNotMappedToPart(@Param("selectedPartId") Long selectedPartId);
 
 }
