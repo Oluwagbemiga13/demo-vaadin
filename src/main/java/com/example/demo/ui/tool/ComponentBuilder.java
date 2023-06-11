@@ -102,7 +102,7 @@ public class ComponentBuilder {
 
 
 
-    public VerticalLayout create_attached_entities_option(JoinService joinService, EntityService entityService, ComboBox comboBox,
+    public VerticalLayout create_attached_entities_option(JoinService joinService, int dtoIndex, EntityService entityService, ComboBox comboBox,
                                                             Grid<DTO> attachedEntities, Grid<DTO> freeEntities, String gridSize){
 
         attachedEntities.setWidth(gridSize);
@@ -113,8 +113,19 @@ public class ComponentBuilder {
             selectedDTO.set(selectedEntity);
 
             if (selectedEntity != null) {
-                attachedEntities.setItems(joinService.findSecondNotMappedToFirst(selectedEntity));
-                //freeEntities.setItems(joinService.findSecondNotMappedToFirst(selectedEntity));
+                if(dtoIndex > 1) {
+                    throw new IllegalArgumentException("Dto index bigger than 1");
+                }
+                else {
+                    if (dtoIndex == 0) {
+                        attachedEntities.setItems(joinService.findSecondsByFirstId(selectedEntity.getId()));
+                        freeEntities.setItems(joinService.findSecondNotMappedToFirst(selectedEntity));
+                    }
+                    if (dtoIndex == 1) {
+                        attachedEntities.setItems(joinService.findFirstsBySecondId(selectedEntity.getId()));
+                        freeEntities.setItems(joinService.findFirstNotMappedToSecond(selectedEntity));
+                    }
+                }
 
             } else {
                 attachedEntities.setItems(Collections.emptyList());
@@ -125,8 +136,21 @@ public class ComponentBuilder {
             if(selectedDTO.get() != null && attachedEntities.asSingleSelect() != null){
                 joinService.deleteRelation(selectedDTO.get(), attachedEntities.asSingleSelect().getValue());
                 log.info(selectedDTO.get().getName() + " was removed from" + attachedEntities.asSingleSelect().getValue().getName());
-                gridManager.refreshGrid(attachedEntities, joinService.findSecondsByFirstId(selectedDTO.get().getId()));
-                gridManager.refreshGrid(freeEntities, joinService.findSecondNotMappedToFirst(selectedDTO.get()));
+                if(dtoIndex > 1){
+                    throw new IllegalArgumentException("Dto index bigger than 1");
+                }
+                else {
+                    if (dtoIndex == 0) {
+                        attachedEntities.setItems(joinService.findSecondsByFirstId(selectedDTO.get().getId()));
+                        freeEntities.setItems(joinService.findSecondNotMappedToFirst(selectedDTO.get()));
+                    }
+                    if (dtoIndex == 1) {
+                        attachedEntities.setItems(joinService.findFirstsBySecondId(selectedDTO.get().getId()));
+                        freeEntities.setItems(joinService.findFirstNotMappedToSecond(selectedDTO.get()));
+                    }
+                }
+                // gridManager.refreshGrid(attachedEntities, joinService.findSecondsByFirstId(selectedDTO.get().getId()));
+                // gridManager.refreshGrid(freeEntities, joinService.findSecondNotMappedToFirst(selectedDTO.get()));
             }
             else throw new IllegalArgumentException("Something was not selected.");
         }, MENU_BUTTON_WIGHT);
@@ -148,7 +172,7 @@ public class ComponentBuilder {
 
     }
 
-    public VerticalLayout create_free_entities_option(JoinService joinService, EntityService entityService, ComboBox comboBox, Grid<DTO> freeEntities,
+    public VerticalLayout create_free_entities_option(JoinService joinService, int dtoIndex, EntityService entityService, ComboBox comboBox, Grid<DTO> freeEntities,
                                                         Grid<DTO> attachedEntities, String gridSize){
 
         freeEntities.setWidth(gridSize);
@@ -159,8 +183,19 @@ public class ComponentBuilder {
             selectedDTO.set(selectedEntity);
 
             if (selectedEntity != null) {
-                freeEntities.setItems(joinService.findSecondNotMappedToFirst(selectedEntity));
-                attachedEntities.setItems(joinService.findSecondsByFirstId(selectedEntity.getId()));
+                if(dtoIndex > 1) {
+                    throw new IllegalArgumentException("Dto position bigger than 1");
+                }
+                else {
+                    if (dtoIndex == 0) {
+                        attachedEntities.setItems(joinService.findSecondsByFirstId(selectedEntity.getId()));
+                        freeEntities.setItems(joinService.findSecondNotMappedToFirst(selectedEntity));
+                    }
+                    if (dtoIndex == 1) {
+                        attachedEntities.setItems(joinService.findFirstsBySecondId(selectedEntity.getId()));
+                        freeEntities.setItems(joinService.findFirstNotMappedToSecond(selectedEntity));
+                    }
+                }
 
             } else {
                 freeEntities.setItems(Collections.emptyList());
@@ -171,8 +206,22 @@ public class ComponentBuilder {
             if(selectedDTO.get() != null && freeEntities.asSingleSelect() != null){
                 joinService.createRelation(selectedDTO.get().getId(), freeEntities.asSingleSelect().getValue().getId());
                 log.info(selectedDTO.get().getName() + " was connected to" + freeEntities.asSingleSelect().getValue().getName());
-                gridManager.refreshGrid(attachedEntities, joinService.findSecondsByFirstId(selectedDTO.get().getId()));
-                gridManager.refreshGrid(freeEntities, joinService.findSecondNotMappedToFirst(selectedDTO.get()));
+                if(dtoIndex > 1){
+                    throw new IllegalArgumentException("Dto index bigger than 1");
+                }
+                else {
+                    if (dtoIndex == 0) {
+                        attachedEntities.setItems(joinService.findSecondsByFirstId(selectedDTO.get().getId()));
+                        freeEntities.setItems(joinService.findSecondNotMappedToFirst(selectedDTO.get()));
+                    }
+                    if (dtoIndex == 1) {
+                        attachedEntities.setItems(joinService.findFirstsBySecondId(selectedDTO.get().getId()));
+                        freeEntities.setItems(joinService.findFirstNotMappedToSecond(selectedDTO.get()));
+                    }
+                }
+
+//                gridManager.refreshGrid(attachedEntities, joinService.findSecondsByFirstId(selectedDTO.get().getId()));
+//                gridManager.refreshGrid(freeEntities, joinService.findSecondNotMappedToFirst(selectedDTO.get()));
             }
             else throw new IllegalArgumentException("Something was not selected.");
         }, MENU_BUTTON_WIGHT);
@@ -194,10 +243,12 @@ public class ComponentBuilder {
         return layout;
     }
 
-    public HorizontalLayout create_managing_relation_layout(JoinService joinService, EntityService entityService, ComboBox comboBox,
+    public HorizontalLayout create_managing_relation_layout(JoinService joinService, int dtoIndex, EntityService entityService, ComboBox comboBox,
                                                             Grid<DTO> freeEntities, Grid<DTO> attachedEntities, String gridSize){
-        HorizontalLayout layout = new HorizontalLayout(create_attached_entities_option(joinService,entityService,comboBox,attachedEntities,freeEntities, gridSize),
-                create_free_entities_option(joinService,entityService,comboBox,freeEntities,attachedEntities, gridSize));
+        HorizontalLayout layout = new HorizontalLayout(
+                create_attached_entities_option(joinService,dtoIndex, entityService,comboBox,attachedEntities,freeEntities, gridSize),
+                create_free_entities_option(joinService, dtoIndex, entityService,comboBox,freeEntities,attachedEntities, gridSize)
+        );
 
         layout.setAlignSelf(FlexComponent.Alignment.CENTER);
         layout.setAlignItems(FlexComponent.Alignment.CENTER);

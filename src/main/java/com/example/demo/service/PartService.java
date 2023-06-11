@@ -63,6 +63,14 @@ public class PartService implements EntityService<Part,PartDTO> {
         return partMapper.toDto(partRepository.findPartsMappedToSymptom(symptomId));
     }
 
+    public List<PartDTO> findPartsNotMappedToOrgan(OrganDTO organDTO) {
+        return partMapper.toDto(partRepository.findPartsNotMappedToOrgan(organDTO.getId()));
+    }
+
+    public List<PartDTO> findAllPartsByOrganId(Long organId) {
+        return partMapper.toDto(partRepository.findPartsMappedToOrgan(organId));
+    }
+
 
     @Override
     public Class<PartDTO> getDTOClass() {

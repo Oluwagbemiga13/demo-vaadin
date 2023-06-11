@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.OrganDTO;
+import com.example.demo.dto.PartDTO;
 import com.example.demo.dto.SymptomDTO;
 import com.example.demo.entity.Organ;
 import com.example.demo.mapper.OrganMapper;
@@ -85,5 +86,9 @@ public class OrganService implements EntityService<Organ, OrganDTO> {
 
     List<OrganDTO> findOrgansNotMappedToSymptom(SymptomDTO symptomDTO){
         return organMapper.toDto(organRepository.findOrgansNotMappedToSymptom(symptomDTO.getId()));
+    }
+
+    List<OrganDTO> findOrgansNotMappedToPart(PartDTO partDTO){
+        return organMapper.toDto(organRepository.findOrgansNotMappedToPart(partDTO.getId()));
     }
 }

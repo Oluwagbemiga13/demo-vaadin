@@ -2,8 +2,10 @@ package com.example.demo.ui.tool;
 
 import com.example.demo.dto.DTO;
 import com.example.demo.dto.OrganDTO;
+import com.example.demo.entity.PartOrgan;
 import com.example.demo.service.OrganService;
 import com.example.demo.service.OrganSymptomService;
+import com.example.demo.service.PartOrganService;
 import com.example.demo.service.SymptomService;
 import com.example.demo.ui.dialogs.EntityCreationDialog;
 import com.example.demo.ui.pages.ManageOrgans;
@@ -44,6 +46,8 @@ public class TestComponent extends VerticalLayout {
 
     private final OrganSymptomService organSymptomService;
 
+    private final PartOrganService partOrganService;
+
     private final ComboBoxManager comboBoxManager;
 
     final String MENU_BUTTON_WIDTH = "200px";
@@ -64,7 +68,9 @@ public class TestComponent extends VerticalLayout {
 
         //add(initGrid_4());
 
-        add(initGrid_7());
+        //add(initGrid_7());
+
+        add(initGrid_10());
 
         setAlignSelf(Alignment.CENTER);
         setAlignItems(Alignment.CENTER);
@@ -124,8 +130,8 @@ public class TestComponent extends VerticalLayout {
         ComboBox<DTO> combo = comboBoxManager.getComboBox(organService);
         Grid<DTO> freeEntitiesGrid = new Grid<>(DTO.class);
         Grid<DTO> attachedEntities = new Grid<>(DTO.class);
-        return new HorizontalLayout(combo, componentBuilder.create_attached_entities_option(organSymptomService, organService, combo, attachedEntities, freeEntitiesGrid, "200%"),
-                componentBuilder.create_free_entities_option(organSymptomService, organService, combo, freeEntitiesGrid, attachedEntities, "200%"));
+        return new HorizontalLayout(combo, componentBuilder.create_attached_entities_option(organSymptomService, 1, organService, combo, attachedEntities, freeEntitiesGrid, "200%"),
+                componentBuilder.create_free_entities_option(organSymptomService,1, organService, combo, freeEntitiesGrid, attachedEntities, "200%"));
 
     }
 
@@ -133,7 +139,7 @@ public class TestComponent extends VerticalLayout {
         ComboBox<DTO> combo = comboBoxManager.getComboBox(organService);
         Grid<DTO> freeEntitiesGrid = new Grid<>(DTO.class);
         Grid<DTO> attachedEntities = new Grid<>(DTO.class);
-        VerticalLayout layout = new VerticalLayout(combo, componentBuilder.create_managing_relation_layout(organSymptomService, organService, combo,
+        VerticalLayout layout = new VerticalLayout(combo, componentBuilder.create_managing_relation_layout(organSymptomService,1, organService,combo,
                 freeEntitiesGrid, attachedEntities, "150%"));
         layout.setAlignItems(Alignment.CENTER);
         layout.setAlignSelf(Alignment.CENTER);
@@ -144,7 +150,7 @@ public class TestComponent extends VerticalLayout {
         ComboBox<DTO> combo = comboBoxManager.getComboBox(organService);
         Grid<DTO> freeEntitiesGrid = new Grid<>(DTO.class);
         Grid<DTO> attachedEntities = new Grid<>(DTO.class);
-        VerticalLayout layout = new VerticalLayout(combo, componentBuilder.create_managing_relation_layout(organSymptomService, organService, combo,
+        VerticalLayout layout = new VerticalLayout(combo, componentBuilder.create_managing_relation_layout(organSymptomService,1, organService, combo,
                 freeEntitiesGrid, attachedEntities, "100%"));
         layout.setAlignItems(Alignment.CENTER);
         layout.setAlignSelf(Alignment.CENTER);
@@ -157,7 +163,7 @@ public class TestComponent extends VerticalLayout {
         ComboBox<DTO> combo = comboBoxManager.getComboBox(symptomService);
         Grid<DTO> freeEntitiesGrid = new Grid<>(DTO.class);
         Grid<DTO> attachedEntities = new Grid<>(DTO.class);
-        VerticalLayout layout = new VerticalLayout(combo, componentBuilder.create_managing_relation_layout(organSymptomService, symptomService, combo,
+        VerticalLayout layout = new VerticalLayout(combo, componentBuilder.create_managing_relation_layout(organSymptomService,1, symptomService, combo,
                 freeEntitiesGrid, attachedEntities, "100%"));
         layout.setAlignItems(Alignment.CENTER);
         layout.setAlignSelf(Alignment.CENTER);
@@ -170,7 +176,7 @@ public class TestComponent extends VerticalLayout {
         ComboBox<DTO> combo = comboBoxManager.getComboBox(organService);
         Grid<DTO> freeEntitiesGrid = new Grid<>(DTO.class);
         Grid<DTO> attachedEntities = new Grid<>(DTO.class);
-        VerticalLayout layout = new VerticalLayout(combo, componentBuilder.create_managing_relation_layout(organSymptomService, organService, combo,
+        VerticalLayout layout = new VerticalLayout(combo, componentBuilder.create_managing_relation_layout(organSymptomService,1, organService, combo,
                 freeEntitiesGrid, attachedEntities, "100%"));
         layout.setAlignItems(Alignment.CENTER);
         layout.setAlignSelf(Alignment.CENTER);
@@ -183,9 +189,14 @@ public class TestComponent extends VerticalLayout {
         ComboBox<DTO> combo = comboBoxManager.getComboBox(organService);
         Grid<DTO> freeEntitiesGrid = new Grid<>(DTO.class);
         Grid<DTO> attachedEntities = new Grid<>(DTO.class);
-        VerticalLayout layout = new VerticalLayout(combo, componentBuilder.create_managing_relation_layout(organSymptomService, organService, combo,
-                freeEntitiesGrid, attachedEntities, "100%"), componentBuilder.create_managing_relation_layout(organSymptomService, organService, combo,
-                freeEntitiesGrid, attachedEntities, "100%"));
+        Grid<DTO> freeEntitiesGrid_2 = new Grid<>(DTO.class);
+        Grid<DTO> attachedEntities_2 = new Grid<>(DTO.class);
+        VerticalLayout layout = new VerticalLayout(combo,
+                componentBuilder.create_managing_relation_layout(partOrganService,1, organService, combo,
+                        freeEntitiesGrid_2, attachedEntities_2, "100%"),
+                componentBuilder.create_managing_relation_layout(organSymptomService,0, organService, combo,
+                        freeEntitiesGrid, attachedEntities, "100%"));
+
         layout.setAlignItems(Alignment.CENTER);
         layout.setAlignSelf(Alignment.CENTER);
         layout.setSpacing(true);
