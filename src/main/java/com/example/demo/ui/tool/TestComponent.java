@@ -3,10 +3,7 @@ package com.example.demo.ui.tool;
 import com.example.demo.dto.DTO;
 import com.example.demo.dto.OrganDTO;
 import com.example.demo.entity.PartOrgan;
-import com.example.demo.service.OrganService;
-import com.example.demo.service.OrganSymptomService;
-import com.example.demo.service.PartOrganService;
-import com.example.demo.service.SymptomService;
+import com.example.demo.service.*;
 import com.example.demo.ui.dialogs.EntityCreationDialog;
 import com.example.demo.ui.pages.ManageOrgans;
 import com.example.demo.ui.pages.ManageParts;
@@ -49,6 +46,8 @@ public class TestComponent extends VerticalLayout {
     private final PartOrganService partOrganService;
 
     private final ComboBoxManager comboBoxManager;
+
+    private final PartService partService;
 
     final String MENU_BUTTON_WIDTH = "200px";
 
@@ -192,9 +191,9 @@ public class TestComponent extends VerticalLayout {
         Grid<DTO> freeEntitiesGrid_2 = new Grid<>(DTO.class);
         Grid<DTO> attachedEntities_2 = new Grid<>(DTO.class);
         VerticalLayout layout = new VerticalLayout(combo,
-                componentBuilder.create_managing_relation_layout(partOrganService,1, organService, combo,
+                componentBuilder.create_managing_relation_layout(partOrganService,1, partService, combo,
                         freeEntitiesGrid_2, attachedEntities_2, "100%"),
-                componentBuilder.create_managing_relation_layout(organSymptomService,0, organService, combo,
+                componentBuilder.create_managing_relation_layout(organSymptomService,0, symptomService, combo,
                         freeEntitiesGrid, attachedEntities, "100%"));
 
         layout.setAlignItems(Alignment.CENTER);

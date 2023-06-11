@@ -243,20 +243,30 @@ public class ComponentBuilder {
         return layout;
     }
 
-    public HorizontalLayout create_managing_relation_layout(JoinService joinService, int dtoIndex, EntityService entityService, ComboBox comboBox,
+    public VerticalLayout create_managing_relation_layout(JoinService joinService, int dtoIndex, EntityService entityService, ComboBox comboBox,
                                                             Grid<DTO> freeEntities, Grid<DTO> attachedEntities, String gridSize){
-        HorizontalLayout layout = new HorizontalLayout(
+
+        String html = "<div style='font-weight: bold; font-size: 25px;'>" + entityService.getEntityName() + "s</div>";
+        Html label = new Html(html);
+
+        HorizontalLayout gridLayout = new HorizontalLayout(
                 create_attached_entities_option(joinService,dtoIndex, entityService,comboBox,attachedEntities,freeEntities, gridSize),
                 create_free_entities_option(joinService, dtoIndex, entityService,comboBox,freeEntities,attachedEntities, gridSize)
         );
 
+        gridLayout.setAlignSelf(FlexComponent.Alignment.CENTER);
+        gridLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+        gridLayout.setWidth(gridSize);
+
+        VerticalLayout layout = new VerticalLayout(label,gridLayout);
         layout.setAlignSelf(FlexComponent.Alignment.CENTER);
         layout.setAlignItems(FlexComponent.Alignment.CENTER);
-        layout.setWidth(gridSize);
+
+//        HorizontalLayout finalLayout = new HorizontalLayout(layout);
 
 
-        layout.setSpacing(true);
-        layout.setMargin(true);
+        gridLayout.setSpacing(false);
+        gridLayout.setMargin(false);
         return layout;
 
     }
