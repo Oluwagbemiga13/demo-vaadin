@@ -9,6 +9,7 @@ import com.example.demo.repository.OrganRepository;
 import com.vaadin.flow.data.binder.Binder;
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -73,6 +74,7 @@ public class OrganService implements EntityService<Organ, OrganDTO> {
 
     @Override
     public void deleteAll(List dtos) {
+        throw new NotImplementedException("NOT IMPLEMENTED");
     }
 
     @Override

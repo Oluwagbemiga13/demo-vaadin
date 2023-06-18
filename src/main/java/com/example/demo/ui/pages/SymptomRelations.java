@@ -7,8 +7,10 @@ import com.example.demo.dto.SymptomDTO;
 import com.example.demo.entity.OrganSymptom;
 import com.example.demo.entity.SymptomPart;
 import com.example.demo.service.*;
+import com.example.demo.ui.tool.ButtonInitializer;
 import com.example.demo.ui.tool.ComboBoxManager;
 import com.example.demo.ui.tool.ComponentBuilder;
+import com.example.demo.ui.tool.MenuInitializer;
 import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -38,6 +40,10 @@ public class SymptomRelations extends VerticalLayout {
     private final PartOrganService partOrganService;
     private final ComboBoxManager comboBoxManager;
 
+    private final MenuInitializer menuInitializer;
+
+    private final ButtonInitializer buttonInitializer;
+
     private final ComponentBuilder componentBuilder;
 
     Html attachedLabel_1 = new Html("<div style='font-weight: bold; font-size: 25px; color: gray;'>Attached</div>");
@@ -58,13 +64,15 @@ public class SymptomRelations extends VerticalLayout {
     private String menuButtonsHeight = "75px";
     private String menuItemWidth = "250px";
 
-    public VerticalLayout initGrid_10() {
+    public VerticalLayout fillWithContent() {
+        Button backButton = buttonInitializer.createNavButton("Back", this, ManageSymptoms.class,menuItemWidth);
+
         ComboBox<DTO> combo = comboBoxManager.getComboBox(symptomService);
         Grid<DTO> freeEntitiesGrid = new Grid<>(DTO.class);
         Grid<DTO> attachedEntities = new Grid<>(DTO.class);
         Grid<DTO> freeEntitiesGrid_2 = new Grid<>(DTO.class);
         Grid<DTO> attachedEntities_2 = new Grid<>(DTO.class);
-        VerticalLayout layout = new VerticalLayout(combo,
+        VerticalLayout layout = new VerticalLayout(backButton, combo,
                 componentBuilder.create_managing_relation_layout(organSymptomService,1, organService, combo,
                         freeEntitiesGrid, attachedEntities, "100%"),
                 componentBuilder.create_managing_relation_layout(symptomPartService,0, partService, combo,
@@ -255,7 +263,7 @@ public class SymptomRelations extends VerticalLayout {
 //
 //        refreshGrids();
 
-        add(initGrid_10());
+        add(fillWithContent());
     }
 
     private void refreshGrids() {

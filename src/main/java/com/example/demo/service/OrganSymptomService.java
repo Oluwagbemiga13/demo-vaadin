@@ -56,11 +56,12 @@ public class OrganSymptomService implements JoinService<OrganSymptom, OrganDTO, 
     @Autowired
     private SymptomMapper symptomMapper;
 
-    @Transactional
+
     @Override
+    @Transactional
     public OrganSymptom createRelation(Long organId, Long symptomId) {
         Organ organ = organService.findById(organId);
-        Symptom symptom = symptomRepository.findById(symptomId).orElseThrow(() -> new EntityNotFoundException("Symptom not found with ID: " + symptomId));
+        Symptom symptom = symptomService.findById(symptomId);
 
         OrganSymptom organSymptom = new OrganSymptom();
         organSymptom.setOrgan(organ);
@@ -80,8 +81,8 @@ public class OrganSymptomService implements JoinService<OrganSymptom, OrganDTO, 
     }
 
     @Override
-    public List<OrganDTO> findFirstsBySecondId(Long secondId) {
-        return organMapper.toDto(organSymptomRepository.findAllBySymptomId(secondId).stream()
+    public List<OrganDTO> findFirstsBySecondId(Long symptomId) {
+        return organMapper.toDto(organSymptomRepository.findAllBySymptomId(symptomId).stream()
                 .map(OrganSymptom::getOrgan)
                 .toList());
     }
