@@ -10,7 +10,9 @@ import com.example.demo.entity.SymptomPart;
 import com.example.demo.mapper.GenericMapper;
 import com.example.demo.mapper.PartMapper;
 import com.example.demo.mapper.SymptomMapper;
+import com.example.demo.repository.PartRepository;
 import com.example.demo.repository.SymptomPartRepository;
+import com.example.demo.repository.SymptomRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +35,10 @@ public class SymptomPartService implements JoinService<SymptomPart, SymptomDTO, 
     private final SymptomMapper symptomMapper;
 
     private final PartMapper partMapper;
+
+    private final SymptomRepository symptomRepository;
+
+    private final PartRepository partRepository;
 
     @Override
     public SymptomPart createRelation(Long firstId, Long secondId) {
@@ -90,8 +96,10 @@ public class SymptomPartService implements JoinService<SymptomPart, SymptomDTO, 
             symptom.getParts().remove(symptomPart);
 
             // Update the parent entities
-            partService.save(partMapper.toDto(part));
-            symptomService.save(symptomMapper.toDto(symptom));
+            // TODO: Create method update in EntityService. This method will hande updating stuff.
+            //  That improves SOLID principles
+            partRepository.save(part);
+            symptomRepository.save(symptom);
 
             // Delete the SymptomPart entity
             symptomPartRepository.delete(symptomPart);

@@ -134,17 +134,20 @@ public class ComponentBuilder {
 
         Button removeButton = buttonInitializer.createActButton("Remove", () -> {
             if(selectedDTO.get() != null && attachedEntities.asSingleSelect() != null){
-                joinService.deleteRelation(selectedDTO.get(), attachedEntities.asSingleSelect().getValue());
+
                 log.info(selectedDTO.get().getName() + " was removed from" + attachedEntities.asSingleSelect().getValue().getName());
                 if(dtoIndex > 1){
                     throw new IllegalArgumentException("Dto index bigger than 1");
                 }
                 else {
                     if (dtoIndex == 0) {
+                        joinService.deleteRelation(selectedDTO.get(), attachedEntities.asSingleSelect().getValue());
                         attachedEntities.setItems(joinService.findSecondsByFirstId(selectedDTO.get().getId()));
                         freeEntities.setItems(joinService.findSecondNotMappedToFirst(selectedDTO.get()));
                     }
                     if (dtoIndex == 1) {
+                        joinService.deleteRelation(attachedEntities.asSingleSelect().getValue(),selectedDTO.get());
+
                         attachedEntities.setItems(joinService.findFirstsBySecondId(selectedDTO.get().getId()));
                         freeEntities.setItems(joinService.findFirstNotMappedToSecond(selectedDTO.get()));
                     }
