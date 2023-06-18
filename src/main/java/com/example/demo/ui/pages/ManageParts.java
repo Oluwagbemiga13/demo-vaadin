@@ -7,6 +7,7 @@ import com.example.demo.service.PartService;
 import com.example.demo.service.SymptomService;
 import com.example.demo.ui.dialogs.ConfirmationDialog;
 import com.example.demo.ui.dialogs.EntityCreationDialog;
+import com.example.demo.ui.tool.ComponentBuilder;
 import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
@@ -46,149 +47,155 @@ public class ManageParts extends VerticalLayout {
     private Button deleteSymptomButton;
     private Button deleteOrganButton;
 
+    private final ComponentBuilder componentBuilder;
+
 
     @PostConstruct
     private void init() {
-        partGrid = new Grid<>(PartDTO.class);
-        symptomGrid = new Grid<>(SymptomDTO.class);
 
-        partGrid.setVisible(true);
-
-        setMargin(false);
-        setPadding(false);
-
-        // Create the menu items
-
-        manageRelationsButton = new Button("Manage Relations", e -> getUI().ifPresent(ui -> ui.navigate(ManageOrganSymptoms.class)));
-        manageRelationsButton.setHeight(menuButtonsHeight);
-        manageRelationsButton.setWidth(menuItemWidth);
-
-        backButton = new Button("Back", e -> getUI().ifPresent(ui -> ui.navigate(WelcomeComponent.class)));
-        backButton.setHeight(menuButtonsHeight);
-        backButton.setWidth(menuItemWidth);
-
-        // Create a horizontal layout for the menu items
-        HorizontalLayout menuLayout = new HorizontalLayout(
-                manageRelationsButton,
-                backButton
-        );
-
-        menuLayout.setAlignItems(Alignment.CENTER);
-        menuLayout.setSpacing(true);
-        menuLayout.setMargin(false);
-        menuLayout.getElement().getStyle().set("margin-left", "auto");
-        menuLayout.getElement().getStyle().set("margin-right", "auto");
-
-        // Set the alignment of the menuLayout to the top of the component
-        setAlignSelf(Alignment.START, menuLayout);
-
-        // Add the menu layout to the top of the component
-        add(menuLayout);
-
-        Html organLabel = new Html("<div style='font-weight: bold; font-size: 25px;'>Organs</div>");
-        Html symptomLabel = new Html("<div style='font-weight: bold; font-size: 25px;'>Symptoms</div>");
+        add(componentBuilder.simple_entity_grid_options(organService, this, WelcomeComponent.class, PartRelations.class));
 
 
-        partGrid.setColumns("name"); // Adjust the column names according to your Organ entity
-        symptomGrid.setColumns("name"); // Adjust the column names according to your Symptom entity
-
-        partGrid.setWidth("100%");
-        symptomGrid.setWidth("100%");
-
-        createOrganButton = new Button("Create new Organ", e -> {
-            CreateOrganDialog createOrganDialog = new CreateOrganDialog(organService);
-            createOrganDialog.open();
-            createOrganDialog.addOpenedChangeListener(event -> {
-                if (!event.isOpened()) {
-                    refreshGrids();
-                }
-            });
-        });
-        createOrganButton.setWidth(editButtonsWidth);
-
-        deleteOrganButton = new Button("Delete selected Organ", e -> {
-            PartDTO selectedOrgan = partGrid.asSingleSelect().getValue();
-            if (selectedOrgan != null) {
-                ConfirmationDialog confirmationDialog = new ConfirmationDialog("Are you sure you want to delete this Organ?", () -> {
-                    organService.delete(selectedOrgan.getId());
-                    Notification.show("Organ deleted successfully.");
-                    refreshGrids();
-                    partGrid.asSingleSelect().clear();
-                });
-                confirmationDialog.open();
-            }
-        });
-
-        deleteOrganButton.setWidth(editButtonsWidth);
-
-        createSymptomButton = new Button("Create Symptom", e -> {
-            EntityCreationDialog entityCreationDialog = new EntityCreationDialog(symptomService);
-            entityCreationDialog.open();
-            entityCreationDialog.addOpenedChangeListener(event -> {
-                if (!event.isOpened()) {
-                    refreshGrids();
-                }
-            });
-        });
-        createSymptomButton.setWidth(editButtonsWidth);
-
-
-        deleteSymptomButton = new Button("Delete selected Symptom", e -> {
-            SymptomDTO selectedSymptom = symptomGrid.asSingleSelect().getValue();
-            if (selectedSymptom != null) {
-                ConfirmationDialog confirmationDialog = new ConfirmationDialog("Are you sure you want to delete this Symptom?", () -> {
-                    symptomService.delete(selectedSymptom.getId());
-                    Notification.show("Symptom deleted successfully.");
-                    refreshGrids();
-                    symptomGrid.asSingleSelect().clear();
-                });
-                confirmationDialog.open();
-            }
-        });
-
-        deleteSymptomButton.setWidth(editButtonsWidth);
-
-
-        VerticalLayout organLayout = new VerticalLayout(organLabel, partGrid, createOrganButton, deleteOrganButton);
-        organLayout.setAlignItems(Alignment.CENTER);
-
-        VerticalLayout symptomLayout = new VerticalLayout(symptomLabel, symptomGrid, createSymptomButton, deleteSymptomButton);
-        symptomLayout.setAlignItems(Alignment.CENTER);
-
-
-        HorizontalLayout gridsLayout = new HorizontalLayout(organLayout, symptomLayout);
-        gridsLayout.setWidth("80%");
-        gridsLayout.setAlignItems(Alignment.CENTER);
-        gridsLayout.setSpacing(true);
-        gridsLayout.setMargin(false);
-
-        // Add the grids layout to the component
-        add(gridsLayout);
-
-        // Set the alignment of the deleteButtonsLayout to the top of the component
-        setAlignSelf(Alignment.CENTER, menuLayout, gridsLayout);
-
-        // Add the delete buttons layout to the top of the component
-        //add(deleteButtonsLayout);
-
-        refreshGrids();
-
-    }
-
-
-    private void refreshGrids() {
-        List<PartDTO> organs = partService.findAll();
-        List<SymptomDTO> symptoms = symptomService.findAll();
-
-        log.info("Fetched Organs: {}", organs);
-        log.info("Fetched Symptoms: {}", symptoms);
-
-        partGrid.setItems(organs);
-        symptomGrid.setItems(symptoms);
-
-
-        log.info("OrganGrid Items: {}", partGrid.getDataProvider().size(new Query<>()));
-        log.info("SymptomGrid Items: {}", symptomGrid.getDataProvider().size(new Query<>()));
+//        partGrid = new Grid<>(PartDTO.class);
+//        symptomGrid = new Grid<>(SymptomDTO.class);
+//
+//        partGrid.setVisible(true);
+//
+//        setMargin(false);
+//        setPadding(false);
+//
+//        // Create the menu items
+//
+//        manageRelationsButton = new Button("Manage Relations", e -> getUI().ifPresent(ui -> ui.navigate(OrganRelations.class)));
+//        manageRelationsButton.setHeight(menuButtonsHeight);
+//        manageRelationsButton.setWidth(menuItemWidth);
+//
+//        backButton = new Button("Back", e -> getUI().ifPresent(ui -> ui.navigate(WelcomeComponent.class)));
+//        backButton.setHeight(menuButtonsHeight);
+//        backButton.setWidth(menuItemWidth);
+//
+//        // Create a horizontal layout for the menu items
+//        HorizontalLayout menuLayout = new HorizontalLayout(
+//                manageRelationsButton,
+//                backButton
+//        );
+//
+//        menuLayout.setAlignItems(Alignment.CENTER);
+//        menuLayout.setSpacing(true);
+//        menuLayout.setMargin(false);
+//        menuLayout.getElement().getStyle().set("margin-left", "auto");
+//        menuLayout.getElement().getStyle().set("margin-right", "auto");
+//
+//        // Set the alignment of the menuLayout to the top of the component
+//        setAlignSelf(Alignment.START, menuLayout);
+//
+//        // Add the menu layout to the top of the component
+//        add(menuLayout);
+//
+//        Html organLabel = new Html("<div style='font-weight: bold; font-size: 25px;'>Organs</div>");
+//        Html symptomLabel = new Html("<div style='font-weight: bold; font-size: 25px;'>Symptoms</div>");
+//
+//
+//        partGrid.setColumns("name"); // Adjust the column names according to your Organ entity
+//        symptomGrid.setColumns("name"); // Adjust the column names according to your Symptom entity
+//
+//        partGrid.setWidth("100%");
+//        symptomGrid.setWidth("100%");
+//
+//        createOrganButton = new Button("Create new Organ", e -> {
+//            CreateOrganDialog createOrganDialog = new CreateOrganDialog(organService);
+//            createOrganDialog.open();
+//            createOrganDialog.addOpenedChangeListener(event -> {
+//                if (!event.isOpened()) {
+//                    refreshGrids();
+//                }
+//            });
+//        });
+//        createOrganButton.setWidth(editButtonsWidth);
+//
+//        deleteOrganButton = new Button("Delete selected Organ", e -> {
+//            PartDTO selectedOrgan = partGrid.asSingleSelect().getValue();
+//            if (selectedOrgan != null) {
+//                ConfirmationDialog confirmationDialog = new ConfirmationDialog("Are you sure you want to delete this Organ?", () -> {
+//                    organService.delete(selectedOrgan.getId());
+//                    Notification.show("Organ deleted successfully.");
+//                    refreshGrids();
+//                    partGrid.asSingleSelect().clear();
+//                });
+//                confirmationDialog.open();
+//            }
+//        });
+//
+//        deleteOrganButton.setWidth(editButtonsWidth);
+//
+//        createSymptomButton = new Button("Create Symptom", e -> {
+//            EntityCreationDialog entityCreationDialog = new EntityCreationDialog(symptomService);
+//            entityCreationDialog.open();
+//            entityCreationDialog.addOpenedChangeListener(event -> {
+//                if (!event.isOpened()) {
+//                    refreshGrids();
+//                }
+//            });
+//        });
+//        createSymptomButton.setWidth(editButtonsWidth);
+//
+//
+//        deleteSymptomButton = new Button("Delete selected Symptom", e -> {
+//            SymptomDTO selectedSymptom = symptomGrid.asSingleSelect().getValue();
+//            if (selectedSymptom != null) {
+//                ConfirmationDialog confirmationDialog = new ConfirmationDialog("Are you sure you want to delete this Symptom?", () -> {
+//                    symptomService.delete(selectedSymptom.getId());
+//                    Notification.show("Symptom deleted successfully.");
+//                    refreshGrids();
+//                    symptomGrid.asSingleSelect().clear();
+//                });
+//                confirmationDialog.open();
+//            }
+//        });
+//
+//        deleteSymptomButton.setWidth(editButtonsWidth);
+//
+//
+//        VerticalLayout organLayout = new VerticalLayout(organLabel, partGrid, createOrganButton, deleteOrganButton);
+//        organLayout.setAlignItems(Alignment.CENTER);
+//
+//        VerticalLayout symptomLayout = new VerticalLayout(symptomLabel, symptomGrid, createSymptomButton, deleteSymptomButton);
+//        symptomLayout.setAlignItems(Alignment.CENTER);
+//
+//
+//        HorizontalLayout gridsLayout = new HorizontalLayout(organLayout, symptomLayout);
+//        gridsLayout.setWidth("80%");
+//        gridsLayout.setAlignItems(Alignment.CENTER);
+//        gridsLayout.setSpacing(true);
+//        gridsLayout.setMargin(false);
+//
+//        // Add the grids layout to the component
+//        add(gridsLayout);
+//
+//        // Set the alignment of the deleteButtonsLayout to the top of the component
+//        setAlignSelf(Alignment.CENTER, menuLayout, gridsLayout);
+//
+//        // Add the delete buttons layout to the top of the component
+//        //add(deleteButtonsLayout);
+//
+//        refreshGrids();
+//
+//    }
+//
+//
+//    private void refreshGrids() {
+//        List<PartDTO> organs = partService.findAll();
+//        List<SymptomDTO> symptoms = symptomService.findAll();
+//
+//        log.info("Fetched Organs: {}", organs);
+//        log.info("Fetched Symptoms: {}", symptoms);
+//
+//        partGrid.setItems(organs);
+//        symptomGrid.setItems(symptoms);
+//
+//
+//        log.info("OrganGrid Items: {}", partGrid.getDataProvider().size(new Query<>()));
+//        log.info("SymptomGrid Items: {}", symptomGrid.getDataProvider().size(new Query<>()));
     }
 
 }

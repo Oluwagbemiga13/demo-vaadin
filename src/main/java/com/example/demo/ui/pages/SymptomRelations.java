@@ -92,7 +92,7 @@ public class SymptomRelations extends VerticalLayout {
 //        setPadding(false);
 //
 //        Button manageOrganRelationsButton = new Button("Manage Organ Relations", e -> {
-//            getUI().ifPresent(ui -> ui.navigate(ManageOrganSymptoms.class));
+//            getUI().ifPresent(ui -> ui.navigate(OrganRelations.class));
 //        });
 //
 //        manageOrganRelationsButton.setWidth(menuItemWidth);
