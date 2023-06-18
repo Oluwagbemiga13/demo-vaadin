@@ -147,7 +147,6 @@ public class ComponentBuilder {
                     }
                     if (dtoIndex == 1) {
                         joinService.deleteRelation(attachedEntities.asSingleSelect().getValue(),selectedDTO.get());
-
                         attachedEntities.setItems(joinService.findFirstsBySecondId(selectedDTO.get().getId()));
                         freeEntities.setItems(joinService.findFirstNotMappedToSecond(selectedDTO.get()));
                     }
@@ -207,17 +206,19 @@ public class ComponentBuilder {
 
         Button addButton = buttonInitializer.createActButton("Add", () -> {
             if(selectedDTO.get() != null && freeEntities.asSingleSelect() != null){
-                joinService.createRelation(selectedDTO.get().getId(), freeEntities.asSingleSelect().getValue().getId());
+
                 log.info(selectedDTO.get().getName() + " was connected to" + freeEntities.asSingleSelect().getValue().getName());
                 if(dtoIndex > 1){
                     throw new IllegalArgumentException("Dto index bigger than 1");
                 }
                 else {
                     if (dtoIndex == 0) {
+                        joinService.createRelation(selectedDTO.get().getId(), freeEntities.asSingleSelect().getValue().getId());
                         attachedEntities.setItems(joinService.findSecondsByFirstId(selectedDTO.get().getId()));
                         freeEntities.setItems(joinService.findSecondNotMappedToFirst(selectedDTO.get()));
                     }
                     if (dtoIndex == 1) {
+                        joinService.createRelation(freeEntities.asSingleSelect().getValue().getId(), selectedDTO.get().getId());
                         attachedEntities.setItems(joinService.findFirstsBySecondId(selectedDTO.get().getId()));
                         freeEntities.setItems(joinService.findFirstNotMappedToSecond(selectedDTO.get()));
                     }
