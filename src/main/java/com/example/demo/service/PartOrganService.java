@@ -11,8 +11,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -40,6 +42,7 @@ public class PartOrganService implements JoinService<PartOrgan, PartDTO, OrganDT
 
 
     @Override
+    @Transactional
     public PartOrgan createRelation(Long organId, Long partId) {
         Organ organ = organService.findById(organId);
         Part part = partService.findById(partId);
@@ -80,8 +83,27 @@ public class PartOrganService implements JoinService<PartOrgan, PartDTO, OrganDT
 
     @Override
     public void deleteRelation(PartDTO partDTO, OrganDTO organDTO) {
-        PartOrgan partOrgan = partOrganRepository.findByPartIdAndOrganId(partDTO.getId(),organDTO.getId()).get();
-        partOrganRepository.delete(partOrgan);
+        Optional<PartOrgan> partOrganOptional = partOrganRepository.findByPartIdAndOrganId(partDTO.getId(),organDTO.getId());
+        //partOrganRepository.delete(partOrgan);
+
+        Optional<PartOrgan> organSymptomOptional = partOrganRepository.findByPartIdAndOrganId(partDTO.getId(), organDTO.getId());
+
+        if (partOrganOptional.isPresent()) {
+            PartOrgan partOrgan = organSymptomOptional.get();
+
+            // Remove the relationship from the parent entities
+            Organ organ = partOrgan.getOrgan();
+            Part part = partOrgan.getPart();
+            organ.getParts().remove(partOrgan);
+            part.getOrgans().remove(partOrgan);
+
+            // Update the parent entities
+            organRepository.save(organ);
+            partRepository.save(part);
+
+            // Delete the OrganSymptom entity
+            partOrganRepository.delete(partOrgan);
+        }
     }
 
     @Override
