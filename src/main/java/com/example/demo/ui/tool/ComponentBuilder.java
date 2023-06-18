@@ -42,37 +42,36 @@ public class ComponentBuilder {
 
     private String MENU_BUTTON_WIGHT = "300px";
 
-    public HorizontalLayout simple_entity_grid_options (EntityService entityService, com.vaadin.flow.component.Component currentUI, Class backDestination){
+    public HorizontalLayout simple_entity_grid_options(EntityService entityService, com.vaadin.flow.component.Component currentUI, Class backDestination, Class manageDestination) {
 
-        Html symptomLabel = labelManager.createLabel("bold", "25px", entityService.getEntityName()+"s");
+        Html symptomLabel = labelManager.createLabel("bold", "25px", entityService.getEntityName() + "s");
 
-        Grid<DTO> grid = gridManager.createLonelyGrid(entityService,new String[]{"name"});
+        Grid<DTO> grid = gridManager.createLonelyGrid(entityService, new String[]{"name"});
 
-        VerticalLayout gridLayout = new VerticalLayout(symptomLabel,grid);
+        VerticalLayout gridLayout = new VerticalLayout(symptomLabel, grid);
         gridLayout.setAlignItems(FlexComponent.Alignment.CENTER);
         gridLayout.setWidth("80%");
 
         String entityName = entityService.getEntityName();
 
-        Button createButton = buttonInitializer.createActButton("Create "+ entityName, () -> {
+        Button createButton = buttonInitializer.createActButton("Create " + entityName, () -> {
             EntityCreationDialog entityCreationDialog = dialogManager.createEntityDialog(entityService);
             entityCreationDialog.open();
             entityCreationDialog.addOpenedChangeListener(event -> {
                 if (!event.isOpened()) {
-                    gridManager.refreshGrid(grid,entityService);
+                    gridManager.refreshGrid(grid, entityService);
                 }
             });
         }, MENU_BUTTON_WIGHT);
 
 
-        Button deleteButton = buttonInitializer.createActButton("Delete "+entityName, () -> {
+        Button deleteButton = buttonInitializer.createActButton("Delete " + entityName, () -> {
             Optional<DTO> dtoOptional = grid.asSingleSelect().getOptionalValue();
-            if(dtoOptional.isPresent())
-            {
-                ConfirmationDialog confirmationDialog = dialogManager.createConfirmation("Do you want to delete "+ dtoOptional.get().getName(),
-                        () ->{
+            if (dtoOptional.isPresent()) {
+                ConfirmationDialog confirmationDialog = dialogManager.createConfirmation("Do you want to delete " + dtoOptional.get().getName(),
+                        () -> {
                             entityService.delete(dtoOptional.get().getId());
-                            gridManager.refreshGrid(grid,entityService);
+                            gridManager.refreshGrid(grid, entityService);
                             log.info("Deleted ", dtoOptional.get().getName());
                         });
                 confirmationDialog.open();
@@ -81,12 +80,14 @@ public class ComponentBuilder {
 
         Button backButton = buttonInitializer.createNavButton("Back", currentUI, backDestination, MENU_BUTTON_WIGHT);
 
+        Button manageButton = buttonInitializer.createNavButton("Manage relations",currentUI,manageDestination,MENU_BUTTON_WIGHT);
+
 //        gridLayout.add(deleteButton);
 
-        VerticalLayout menuLayout = menuInitializer.createVerticalMenu(List.of(createButton, deleteButton, backButton));
+        VerticalLayout menuLayout = menuInitializer.createVerticalMenu(List.of(createButton, deleteButton, backButton, manageButton));
         menuLayout.setAlignItems(FlexComponent.Alignment.START);
 
-        HorizontalLayout layout = new HorizontalLayout(gridLayout,menuLayout);
+        HorizontalLayout layout = new HorizontalLayout(gridLayout, menuLayout);
         //layout.setAlignItems(FlexComponent.Alignment.CENTER);
         //layout.setAlignSelf(FlexComponent.Alignment.CENTER,gridLayout,menuLayout);
 
@@ -100,10 +101,8 @@ public class ComponentBuilder {
     }
 
 
-
-
     public VerticalLayout create_attached_entities_option(JoinService joinService, int dtoIndex, EntityService entityService, ComboBox comboBox,
-                                                            Grid<DTO> attachedEntities, Grid<DTO> freeEntities, String gridSize){
+                                                          Grid<DTO> attachedEntities, Grid<DTO> freeEntities, String gridSize) {
 
         attachedEntities.setWidth(gridSize);
         AtomicReference<DTO> selectedDTO = new AtomicReference<>();
@@ -113,10 +112,9 @@ public class ComponentBuilder {
             selectedDTO.set(selectedEntity);
 
             if (selectedEntity != null) {
-                if(dtoIndex > 1) {
+                if (dtoIndex > 1) {
                     throw new IllegalArgumentException("Dto index bigger than 1");
-                }
-                else {
+                } else {
                     if (dtoIndex == 0) {
                         attachedEntities.setItems(joinService.findSecondsByFirstId(selectedEntity.getId()));
                         freeEntities.setItems(joinService.findSecondNotMappedToFirst(selectedEntity));
@@ -133,33 +131,31 @@ public class ComponentBuilder {
         });
 
         Button removeButton = buttonInitializer.createActButton("Remove", () -> {
-            if(selectedDTO.get() != null && attachedEntities.asSingleSelect() != null){
+            if (selectedDTO.get() != null && attachedEntities.asSingleSelect() != null) {
 
                 log.info(selectedDTO.get().getName() + " was removed from" + attachedEntities.asSingleSelect().getValue().getName());
-                if(dtoIndex > 1){
+                if (dtoIndex > 1) {
                     throw new IllegalArgumentException("Dto index bigger than 1");
-                }
-                else {
+                } else {
                     if (dtoIndex == 0) {
                         joinService.deleteRelation(selectedDTO.get(), attachedEntities.asSingleSelect().getValue());
                         attachedEntities.setItems(joinService.findSecondsByFirstId(selectedDTO.get().getId()));
                         freeEntities.setItems(joinService.findSecondNotMappedToFirst(selectedDTO.get()));
                     }
                     if (dtoIndex == 1) {
-                        joinService.deleteRelation(attachedEntities.asSingleSelect().getValue(),selectedDTO.get());
+                        joinService.deleteRelation(attachedEntities.asSingleSelect().getValue(), selectedDTO.get());
                         attachedEntities.setItems(joinService.findFirstsBySecondId(selectedDTO.get().getId()));
                         freeEntities.setItems(joinService.findFirstNotMappedToSecond(selectedDTO.get()));
                     }
                 }
                 // gridManager.refreshGrid(attachedEntities, joinService.findSecondsByFirstId(selectedDTO.get().getId()));
                 // gridManager.refreshGrid(freeEntities, joinService.findSecondNotMappedToFirst(selectedDTO.get()));
-            }
-            else throw new IllegalArgumentException("Something was not selected.");
+            } else throw new IllegalArgumentException("Something was not selected.");
         }, MENU_BUTTON_WIGHT);
 
         Html attachedGridLabel = new Html("<div style='font-weight: bold; font-size: 25px; color: gray;'>Attached</div>");
 
-        VerticalLayout attachedLayout = new VerticalLayout(attachedGridLabel,attachedEntities,removeButton);
+        VerticalLayout attachedLayout = new VerticalLayout(attachedGridLabel, attachedEntities, removeButton);
         attachedLayout.setSpacing(true);
         attachedLayout.setMargin(true);
 
@@ -175,7 +171,7 @@ public class ComponentBuilder {
     }
 
     public VerticalLayout create_free_entities_option(JoinService joinService, int dtoIndex, EntityService entityService, ComboBox comboBox, Grid<DTO> freeEntities,
-                                                        Grid<DTO> attachedEntities, String gridSize){
+                                                      Grid<DTO> attachedEntities, String gridSize) {
 
         freeEntities.setWidth(gridSize);
         AtomicReference<DTO> selectedDTO = new AtomicReference<>();
@@ -185,10 +181,9 @@ public class ComponentBuilder {
             selectedDTO.set(selectedEntity);
 
             if (selectedEntity != null) {
-                if(dtoIndex > 1) {
+                if (dtoIndex > 1) {
                     throw new IllegalArgumentException("Dto position bigger than 1");
-                }
-                else {
+                } else {
                     if (dtoIndex == 0) {
                         attachedEntities.setItems(joinService.findSecondsByFirstId(selectedEntity.getId()));
                         freeEntities.setItems(joinService.findSecondNotMappedToFirst(selectedEntity));
@@ -205,13 +200,12 @@ public class ComponentBuilder {
         });
 
         Button addButton = buttonInitializer.createActButton("Add", () -> {
-            if(selectedDTO.get() != null && freeEntities.asSingleSelect() != null){
+            if (selectedDTO.get() != null && freeEntities.asSingleSelect() != null) {
 
                 log.info(selectedDTO.get().getName() + " was connected to" + freeEntities.asSingleSelect().getValue().getName());
-                if(dtoIndex > 1){
+                if (dtoIndex > 1) {
                     throw new IllegalArgumentException("Dto index bigger than 1");
-                }
-                else {
+                } else {
                     if (dtoIndex == 0) {
                         joinService.createRelation(selectedDTO.get().getId(), freeEntities.asSingleSelect().getValue().getId());
                         attachedEntities.setItems(joinService.findSecondsByFirstId(selectedDTO.get().getId()));
@@ -226,13 +220,12 @@ public class ComponentBuilder {
 
 //                gridManager.refreshGrid(attachedEntities, joinService.findSecondsByFirstId(selectedDTO.get().getId()));
 //                gridManager.refreshGrid(freeEntities, joinService.findSecondNotMappedToFirst(selectedDTO.get()));
-            }
-            else throw new IllegalArgumentException("Something was not selected.");
+            } else throw new IllegalArgumentException("Something was not selected.");
         }, MENU_BUTTON_WIGHT);
 
         Html freeGridLabel = new Html("<div style='font-weight: bold; font-size: 25px; color: gray;'>Free</div>");
 
-        VerticalLayout freeLayout = new VerticalLayout(freeGridLabel,freeEntities,addButton);
+        VerticalLayout freeLayout = new VerticalLayout(freeGridLabel, freeEntities, addButton);
         freeLayout.setSpacing(true);
         freeLayout.setMargin(true);
 
@@ -248,21 +241,21 @@ public class ComponentBuilder {
     }
 
     public VerticalLayout create_managing_relation_layout(JoinService joinService, int dtoIndex, EntityService entityService, ComboBox comboBox,
-                                                            Grid<DTO> freeEntities, Grid<DTO> attachedEntities, String gridSize){
+                                                          Grid<DTO> freeEntities, Grid<DTO> attachedEntities, String gridSize) {
 
         String html = "<div style='font-weight: bold; font-size: 25px;'>" + entityService.getEntityName() + "s</div>";
         Html label = new Html(html);
 
         HorizontalLayout gridLayout = new HorizontalLayout(
-                create_attached_entities_option(joinService,dtoIndex, entityService,comboBox,attachedEntities,freeEntities, gridSize),
-                create_free_entities_option(joinService, dtoIndex, entityService,comboBox,freeEntities,attachedEntities, gridSize)
+                create_attached_entities_option(joinService, dtoIndex, entityService, comboBox, attachedEntities, freeEntities, gridSize),
+                create_free_entities_option(joinService, dtoIndex, entityService, comboBox, freeEntities, attachedEntities, gridSize)
         );
 
         gridLayout.setAlignSelf(FlexComponent.Alignment.CENTER);
         gridLayout.setAlignItems(FlexComponent.Alignment.CENTER);
         gridLayout.setWidth(gridSize);
 
-        VerticalLayout layout = new VerticalLayout(label,gridLayout);
+        VerticalLayout layout = new VerticalLayout(label, gridLayout);
         layout.setAlignSelf(FlexComponent.Alignment.CENTER);
         layout.setAlignItems(FlexComponent.Alignment.CENTER);
 

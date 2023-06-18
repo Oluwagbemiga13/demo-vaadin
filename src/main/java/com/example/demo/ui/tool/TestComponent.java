@@ -5,10 +5,7 @@ import com.example.demo.dto.OrganDTO;
 import com.example.demo.entity.PartOrgan;
 import com.example.demo.service.*;
 import com.example.demo.ui.dialogs.EntityCreationDialog;
-import com.example.demo.ui.pages.ManageOrgans;
-import com.example.demo.ui.pages.ManageParts;
-import com.example.demo.ui.pages.ManageSymptoms;
-import com.example.demo.ui.pages.WelcomeComponent;
+import com.example.demo.ui.pages.*;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -69,7 +66,7 @@ public class TestComponent extends VerticalLayout {
 
         //add(initGrid_7());
 
-        add(initGrid_10());
+        add(initGrid_4());
 
         setAlignSelf(Alignment.CENTER);
         setAlignItems(Alignment.CENTER);
@@ -122,7 +119,7 @@ public class TestComponent extends VerticalLayout {
     }
 
     public HorizontalLayout initGrid_4() {
-        return componentBuilder.simple_entity_grid_options(symptomService, this, WelcomeComponent.class);
+        return componentBuilder.simple_entity_grid_options(symptomService, this, WelcomeComponent.class, SymptomRelations.class);
     }
 
     public HorizontalLayout initGrid_5() {
