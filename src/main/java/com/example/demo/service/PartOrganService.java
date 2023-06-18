@@ -43,7 +43,7 @@ public class PartOrganService implements JoinService<PartOrgan, PartDTO, OrganDT
 
     @Override
     @Transactional
-    public PartOrgan createRelation(Long organId, Long partId) {
+    public PartOrgan createRelation(Long partId, Long organId) {
         Organ organ = organService.findById(organId);
         Part part = partService.findById(partId);
 
