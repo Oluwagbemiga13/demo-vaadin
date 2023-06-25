@@ -2,11 +2,15 @@ package com.example.demo.service;
 
 import com.example.demo.dto.OrganDTO;
 import com.example.demo.dto.PartDTO;
-import com.example.demo.entity.*;
+import com.example.demo.entity.join.PartOrgan;
+import com.example.demo.entity.simple.Organ;
+import com.example.demo.entity.simple.Part;
 import com.example.demo.mapper.GenericMapper;
 import com.example.demo.mapper.OrganMapper;
 import com.example.demo.mapper.PartMapper;
-import com.example.demo.repository.*;
+import com.example.demo.repository.join.PartOrganRepository;
+import com.example.demo.repository.simple.OrganRepository;
+import com.example.demo.repository.simple.PartRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

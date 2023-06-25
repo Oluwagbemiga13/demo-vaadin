@@ -3,9 +3,9 @@ package com.example.demo.service;
 import com.example.demo.dto.OrganDTO;
 import com.example.demo.dto.PartDTO;
 import com.example.demo.dto.SymptomDTO;
-import com.example.demo.entity.Organ;
+import com.example.demo.entity.simple.Organ;
 import com.example.demo.mapper.OrganMapper;
-import com.example.demo.repository.OrganRepository;
+import com.example.demo.repository.simple.OrganRepository;
 import com.vaadin.flow.data.binder.Binder;
 import lombok.extern.slf4j.Slf4j;
 

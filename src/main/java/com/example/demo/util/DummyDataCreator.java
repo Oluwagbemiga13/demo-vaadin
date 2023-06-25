@@ -1,11 +1,7 @@
 package com.example.demo.util;
 
-import com.example.demo.entity.Organ;
-import com.example.demo.entity.Part;
-import com.example.demo.entity.Symptom;
-import com.example.demo.repository.OrganRepository;
-import com.example.demo.repository.PartRepository;
-import com.example.demo.repository.SymptomRepository;
+import com.example.demo.entity.simple.*;
+import com.example.demo.repository.simple.*;
 import com.example.demo.service.OrganSymptomService;
 import com.example.demo.service.PartService;
 import jakarta.annotation.PostConstruct;
@@ -32,11 +28,18 @@ public class DummyDataCreator {
     private final PartService partService;
     private final PartRepository partRepository;
 
+    private final QuestionRepository questionRepository;
+    private final AnswerRepository answerRepository;
+    private final AlertRepository alertRepository;
+
 
     @PostConstruct
     void init() {
-        generateLongLists();
+        //generateLongLists();
         //createDummyOrganWithSymptoms();
+
+        testAlertConnection();
+
 
     }
 
@@ -107,6 +110,30 @@ public class DummyDataCreator {
                     log.info("Created relation " + l + ":" + l);
                 });
 
+    }
+
+    public void testAlertConnection() {
+        // create a question
+        Question question = new Question();
+        question.setName("Some Question?");
+        question = questionRepository.save(question); // save the question to get the ID
+        log.info("Question created with ID: {}", question.getId());
+
+        // create an answer
+        Answer answer = new Answer();
+        answer.setName("Some Answer");
+        answer.setQuestion(question); // set the question
+        answerRepository.save(answer);
+        log.info("Answer created with ID: {}", answer.getId());
+
+        // create an alert
+        Alert alert = new Alert();
+        alert.setMessage("Some Alert");
+        alert.setSeverity("High");
+        alert.setQuestion(question); // set the question
+        alertRepository.save(alert);
+        log.info("Alert created with ID: {}", alert.getId());
+        log.info("Alert contain question : {}",alert.getQuestion().getName());
     }
 
 

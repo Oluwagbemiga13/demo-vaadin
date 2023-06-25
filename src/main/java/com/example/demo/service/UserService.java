@@ -1,8 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.UserDTO;
-import com.example.demo.entity.User;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.entity.simple.User;
+import com.example.demo.repository.simple.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

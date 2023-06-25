@@ -1,7 +1,7 @@
-package com.example.demo.repository;
+package com.example.demo.repository.join;
 
-import com.example.demo.entity.OrganSymptom;
-import com.example.demo.entity.Symptom;
+import com.example.demo.entity.join.OrganSymptom;
+import com.example.demo.entity.simple.Symptom;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

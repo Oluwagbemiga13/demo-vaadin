@@ -1,6 +1,6 @@
-package com.example.demo.repository;
+package com.example.demo.repository.join;
 
-import com.example.demo.entity.PartOrgan;
+import com.example.demo.entity.join.PartOrgan;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

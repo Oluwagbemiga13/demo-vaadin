@@ -1,5 +1,7 @@
-package com.example.demo.entity;
+package com.example.demo.entity.simple;
 
+import com.example.demo.entity.join.OrganSymptom;
+import com.example.demo.entity.join.PartOrgan;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

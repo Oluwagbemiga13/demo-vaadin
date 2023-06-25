@@ -1,6 +1,6 @@
-package com.example.demo.repository;
+package com.example.demo.repository.simple;
 
-import com.example.demo.entity.Organ;
+import com.example.demo.entity.simple.Organ;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

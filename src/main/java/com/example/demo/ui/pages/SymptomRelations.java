@@ -4,8 +4,6 @@ import com.example.demo.dto.DTO;
 import com.example.demo.dto.OrganDTO;
 import com.example.demo.dto.PartDTO;
 import com.example.demo.dto.SymptomDTO;
-import com.example.demo.entity.OrganSymptom;
-import com.example.demo.entity.SymptomPart;
 import com.example.demo.service.*;
 import com.example.demo.ui.tool.ButtonInitializer;
 import com.example.demo.ui.tool.ComboBoxManager;
@@ -15,15 +13,11 @@ import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.Collections;
 
 @Route("symptom-relations")
 @Slf4j

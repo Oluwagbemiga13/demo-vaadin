@@ -1,7 +1,7 @@
 package com.example.demo.dto;
 
-import com.example.demo.entity.Organ;
-import com.example.demo.entity.Symptom;
+import com.example.demo.entity.simple.Organ;
+import com.example.demo.entity.simple.Symptom;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

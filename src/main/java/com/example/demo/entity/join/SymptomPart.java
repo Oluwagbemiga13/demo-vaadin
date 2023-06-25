@@ -1,5 +1,8 @@
-package com.example.demo.entity;
+package com.example.demo.entity.join;
 
+
+import com.example.demo.entity.simple.Part;
+import com.example.demo.entity.simple.Symptom;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,8 +16,8 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 @Getter
 @Setter
-@Table(name = "part_organ")
-public class PartOrgan {
+@Table(name = "symptom_part")
+public class SymptomPart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,9 +29,8 @@ public class PartOrgan {
     private Part part;
 
     @ManyToOne
-    @JoinColumn(name = "organ_id")
+    @JoinColumn(name = "symptom_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Organ organ;
-
+    private Symptom symptom;
 }
 

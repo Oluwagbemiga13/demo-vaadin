@@ -2,7 +2,6 @@ package com.example.demo.ui.tool;
 
 import com.example.demo.dto.DTO;
 import com.example.demo.dto.OrganDTO;
-import com.example.demo.entity.PartOrgan;
 import com.example.demo.service.*;
 import com.example.demo.ui.dialogs.EntityCreationDialog;
 import com.example.demo.ui.pages.*;

@@ -1,11 +1,7 @@
-package com.example.demo.repository;
+package com.example.demo.repository.join;
 
-import com.example.demo.entity.Part;
-import com.example.demo.entity.Symptom;
-import com.example.demo.entity.SymptomPart;
+import com.example.demo.entity.join.SymptomPart;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
