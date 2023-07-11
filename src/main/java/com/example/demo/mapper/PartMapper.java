@@ -1,6 +1,6 @@
 package com.example.demo.mapper;
 
-import com.example.demo.dto.PartDTO;
+import com.example.demo.dto.simple.PartDTO;
 import com.example.demo.entity.simple.Part;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

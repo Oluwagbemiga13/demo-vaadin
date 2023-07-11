@@ -1,4 +1,4 @@
-package com.example.demo.dto;
+package com.example.demo.dto.simple;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,12 +9,12 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class PartDTO extends DTO {
+public class AlertDTO {
     private Long id;
-    private String name;
+    private QuestionDTO question;
+    private String message;
+    private String severity;
 
-    public PartDTO withName(String name) {
-        return new PartDTO(this.id, name);
-    }
+    // getters and setters
 }
 

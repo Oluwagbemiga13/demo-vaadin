@@ -1,7 +1,7 @@
-package com.example.demo.service;
+package com.example.demo.service.join;
 
-import com.example.demo.dto.OrganDTO;
-import com.example.demo.dto.SymptomDTO;
+import com.example.demo.dto.simple.OrganDTO;
+import com.example.demo.dto.simple.SymptomDTO;
 import com.example.demo.entity.simple.Organ;
 import com.example.demo.entity.join.OrganSymptom;
 import com.example.demo.entity.simple.Symptom;
@@ -11,6 +11,9 @@ import com.example.demo.mapper.SymptomMapper;
 import com.example.demo.repository.simple.OrganRepository;
 import com.example.demo.repository.join.OrganSymptomRepository;
 import com.example.demo.repository.simple.SymptomRepository;
+import com.example.demo.service.simple.EntityService;
+import com.example.demo.service.simple.OrganService;
+import com.example.demo.service.simple.SymptomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

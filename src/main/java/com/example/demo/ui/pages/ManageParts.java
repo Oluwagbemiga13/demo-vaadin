@@ -1,26 +1,18 @@
 package com.example.demo.ui.pages;
 
-import com.example.demo.dto.PartDTO;
-import com.example.demo.dto.SymptomDTO;
-import com.example.demo.service.OrganService;
-import com.example.demo.service.PartService;
-import com.example.demo.service.SymptomService;
-import com.example.demo.ui.dialogs.ConfirmationDialog;
-import com.example.demo.ui.dialogs.EntityCreationDialog;
+import com.example.demo.dto.simple.PartDTO;
+import com.example.demo.dto.simple.SymptomDTO;
+import com.example.demo.service.simple.OrganService;
+import com.example.demo.service.simple.PartService;
+import com.example.demo.service.simple.SymptomService;
 import com.example.demo.ui.tool.ComponentBuilder;
-import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.data.provider.Query;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.List;
 
 @Route("manage-parts")
 @Slf4j

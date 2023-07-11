@@ -1,16 +1,11 @@
 package com.example.demo.ui.pages;
 
-import com.example.demo.dto.OrganDTO;
-import com.example.demo.service.OrganService;
-import com.example.demo.service.SymptomService;
-import com.example.demo.ui.dialogs.ConfirmationDialog;
+import com.example.demo.dto.simple.OrganDTO;
+import com.example.demo.service.simple.OrganService;
+import com.example.demo.service.simple.SymptomService;
 import com.example.demo.ui.tool.ComponentBuilder;
-import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.Query;
 import com.vaadin.flow.router.Route;

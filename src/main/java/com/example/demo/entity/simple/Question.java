@@ -27,6 +27,9 @@ public class Question {
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Answer> possibleAnswers;
 
+    @Column
+    private String text;
+
     @OneToOne
     private Answer selectedAnswer;
 

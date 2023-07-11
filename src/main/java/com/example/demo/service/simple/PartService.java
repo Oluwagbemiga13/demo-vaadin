@@ -1,8 +1,8 @@
-package com.example.demo.service;
+package com.example.demo.service.simple;
 
-import com.example.demo.dto.OrganDTO;
-import com.example.demo.dto.PartDTO;
-import com.example.demo.dto.SymptomDTO;
+import com.example.demo.dto.simple.OrganDTO;
+import com.example.demo.dto.simple.PartDTO;
+import com.example.demo.dto.simple.SymptomDTO;
 import com.example.demo.entity.simple.Part;
 import com.example.demo.entity.simple.Symptom;
 import com.example.demo.entity.join.SymptomPart;
@@ -87,12 +87,14 @@ public class PartService implements EntityService<Part,PartDTO> {
     }
 
     @Override
-    public void save(PartDTO dto) {
+    public PartDTO save(PartDTO dto) {
         log.info("{} was accepted", dto);
         Part part = new Part();
         part.setName(dto.getName());
         partRepository.save(part);
         log.info("{} was saved", part.getName());
+
+        return partMapper.toDto(part);
 
     }
 

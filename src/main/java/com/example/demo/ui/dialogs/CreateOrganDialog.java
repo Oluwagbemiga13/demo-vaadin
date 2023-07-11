@@ -1,7 +1,7 @@
-package com.example.demo.ui.pages;
+package com.example.demo.ui.dialogs;
 
-import com.example.demo.dto.OrganDTO;
-import com.example.demo.service.OrganService;
+import com.example.demo.dto.simple.OrganDTO;
+import com.example.demo.service.simple.OrganService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;

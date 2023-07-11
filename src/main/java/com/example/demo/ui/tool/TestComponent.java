@@ -1,8 +1,12 @@
 package com.example.demo.ui.tool;
 
-import com.example.demo.dto.DTO;
-import com.example.demo.dto.OrganDTO;
-import com.example.demo.service.*;
+import com.example.demo.dto.simple.DTO;
+import com.example.demo.dto.simple.OrganDTO;
+import com.example.demo.service.join.OrganSymptomService;
+import com.example.demo.service.join.PartOrganService;
+import com.example.demo.service.simple.OrganService;
+import com.example.demo.service.simple.PartService;
+import com.example.demo.service.simple.SymptomService;
 import com.example.demo.ui.dialogs.EntityCreationDialog;
 import com.example.demo.ui.pages.*;
 import com.vaadin.flow.component.Component;

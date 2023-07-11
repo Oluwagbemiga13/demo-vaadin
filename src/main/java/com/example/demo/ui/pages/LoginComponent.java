@@ -1,7 +1,7 @@
 package com.example.demo.ui.pages;
 
-import com.example.demo.dto.UserDTO;
-import com.example.demo.service.UserService;
+import com.example.demo.dto.simple.UserDTO;
+import com.example.demo.service.simple.UserService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;

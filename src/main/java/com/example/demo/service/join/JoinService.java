@@ -1,6 +1,7 @@
-package com.example.demo.service;
+package com.example.demo.service.join;
 
 import com.example.demo.mapper.GenericMapper;
+import com.example.demo.service.simple.EntityService;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

@@ -1,6 +1,6 @@
-package com.example.demo.service;
+package com.example.demo.service.simple;
 
-import com.example.demo.dto.UserDTO;
+import com.example.demo.dto.simple.UserDTO;
 import com.example.demo.entity.simple.User;
 import com.example.demo.repository.simple.UserRepository;
 import lombok.extern.slf4j.Slf4j;

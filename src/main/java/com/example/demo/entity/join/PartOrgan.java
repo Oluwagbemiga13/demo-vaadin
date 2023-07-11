@@ -16,11 +16,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Getter
 @Setter
 @Table(name = "part_organ")
-public class PartOrgan {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class PartOrgan extends JoinEntity {
 
     @ManyToOne
     @JoinColumn(name = "part_id")

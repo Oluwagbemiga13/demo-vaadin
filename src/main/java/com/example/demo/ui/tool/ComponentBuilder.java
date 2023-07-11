@@ -1,8 +1,8 @@
 package com.example.demo.ui.tool;
 
-import com.example.demo.dto.DTO;
-import com.example.demo.service.EntityService;
-import com.example.demo.service.JoinService;
+import com.example.demo.dto.simple.DTO;
+import com.example.demo.service.simple.EntityService;
+import com.example.demo.service.join.JoinService;
 import com.example.demo.ui.dialogs.ConfirmationDialog;
 import com.example.demo.ui.dialogs.EntityCreationDialog;
 import com.vaadin.flow.component.Html;

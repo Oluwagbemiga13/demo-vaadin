@@ -1,4 +1,4 @@
-package com.example.demo.dto;
+package com.example.demo.dto.join;
 
 import com.example.demo.entity.simple.Organ;
 import com.example.demo.entity.simple.Symptom;

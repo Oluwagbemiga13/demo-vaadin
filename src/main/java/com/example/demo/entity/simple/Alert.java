@@ -1,5 +1,9 @@
 package com.example.demo.entity.simple;
 
+import com.example.demo.entity.join.JoinEntity;
+import com.example.demo.entity.join.OrganSymptom;
+import com.example.demo.entity.join.PartOrgan;
+import com.example.demo.entity.join.SymptomPart;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,8 +29,17 @@ public class Alert {
     @Column(nullable = false)
     private String message;
 
-    @Column(nullable = false)
+    @Column
     private String severity;
+
+    @ManyToOne
+    private OrganSymptom organSymptom;
+
+    @ManyToOne
+    private PartOrgan partOrgan;
+
+    @ManyToOne
+    private SymptomPart symptomPart;
 
 
 

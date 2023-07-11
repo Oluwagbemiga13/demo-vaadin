@@ -1,7 +1,7 @@
-package com.example.demo.service;
+package com.example.demo.service.join;
 
-import com.example.demo.dto.PartDTO;
-import com.example.demo.dto.SymptomDTO;
+import com.example.demo.dto.simple.PartDTO;
+import com.example.demo.dto.simple.SymptomDTO;
 import com.example.demo.entity.simple.Part;
 import com.example.demo.entity.simple.Symptom;
 import com.example.demo.entity.join.SymptomPart;
@@ -11,6 +11,9 @@ import com.example.demo.mapper.SymptomMapper;
 import com.example.demo.repository.simple.PartRepository;
 import com.example.demo.repository.join.SymptomPartRepository;
 import com.example.demo.repository.simple.SymptomRepository;
+import com.example.demo.service.simple.EntityService;
+import com.example.demo.service.simple.PartService;
+import com.example.demo.service.simple.SymptomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

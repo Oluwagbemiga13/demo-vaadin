@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.service.simple;
 
 import com.vaadin.flow.data.binder.Binder;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +13,7 @@ public interface EntityService<E, D> {
 
     Class<E> getEntityClass();
 
-    void save(D dto);
+    D save(D dto);
 
     List<D> findAll();
 

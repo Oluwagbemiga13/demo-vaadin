@@ -18,14 +18,11 @@ public class Answer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
 
     @Column
     private String answer;
-
-    @Column
-    private boolean severe;
 
     @ManyToOne
     private Question question;

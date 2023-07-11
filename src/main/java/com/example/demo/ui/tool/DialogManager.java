@@ -1,6 +1,6 @@
 package com.example.demo.ui.tool;
 
-import com.example.demo.service.EntityService;
+import com.example.demo.service.simple.EntityService;
 import com.example.demo.ui.dialogs.ConfirmationDialog;
 import com.example.demo.ui.dialogs.EntityCreationDialog;
 import org.springframework.stereotype.Component;

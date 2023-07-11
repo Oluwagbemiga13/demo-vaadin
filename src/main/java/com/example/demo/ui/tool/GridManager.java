@@ -1,21 +1,17 @@
 package com.example.demo.ui.tool;
 
-import com.example.demo.dto.DTO;
-import com.example.demo.service.JoinService;
-import com.example.demo.ui.dialogs.ConfirmationDialog;
+import com.example.demo.dto.simple.DTO;
 import com.example.demo.ui.dialogs.EntityCreationDialog;
-import com.example.demo.service.EntityService;
+import com.example.demo.service.simple.EntityService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 @Slf4j
 @Service

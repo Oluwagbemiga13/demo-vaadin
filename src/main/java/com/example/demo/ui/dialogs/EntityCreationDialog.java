@@ -1,7 +1,7 @@
 package com.example.demo.ui.dialogs;
 
-import com.example.demo.dto.DTO;
-import com.example.demo.service.EntityService;
+import com.example.demo.dto.simple.DTO;
+import com.example.demo.service.simple.EntityService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;

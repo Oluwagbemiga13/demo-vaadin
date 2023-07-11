@@ -1,8 +1,8 @@
-package com.example.demo.service;
+package com.example.demo.service.simple;
 
-import com.example.demo.dto.OrganDTO;
-import com.example.demo.dto.PartDTO;
-import com.example.demo.dto.SymptomDTO;
+import com.example.demo.dto.simple.OrganDTO;
+import com.example.demo.dto.simple.PartDTO;
+import com.example.demo.dto.simple.SymptomDTO;
 import com.example.demo.entity.join.OrganSymptom;
 import com.example.demo.entity.simple.Symptom;
 import com.example.demo.mapper.SymptomMapper;
@@ -50,11 +50,11 @@ public class SymptomService implements EntityService<Symptom, SymptomDTO> {
     }
 
     @Override
-    public void save(SymptomDTO symptomDTO) {
+    public SymptomDTO save(SymptomDTO symptomDTO) {
         Symptom symptom = new Symptom();
         symptom.setName(symptomDTO.getName());
         log.info("Symptom {} was saved.", symptomDTO.getName());
-        symptomRepository.save(symptom);
+        return symptomMapper.toDto(symptomRepository.save(symptom));
     }
 
     @Override
@@ -99,11 +99,11 @@ public class SymptomService implements EntityService<Symptom, SymptomDTO> {
         return optional.get();
     }
 
-    List<SymptomDTO> findSymptomsNotMappedToOrgan(OrganDTO organDTO){
+    public List<SymptomDTO> findSymptomsNotMappedToOrgan(OrganDTO organDTO){
         return  symptomMapper.toDto(symptomRepository.findSymptomsNotMappedToOrgan(organDTO.getId()));
     }
 
-    List<SymptomDTO> findSymptomsNotMappedToPart(PartDTO partDTO){
+    public List<SymptomDTO> findSymptomsNotMappedToPart(PartDTO partDTO){
         return  symptomMapper.toDto(symptomRepository.findSymptomsNotMappedToPart(partDTO.getId()));
     }
 

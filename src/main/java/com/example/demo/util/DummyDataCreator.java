@@ -1,9 +1,16 @@
 package com.example.demo.util;
 
+import com.example.demo.dto.simple.AlertDTO;
+import com.example.demo.dto.simple.AnswerDTO;
+import com.example.demo.dto.simple.QuestionDTO;
 import com.example.demo.entity.simple.*;
+import com.example.demo.repository.join.OrganSymptomRepository;
 import com.example.demo.repository.simple.*;
-import com.example.demo.service.OrganSymptomService;
-import com.example.demo.service.PartService;
+import com.example.demo.service.join.OrganSymptomService;
+import com.example.demo.service.simple.AlertService;
+import com.example.demo.service.simple.AnswerService;
+import com.example.demo.service.simple.PartService;
+import com.example.demo.service.simple.QuestionService;
 import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +27,10 @@ import java.util.stream.LongStream;
 @RequiredArgsConstructor
 public class DummyDataCreator {
 
+    private final QuestionService questionService;
+    private final AnswerService answerService;
+    private final AlertService alertService;
+
     private final OrganRepository organRepository;
     private final SymptomRepository symptomRepository;
 
@@ -32,11 +43,12 @@ public class DummyDataCreator {
     private final AnswerRepository answerRepository;
     private final AlertRepository alertRepository;
 
+    private final OrganSymptomRepository organSymptomRepository;
+
 
     @PostConstruct
     void init() {
-        //generateLongLists();
-        //createDummyOrganWithSymptoms();
+        generateLongLists();
 
         testAlertConnection();
 
@@ -113,27 +125,37 @@ public class DummyDataCreator {
     }
 
     public void testAlertConnection() {
-        // create a question
-        Question question = new Question();
-        question.setName("Some Question?");
-        question = questionRepository.save(question); // save the question to get the ID
-        log.info("Question created with ID: {}", question.getId());
 
-        // create an answer
-        Answer answer = new Answer();
-        answer.setName("Some Answer");
-        answer.setQuestion(question); // set the question
-        answerRepository.save(answer);
-        log.info("Answer created with ID: {}", answer.getId());
-
-        // create an alert
         Alert alert = new Alert();
-        alert.setMessage("Some Alert");
-        alert.setSeverity("High");
-        alert.setQuestion(question); // set the question
+        alert.setOrganSymptom(organSymptomRepository.findById(1L).get());
+        alert.setMessage("HELLO");
         alertRepository.save(alert);
-        log.info("Alert created with ID: {}", alert.getId());
-        log.info("Alert contain question : {}",alert.getQuestion().getName());
+        // create a question
+//        Question question = new Question();
+//        question.setName("Some Question?");
+//        question = questionRepository.save(question); // save the question to get the ID
+//        log.info("Question created with ID: {}", question.getId());
+//
+//        // create an answer
+//        Answer answer = new Answer();
+//        answer.setName("Some Answer");
+//        answer.setQuestion(question); // set the question
+//        answerRepository.save(answer);
+//        log.info("Answer created with ID: {}", answer.getId());
+//
+//        // create an alert
+//        Alert alert = new Alert();
+//        alert.setMessage("Some Alert");
+//        alert.setSeverity("High");
+//        alert.setQuestion(question); // set the question
+//        alertRepository.save(alert);
+//        log.info("Alert created with ID: {}", alert.getId());
+//        log.info("Alert contain question : {}",alert.getQuestion().getName());
+
+
+
+
+
     }
 
 
