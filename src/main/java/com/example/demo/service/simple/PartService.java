@@ -3,13 +3,13 @@ package com.example.demo.service.simple;
 import com.example.demo.dto.simple.OrganDTO;
 import com.example.demo.dto.simple.PartDTO;
 import com.example.demo.dto.simple.SymptomDTO;
+import com.example.demo.entity.join.SymptomPart;
 import com.example.demo.entity.simple.Part;
 import com.example.demo.entity.simple.Symptom;
-import com.example.demo.entity.join.SymptomPart;
 import com.example.demo.mapper.PartMapper;
 import com.example.demo.mapper.SymptomMapper;
-import com.example.demo.repository.simple.PartRepository;
 import com.example.demo.repository.join.SymptomPartRepository;
+import com.example.demo.repository.simple.PartRepository;
 import com.example.demo.repository.simple.SymptomRepository;
 import com.vaadin.flow.data.binder.Binder;
 import jakarta.persistence.EntityNotFoundException;
@@ -24,7 +24,7 @@ import java.util.Optional;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class PartService implements EntityService<Part,PartDTO> {
+public class PartService implements EntityService<Part, PartDTO> {
 
     private final PartRepository partRepository;
 
@@ -119,8 +119,8 @@ public class PartService implements EntityService<Part,PartDTO> {
     @Override
     public Part findById(Long id) {
         Optional<Part> optional = partRepository.findById(id);
-        if(optional.isEmpty()){
-            throw  new IllegalArgumentException("ID :" + id + " was not found.");
+        if (optional.isEmpty()) {
+            throw new IllegalArgumentException("ID :" + id + " was not found.");
         }
         return optional.get();
     }

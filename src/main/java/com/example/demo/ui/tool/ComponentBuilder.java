@@ -1,8 +1,8 @@
 package com.example.demo.ui.tool;
 
 import com.example.demo.dto.simple.DTO;
-import com.example.demo.service.simple.EntityService;
 import com.example.demo.service.join.JoinService;
+import com.example.demo.service.simple.EntityService;
 import com.example.demo.ui.dialogs.ConfirmationDialog;
 import com.example.demo.ui.dialogs.EntityCreationDialog;
 import com.vaadin.flow.component.Html;
@@ -80,7 +80,7 @@ public class ComponentBuilder {
 
         Button backButton = buttonInitializer.createNavButton("Back", currentUI, backDestination, MENU_BUTTON_WIGHT);
 
-        Button manageButton = buttonInitializer.createNavButton("Manage relations",currentUI,manageDestination,MENU_BUTTON_WIGHT);
+        Button manageButton = buttonInitializer.createNavButton("Manage relations", currentUI, manageDestination, MENU_BUTTON_WIGHT);
 
 //        gridLayout.add(deleteButton);
 

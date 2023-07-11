@@ -76,7 +76,7 @@ public class AnswerService implements EntityService<Answer, AnswerDTO> {
     @Override
     public Answer findById(Long id) {
         Optional<Answer> optional = answerRepository.findById(id);
-        if (optional.isPresent())return optional.get();
+        if (optional.isPresent()) return optional.get();
         else throw new IllegalArgumentException("ID :" + id + " does not exist");
     }
 

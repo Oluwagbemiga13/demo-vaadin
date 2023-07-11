@@ -93,18 +93,18 @@ public class SymptomService implements EntityService<Symptom, SymptomDTO> {
     @Override
     public Symptom findById(Long id) {
         Optional<Symptom> optional = symptomRepository.findById(id);
-        if(optional.isEmpty()){
-            throw  new IllegalArgumentException("ID :" + id + " was not found.");
+        if (optional.isEmpty()) {
+            throw new IllegalArgumentException("ID :" + id + " was not found.");
         }
         return optional.get();
     }
 
-    public List<SymptomDTO> findSymptomsNotMappedToOrgan(OrganDTO organDTO){
-        return  symptomMapper.toDto(symptomRepository.findSymptomsNotMappedToOrgan(organDTO.getId()));
+    public List<SymptomDTO> findSymptomsNotMappedToOrgan(OrganDTO organDTO) {
+        return symptomMapper.toDto(symptomRepository.findSymptomsNotMappedToOrgan(organDTO.getId()));
     }
 
-    public List<SymptomDTO> findSymptomsNotMappedToPart(PartDTO partDTO){
-        return  symptomMapper.toDto(symptomRepository.findSymptomsNotMappedToPart(partDTO.getId()));
+    public List<SymptomDTO> findSymptomsNotMappedToPart(PartDTO partDTO) {
+        return symptomMapper.toDto(symptomRepository.findSymptomsNotMappedToPart(partDTO.getId()));
     }
 
 

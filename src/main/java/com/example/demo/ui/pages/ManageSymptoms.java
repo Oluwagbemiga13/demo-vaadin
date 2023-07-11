@@ -1,11 +1,11 @@
 package com.example.demo.ui.pages;
 
-import com.example.demo.ui.tool.ComponentBuilder;
-import com.example.demo.ui.tool.GridManager;
 import com.example.demo.dto.simple.OrganDTO;
 import com.example.demo.dto.simple.SymptomDTO;
 import com.example.demo.service.simple.OrganService;
 import com.example.demo.service.simple.SymptomService;
+import com.example.demo.ui.tool.ComponentBuilder;
+import com.example.demo.ui.tool.GridManager;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -182,7 +182,7 @@ public class ManageSymptoms extends VerticalLayout {
         log.info("Fetched Symptoms: {}", symptomService.findAll());
 
 //        organGrid.setItems(organs);
-       // symptomGrid.setItems(symptoms);
+        // symptomGrid.setItems(symptoms);
 
 
 //        log.info("OrganGrid Items: {}", organGrid.getDataProvider().size(new Query<>()));

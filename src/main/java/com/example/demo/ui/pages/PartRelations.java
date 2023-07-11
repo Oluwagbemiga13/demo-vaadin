@@ -42,8 +42,8 @@ public class PartRelations extends VerticalLayout {
     private String menuItemWidth = "250px";
 
     @PostConstruct
-    private void init(){
-        Button backButton = buttonInitializer.createNavButton("Back", this, ManageOrgans.class,menuItemWidth);
+    private void init() {
+        Button backButton = buttonInitializer.createNavButton("Back", this, ManageOrgans.class, menuItemWidth);
 
         ComboBox<DTO> combo = comboBoxManager.getComboBox(partService);
         Grid<DTO> freeEntitiesGrid = new Grid<>(DTO.class);
@@ -51,9 +51,9 @@ public class PartRelations extends VerticalLayout {
         Grid<DTO> freeEntitiesGrid_2 = new Grid<>(DTO.class);
         Grid<DTO> attachedEntities_2 = new Grid<>(DTO.class);
         VerticalLayout layout = new VerticalLayout(backButton, combo,
-                componentBuilder.create_managing_relation_layout(partOrganService,0, organService, combo,
+                componentBuilder.create_managing_relation_layout(partOrganService, 0, organService, combo,
                         freeEntitiesGrid_2, attachedEntities_2, "100%"),
-                componentBuilder.create_managing_relation_layout(symptomPartService,1, symptomService, combo,
+                componentBuilder.create_managing_relation_layout(symptomPartService, 1, symptomService, combo,
                         freeEntitiesGrid, attachedEntities, "100%"));
         layout.setAlignItems(Alignment.CENTER);
         layout.setAlignSelf(Alignment.CENTER);

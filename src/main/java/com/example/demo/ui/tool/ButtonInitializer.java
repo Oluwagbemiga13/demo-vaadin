@@ -2,9 +2,6 @@ package com.example.demo.ui.tool;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
-import org.springframework.stereotype.Service;
-
-import java.util.function.Consumer;
 
 @org.springframework.stereotype.Component
 public class ButtonInitializer {
@@ -15,7 +12,7 @@ public class ButtonInitializer {
         return button;
     }
 
-    public Button createActButton(String text, Runnable action, String buttonWidth){
+    public Button createActButton(String text, Runnable action, String buttonWidth) {
         Button button = new Button(text);
         button.addClickListener(e -> action.run());
         button.setWidth(buttonWidth);

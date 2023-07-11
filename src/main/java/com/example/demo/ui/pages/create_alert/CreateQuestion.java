@@ -3,7 +3,6 @@ package com.example.demo.ui.pages.create_alert;
 import com.example.demo.dto.simple.AlertDTO;
 import com.example.demo.dto.simple.AnswerDTO;
 import com.example.demo.dto.simple.QuestionDTO;
-import com.example.demo.entity.simple.Question;
 import com.example.demo.service.simple.AlertService;
 import com.example.demo.service.simple.AnswerService;
 import com.example.demo.service.simple.QuestionService;
@@ -12,7 +11,6 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -53,7 +51,7 @@ public class CreateQuestion extends VerticalLayout {
 
     }
 
-    private QuestionDTO createQuestionDTO(){
+    private QuestionDTO createQuestionDTO() {
         QuestionDTO questionDTO = new QuestionDTO();
         questionDTO.setName(questionName.getValue());
         questionDTO.setText(questionText.getValue());
@@ -61,7 +59,7 @@ public class CreateQuestion extends VerticalLayout {
         return questionDTO;
     }
 
-    void sendToBE(){
+    void sendToBE() {
         QuestionDTO questionDTO = createQuestionDTO();
         log.info(questionDTO.getName() + " was send to BE");
         log.info(questionService.save(questionDTO).toString() + " was retrieved from BE");

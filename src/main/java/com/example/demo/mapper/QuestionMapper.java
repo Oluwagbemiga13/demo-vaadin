@@ -5,5 +5,5 @@ import com.example.demo.entity.simple.Question;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface QuestionMapper extends GenericMapper<Question, QuestionDTO>{
+public interface QuestionMapper extends GenericMapper<Question, QuestionDTO> {
 }

@@ -5,7 +5,7 @@ import com.example.demo.entity.simple.Organ;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface OrganMapper extends GenericMapper<Organ,OrganDTO> {
+public interface OrganMapper extends GenericMapper<Organ, OrganDTO> {
 
     //OrganMapper INSTANCE = Mappers.getMapper(OrganMapper.class);
 

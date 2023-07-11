@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LabelManager {
 
-    Html createLabel(String fontWeight, String fontSize, String displayedText){
+    Html createLabel(String fontWeight, String fontSize, String displayedText) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("<div style='font-weight: ");
         stringBuilder.append(fontWeight);

@@ -1,9 +1,9 @@
 package com.example.demo.util;
 
-import com.example.demo.dto.simple.AlertDTO;
-import com.example.demo.dto.simple.AnswerDTO;
-import com.example.demo.dto.simple.QuestionDTO;
-import com.example.demo.entity.simple.*;
+import com.example.demo.entity.simple.Alert;
+import com.example.demo.entity.simple.Organ;
+import com.example.demo.entity.simple.Part;
+import com.example.demo.entity.simple.Symptom;
 import com.example.demo.repository.join.OrganSymptomRepository;
 import com.example.demo.repository.simple.*;
 import com.example.demo.service.join.OrganSymptomService;
@@ -151,9 +151,6 @@ public class DummyDataCreator {
 //        alertRepository.save(alert);
 //        log.info("Alert created with ID: {}", alert.getId());
 //        log.info("Alert contain question : {}",alert.getQuestion().getName());
-
-
-
 
 
     }

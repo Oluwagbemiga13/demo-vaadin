@@ -18,5 +18,4 @@ public class OrganDTO extends DTO {
     }
 
 
-
 }

@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
-public interface PartMapper extends GenericMapper<Part,PartDTO> {
+public interface PartMapper extends GenericMapper<Part, PartDTO> {
 
     PartMapper INSTANCE = Mappers.getMapper(PartMapper.class);
 

@@ -30,7 +30,7 @@ public class EntityCreationDialog extends Dialog {
         formLayout.setWidth("400px");
         formLayout.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1));
         String entityName = managingService.getEntityName();
-        TextField nameField = new TextField(entityName+ " Name");
+        TextField nameField = new TextField(entityName + " Name");
         nameField.setWidth("100%");
         formLayout.addFormItem(nameField, "Name");
 
@@ -62,7 +62,7 @@ public class EntityCreationDialog extends Dialog {
     }
 
     private void saveEntity(String name, Binder<DTO> binder, EntityService managingService, String entityName) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        DTO dto = (DTO) managingService.getDTOClass().getDeclaredConstructor(Long.class,String.class).newInstance(null, name);
+        DTO dto = (DTO) managingService.getDTOClass().getDeclaredConstructor(Long.class, String.class).newInstance(null, name);
         try {
             // Validate the binder and populate the DTO with the form data
             binder.validate();
@@ -71,7 +71,7 @@ public class EntityCreationDialog extends Dialog {
             // Save the new symptom using the symptom service
             managingService.save(dto);
 
-            Notification.show(entityName +" created successfully.");
+            Notification.show(entityName + " created successfully.");
             close();
         } catch (ValidationException e) {
             Notification.show("Please fix the errors and try again.");

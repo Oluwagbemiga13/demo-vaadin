@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class QuestionService implements EntityService<Question,QuestionDTO> {
+public class QuestionService implements EntityService<Question, QuestionDTO> {
 
     Binder<QuestionDTO> binder = new Binder<>(QuestionDTO.class);
 
@@ -69,7 +69,7 @@ public class QuestionService implements EntityService<Question,QuestionDTO> {
         Question question = questionMapper.toEntity(questionDTO);
         Question savedQuestion = questionRepository.save(question);
 
-        if(questionDTO.getPossibleAnswers() != null) {
+        if (questionDTO.getPossibleAnswers() != null) {
             // save the possibleAnswers
             for (AnswerDTO answerDTO : questionDTO.getPossibleAnswers()) {
                 answerDTO.setQuestion(questionMapper.toDto(savedQuestion)); // set the saved question
@@ -104,7 +104,7 @@ public class QuestionService implements EntityService<Question,QuestionDTO> {
     @Override
     public Question findById(Long id) {
         Optional<Question> optional = questionRepository.findById(id);
-        if (optional.isPresent())return optional.get();
+        if (optional.isPresent()) return optional.get();
         else throw new IllegalArgumentException("ID :" + id + " does not exist");
     }
 

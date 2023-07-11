@@ -3,7 +3,7 @@ package com.example.demo.mapper;
 import java.util.List;
 
 
-public interface GenericMapper <E,D> {
+public interface GenericMapper<E, D> {
 
     D toDto(E entity);
 

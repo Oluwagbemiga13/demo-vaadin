@@ -8,7 +8,6 @@ import com.example.demo.mapper.OrganMapper;
 import com.example.demo.repository.simple.OrganRepository;
 import com.vaadin.flow.data.binder.Binder;
 import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,19 +72,18 @@ public class OrganService implements EntityService<Organ, OrganDTO> {
     }
 
     @Override
-    public Organ findById(Long id){
+    public Organ findById(Long id) {
         Optional<Organ> optional = organRepository.findById(id);
-        if (optional.isPresent()){
+        if (optional.isPresent()) {
             return optional.get();
-        }
-        else throw new IllegalArgumentException("Organ with " + id + "was not found.");
+        } else throw new IllegalArgumentException("Organ with " + id + "was not found.");
     }
 
-    public List<OrganDTO> findOrgansNotMappedToSymptom(SymptomDTO symptomDTO){
+    public List<OrganDTO> findOrgansNotMappedToSymptom(SymptomDTO symptomDTO) {
         return organMapper.toDto(organRepository.findOrgansNotMappedToSymptom(symptomDTO.getId()));
     }
 
-    public List<OrganDTO> findOrgansNotMappedToPart(PartDTO partDTO){
+    public List<OrganDTO> findOrgansNotMappedToPart(PartDTO partDTO) {
         return organMapper.toDto(organRepository.findOrgansNotMappedToPart(partDTO.getId()));
     }
 }

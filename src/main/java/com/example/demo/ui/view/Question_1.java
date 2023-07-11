@@ -40,7 +40,8 @@ public class Question_1 extends VerticalLayout {
         uiType.setItems("YES_NO", "IN_NUM", "IN_TEXT", "SCALE");
         add((uiType));
     }
-    private QuestionDTO createQuestionDTO(){
+
+    private QuestionDTO createQuestionDTO() {
         QuestionDTO questionDTO = new QuestionDTO();
         questionDTO.setName(questionName.getValue());
         questionDTO.setText(questionText.getValue());
@@ -48,7 +49,7 @@ public class Question_1 extends VerticalLayout {
         return questionDTO;
     }
 
-    void sendToBE(){
+    void sendToBE() {
         QuestionDTO questionDTO = createQuestionDTO();
         log.info(questionDTO.getName() + " was send to BE");
         log.info(questionService.save(questionDTO).toString() + " was retrieved from BE");

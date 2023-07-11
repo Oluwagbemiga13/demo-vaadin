@@ -1,8 +1,8 @@
 package com.example.demo.ui.tool;
 
 import com.example.demo.dto.simple.DTO;
-import com.example.demo.ui.dialogs.EntityCreationDialog;
 import com.example.demo.service.simple.EntityService;
+import com.example.demo.ui.dialogs.EntityCreationDialog;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -32,11 +32,11 @@ public class GridManager {
     }
 
     public <T> VerticalLayout createGrid_CreateButton(String[] displayedAttributes,
-                                                      EntityService entityService){
+                                                      EntityService entityService) {
 
         VerticalLayout layout = new VerticalLayout();
 
-        Grid grid = createLonelyGrid(entityService,displayedAttributes);
+        Grid grid = createLonelyGrid(entityService, displayedAttributes);
         layout.add(grid);
 
         Button button = new Button("Create " + entityService.getEntityName(), e -> {
@@ -45,7 +45,7 @@ public class GridManager {
             entityCreationDialog.addOpenedChangeListener(event -> {
                 if (!event.isOpened()) {
                     refreshGrid(grid, entityService);
-                   log.info("PRINT SOMETHING!");
+                    log.info("PRINT SOMETHING!");
                 }
             });
         });
@@ -61,7 +61,6 @@ public class GridManager {
 //    public Grid<DTO> freeEntitiesGrid(JoinService joinService, EntityService entityService){
 //
 //    }
-
 
 
     public void refreshGrid(Grid grid, EntityService service) {

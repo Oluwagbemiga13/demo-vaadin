@@ -2,7 +2,6 @@ package com.example.demo.service.simple;
 
 import com.example.demo.dto.simple.AlertDTO;
 import com.example.demo.entity.simple.Alert;
-import com.example.demo.entity.simple.Question;
 import com.example.demo.mapper.AlertMapper;
 import com.example.demo.repository.simple.AlertRepository;
 import com.vaadin.flow.data.binder.Binder;
@@ -70,7 +69,7 @@ public class AlertService implements EntityService<Alert, AlertDTO> {
     @Override
     public Alert findById(Long id) {
         Optional<Alert> optional = alertRepository.findById(id);
-        if (optional.isPresent())return optional.get();
+        if (optional.isPresent()) return optional.get();
         else throw new IllegalArgumentException("ID :" + id + " does not exist");
     }
 

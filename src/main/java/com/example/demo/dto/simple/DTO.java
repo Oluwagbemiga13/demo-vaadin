@@ -13,7 +13,7 @@ public class DTO {
     Long id;
     String name;
 
-    public DTO(String name){
+    public DTO(String name) {
         this.name = name;
     }
 

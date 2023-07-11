@@ -9,7 +9,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 public class ConfirmationDialog extends Dialog {
-//
+    //
 //    private final Div dialogContent = new Div();
     private final Button cancelButton;
     private final Button confirmButton;

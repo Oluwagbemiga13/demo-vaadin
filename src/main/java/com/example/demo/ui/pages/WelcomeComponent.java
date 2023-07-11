@@ -43,6 +43,7 @@ public class WelcomeComponent extends VerticalLayout implements BeforeEnterObser
 
 
     }
+
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
         String username = event.getRouteParameters().get("username").orElse("Daniel");

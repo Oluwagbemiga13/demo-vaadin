@@ -15,6 +15,5 @@ public interface SymptomPartRepository extends JpaRepository<SymptomPart, Long> 
     Optional<SymptomPart> findBySymptomIdAndPartId(Long symptomId, Long partId);
 
 
-
 }
 

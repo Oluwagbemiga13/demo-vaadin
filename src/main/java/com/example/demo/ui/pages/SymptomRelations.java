@@ -64,7 +64,7 @@ public class SymptomRelations extends VerticalLayout {
     private String menuItemWidth = "250px";
 
     public VerticalLayout fillWithContent() {
-        Button backButton = buttonInitializer.createNavButton("Back", this, ManageSymptoms.class,menuItemWidth);
+        Button backButton = buttonInitializer.createNavButton("Back", this, ManageSymptoms.class, menuItemWidth);
 
         ComboBox<DTO> combo = comboBoxManager.getComboBox(symptomService);
         Grid<DTO> freeEntitiesGrid = new Grid<>(DTO.class);
@@ -72,9 +72,9 @@ public class SymptomRelations extends VerticalLayout {
         Grid<DTO> freeEntitiesGrid_2 = new Grid<>(DTO.class);
         Grid<DTO> attachedEntities_2 = new Grid<>(DTO.class);
         VerticalLayout layout = new VerticalLayout(backButton, combo,
-                componentBuilder.create_managing_relation_layout(organSymptomService,1, organService, combo,
+                componentBuilder.create_managing_relation_layout(organSymptomService, 1, organService, combo,
                         freeEntitiesGrid, attachedEntities, "100%"),
-                componentBuilder.create_managing_relation_layout(symptomPartService,0, partService, combo,
+                componentBuilder.create_managing_relation_layout(symptomPartService, 0, partService, combo,
                         freeEntitiesGrid_2, attachedEntities_2, "100%"));
 
         layout.setAlignItems(Alignment.CENTER);

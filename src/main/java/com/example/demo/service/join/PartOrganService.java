@@ -90,7 +90,7 @@ public class PartOrganService implements JoinService<PartOrgan, PartDTO, OrganDT
 
     @Override
     public void deleteRelation(PartDTO partDTO, OrganDTO organDTO) {
-        Optional<PartOrgan> partOrganOptional = partOrganRepository.findByPartIdAndOrganId(partDTO.getId(),organDTO.getId());
+        Optional<PartOrgan> partOrganOptional = partOrganRepository.findByPartIdAndOrganId(partDTO.getId(), organDTO.getId());
         //partOrganRepository.delete(partOrgan);
 
         Optional<PartOrgan> organSymptomOptional = partOrganRepository.findByPartIdAndOrganId(partDTO.getId(), organDTO.getId());
