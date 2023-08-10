@@ -1,5 +1,6 @@
 package com.example.demo.service.join;
 
+import com.example.demo.dto.join.PartOrganDTO;
 import com.example.demo.dto.simple.OrganDTO;
 import com.example.demo.dto.simple.PartDTO;
 import com.example.demo.entity.join.PartOrgan;
@@ -8,6 +9,7 @@ import com.example.demo.entity.simple.Part;
 import com.example.demo.mapper.GenericMapper;
 import com.example.demo.mapper.OrganMapper;
 import com.example.demo.mapper.PartMapper;
+import com.example.demo.mapper.PartOrganMapper;
 import com.example.demo.repository.join.PartOrganRepository;
 import com.example.demo.repository.simple.OrganRepository;
 import com.example.demo.repository.simple.PartRepository;
@@ -26,13 +28,16 @@ import java.util.Optional;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class PartOrganService implements JoinService<PartOrgan, PartDTO, OrganDTO> {
+public class PartOrganService implements JoinService<PartOrgan, PartOrganDTO, PartDTO, OrganDTO> {
 
     @Autowired
     private PartOrganRepository partOrganRepository;
 
     @Autowired
     private OrganRepository organRepository;
+
+    @Autowired
+    private PartOrganMapper partOrganMapper;
 
     @Autowired
     private PartRepository partRepository;
@@ -131,5 +136,15 @@ public class PartOrganService implements JoinService<PartOrgan, PartDTO, OrganDT
     @Override
     public EntityService getSecondService() {
         return organService;
+    }
+
+    @Override
+    public List<PartOrganDTO> getAll() {
+        return partOrganMapper.toDto(partOrganRepository.findAll());
+    }
+
+    @Override
+    public Class<PartOrganDTO> getDTOClass() {
+        return PartOrganDTO.class;
     }
 }

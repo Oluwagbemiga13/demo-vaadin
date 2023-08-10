@@ -1,5 +1,6 @@
 package com.example.demo.service.join;
 
+import com.example.demo.dto.join.OrganSymptomDTO;
 import com.example.demo.dto.simple.OrganDTO;
 import com.example.demo.dto.simple.SymptomDTO;
 import com.example.demo.entity.join.OrganSymptom;
@@ -7,6 +8,7 @@ import com.example.demo.entity.simple.Organ;
 import com.example.demo.entity.simple.Symptom;
 import com.example.demo.mapper.GenericMapper;
 import com.example.demo.mapper.OrganMapper;
+import com.example.demo.mapper.OrganSymptomMapper;
 import com.example.demo.mapper.SymptomMapper;
 import com.example.demo.repository.join.OrganSymptomRepository;
 import com.example.demo.repository.simple.OrganRepository;
@@ -26,7 +28,7 @@ import java.util.Optional;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class OrganSymptomService implements JoinService<OrganSymptom, OrganDTO, SymptomDTO> {
+public class OrganSymptomService implements JoinService<OrganSymptom, OrganSymptomDTO, OrganDTO, SymptomDTO> {
 
     @Autowired
     private OrganSymptomRepository organSymptomRepository;
@@ -42,6 +44,9 @@ public class OrganSymptomService implements JoinService<OrganSymptom, OrganDTO, 
     private final OrganService organService;
 
     @Autowired
+    private OrganSymptomMapper organSymptomMapper;
+
+    @Autowired
     private OrganMapper organMapper;
 
     @Override
@@ -53,6 +58,17 @@ public class OrganSymptomService implements JoinService<OrganSymptom, OrganDTO, 
     public EntityService getSecondService() {
         return symptomService;
     }
+
+    @Override
+    public List<OrganSymptomDTO> getAll() {
+        return organSymptomMapper.toDto(organSymptomRepository.findAll());
+    }
+
+    @Override
+    public Class<OrganSymptomDTO> getDTOClass() {
+        return OrganSymptomDTO.class;
+    }
+
 
     @Autowired
     private SymptomMapper symptomMapper;

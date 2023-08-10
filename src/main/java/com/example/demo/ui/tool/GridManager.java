@@ -1,6 +1,7 @@
 package com.example.demo.ui.tool;
 
 import com.example.demo.dto.simple.DTO;
+import com.example.demo.service.join.JoinService;
 import com.example.demo.service.simple.EntityService;
 import com.example.demo.ui.dialogs.EntityCreationDialog;
 import com.vaadin.flow.component.button.Button;
@@ -27,6 +28,14 @@ public class GridManager {
 
         Grid<T> grid = new Grid<>(entityService.getDTOClass());
         grid.setItems(entityService.findAll());
+        grid.setColumns(displayedAttributes);
+        return grid;
+    }
+
+    public <T> Grid<T> createLonelyGrid(JoinService joinService, String[] displayedAttributes) {
+
+        Grid<T> grid = new Grid<>(joinService.getDTOClass());
+        grid.setItems(joinService.getAll());
         grid.setColumns(displayedAttributes);
         return grid;
     }

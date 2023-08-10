@@ -45,7 +45,7 @@ public class ManageParts extends VerticalLayout {
     @PostConstruct
     private void init() {
 
-        add(componentBuilder.simple_entity_grid_options(organService, this, WelcomeComponent.class, PartRelations.class));
+        add(componentBuilder.simple_entity_grid_options(partService, this, WelcomeComponent.class, PartRelations.class));
 
 
 //        partGrid = new Grid<>(PartDTO.class);

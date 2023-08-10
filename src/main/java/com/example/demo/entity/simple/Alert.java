@@ -31,13 +31,16 @@ public class Alert {
     @Column
     private String severity;
 
-    @ManyToOne
+    @OneToOne
+    @JoinColumn(name = "organ_symptom_id")
     private OrganSymptom organSymptom;
 
-    @ManyToOne
+    @OneToOne
+    @JoinColumn(name = "part_organ_id")
     private PartOrgan partOrgan;
 
-    @ManyToOne
+    @OneToOne
+    @JoinColumn(name = "symptom_part_id")
     private SymptomPart symptomPart;
 
 

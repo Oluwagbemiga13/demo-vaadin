@@ -2,10 +2,7 @@ package com.example.demo.entity.join;
 
 import com.example.demo.entity.simple.Organ;
 import com.example.demo.entity.simple.Part;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +17,10 @@ import org.hibernate.annotations.OnDeleteAction;
 @Setter
 @Table(name = "part_organ")
 public class PartOrgan extends JoinEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "part_id")

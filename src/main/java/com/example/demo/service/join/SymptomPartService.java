@@ -1,5 +1,6 @@
 package com.example.demo.service.join;
 
+import com.example.demo.dto.join.SymptomPartDTO;
 import com.example.demo.dto.simple.PartDTO;
 import com.example.demo.dto.simple.SymptomDTO;
 import com.example.demo.entity.join.SymptomPart;
@@ -8,6 +9,7 @@ import com.example.demo.entity.simple.Symptom;
 import com.example.demo.mapper.GenericMapper;
 import com.example.demo.mapper.PartMapper;
 import com.example.demo.mapper.SymptomMapper;
+import com.example.demo.mapper.SymptomPartMapper;
 import com.example.demo.repository.join.SymptomPartRepository;
 import com.example.demo.repository.simple.PartRepository;
 import com.example.demo.repository.simple.SymptomRepository;
@@ -24,7 +26,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class SymptomPartService implements JoinService<SymptomPart, SymptomDTO, PartDTO> {
+public class SymptomPartService implements JoinService<SymptomPart, SymptomPartDTO, SymptomDTO, PartDTO> {
 
     private final SymptomPartRepository symptomPartRepository;
 
@@ -39,6 +41,8 @@ public class SymptomPartService implements JoinService<SymptomPart, SymptomDTO, 
     private final SymptomRepository symptomRepository;
 
     private final PartRepository partRepository;
+
+    private final SymptomPartMapper symptomPartMapper;
 
     @Override
     public SymptomPart createRelation(Long firstId, Long secondId) {
@@ -128,5 +132,15 @@ public class SymptomPartService implements JoinService<SymptomPart, SymptomDTO, 
     @Override
     public EntityService getSecondService() {
         return partService;
+    }
+
+    @Override
+    public List<SymptomPartDTO> getAll() {
+        return symptomPartMapper.toDto(symptomPartRepository.findAll());
+    }
+
+    @Override
+    public Class<SymptomPartDTO> getDTOClass() {
+        return SymptomPartDTO.class;
     }
 }
