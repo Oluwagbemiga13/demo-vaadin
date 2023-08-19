@@ -7,6 +7,8 @@ import com.example.demo.entity.simple.Symptom;
 import com.example.demo.repository.join.OrganSymptomRepository;
 import com.example.demo.repository.simple.*;
 import com.example.demo.service.join.OrganSymptomService;
+import com.example.demo.service.join.PartOrganService;
+import com.example.demo.service.join.SymptomPartService;
 import com.example.demo.service.simple.AlertService;
 import com.example.demo.service.simple.AnswerService;
 import com.example.demo.service.simple.PartService;
@@ -33,6 +35,10 @@ public class DummyDataCreator {
 
     private final OrganRepository organRepository;
     private final SymptomRepository symptomRepository;
+
+    private final PartOrganService partOrganService;
+
+    private final SymptomPartService symptomPartService;
 
     private final OrganSymptomService organSymptomService;
 
@@ -119,6 +125,18 @@ public class DummyDataCreator {
         LongStream.range(1, 10)
                 .forEach(l -> {
                     partService.createRelation(l, l);
+                    log.info("Created relation " + l + ":" + l);
+                });
+
+        LongStream.range(1, 10)
+                .forEach(l -> {
+                    partOrganService.createRelation(l, l);
+                    log.info("Created relation " + l + ":" + l);
+                });
+
+        LongStream.range(1, 10)
+                .forEach(l -> {
+                    symptomPartService.createRelation(l, l);
                     log.info("Created relation " + l + ":" + l);
                 });
 

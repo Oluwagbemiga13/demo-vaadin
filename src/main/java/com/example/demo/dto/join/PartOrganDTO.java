@@ -22,6 +22,4 @@ public class PartOrganDTO extends JoinItemDTO {
         setName(getFullName());
     }
 
-
-
 }

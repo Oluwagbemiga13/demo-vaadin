@@ -1,6 +1,6 @@
 package com.example.demo.ui.tool;
 
-import com.example.demo.dto.simple.DTO;
+import com.example.demo.dto.join.JoinItemDTO;
 import com.example.demo.service.join.JoinService;
 import com.example.demo.service.simple.EntityService;
 import com.example.demo.ui.dialogs.EntityCreationDialog;
@@ -32,10 +32,18 @@ public class GridManager {
         return grid;
     }
 
-    public <T> Grid<T> createLonelyGrid(JoinService joinService, String[] displayedAttributes) {
+    public Grid<JoinItemDTO> createLonelyGrid(JoinService joinService, String[] displayedAttributes) {
 
-        Grid<T> grid = new Grid<>(joinService.getDTOClass());
+        Grid<JoinItemDTO> grid = new Grid<>(JoinItemDTO.class);
         grid.setItems(joinService.getAll());
+        grid.setColumns(displayedAttributes);
+        return grid;
+    }
+
+    public Grid<JoinItemDTO> createLonelyGrid(List<JoinItemDTO> items, String[] displayedAttributes) {
+
+        Grid<JoinItemDTO> grid = new Grid<>(JoinItemDTO.class);
+        grid.setItems(items);
         grid.setColumns(displayedAttributes);
         return grid;
     }
@@ -78,7 +86,9 @@ public class GridManager {
         log.debug("Fetched Symptoms: {}", service.findAll());
     }
 
-    public void refreshGrid(Grid grid, List<DTO> dtos) {
+
+
+    public void refreshGrid(Grid<JoinItemDTO> grid, List<JoinItemDTO> dtos) {
         grid.setItems(dtos);
 
     }
