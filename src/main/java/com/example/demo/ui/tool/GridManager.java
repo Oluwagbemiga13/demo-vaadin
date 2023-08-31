@@ -48,8 +48,8 @@ public class GridManager {
         return grid;
     }
 
-    public <T> VerticalLayout createGrid_CreateButton(String[] displayedAttributes,
-                                                      EntityService entityService) {
+    public VerticalLayout createGrid_CreateButton(String[] displayedAttributes,
+                                                  EntityService entityService) {
 
         VerticalLayout layout = new VerticalLayout();
 
@@ -75,15 +75,11 @@ public class GridManager {
         return layout;
     }
 
-//    public Grid<DTO> freeEntitiesGrid(JoinService joinService, EntityService entityService){
-//
-//    }
-
 
     public void refreshGrid(Grid grid, EntityService service) {
 
         grid.setItems(service.findAll());
-        log.debug("Fetched Symptoms: {}", service.findAll());
+        log.debug("Fetched {}: {}", service.getEntityName(), service.findAll());
     }
 
 
@@ -93,5 +89,4 @@ public class GridManager {
 
     }
 
-//    private Grid exposeGrid()
 }

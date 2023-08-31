@@ -1,9 +1,9 @@
 package com.example.demo.ui.view;
 
-import com.example.demo.dto.simple.QuestionDTO;
-import com.example.demo.service.simple.AlertService;
-import com.example.demo.service.simple.AnswerService;
-import com.example.demo.service.simple.QuestionService;
+import com.example.demo.dto.alert.QuestionDTO;
+import com.example.demo.service.alert.AlertService;
+import com.example.demo.service.alert.AnswerService;
+import com.example.demo.service.alert.QuestionService;
 import com.example.demo.ui.tool.ButtonInitializer;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;

@@ -1,4 +1,4 @@
-package com.example.demo.dto.simple;
+package com.example.demo.dto.alert;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,11 +9,13 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class AlertDTO {
+public class AnswerDTO {
     private Long id;
+    private String name;
+    private String answer;
+    private boolean severe;
     private QuestionDTO question;
-    private String message;
-    private String severity;
+    private QuestionDTO nextQuestion;
 
     // getters and setters
 }

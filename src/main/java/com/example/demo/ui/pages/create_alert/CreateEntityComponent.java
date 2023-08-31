@@ -1,11 +1,11 @@
 package com.example.demo.ui.pages.create_alert;
 
-import com.example.demo.dto.simple.AlertDTO;
-import com.example.demo.dto.simple.AnswerDTO;
-import com.example.demo.dto.simple.QuestionDTO;
-import com.example.demo.service.simple.AlertService;
-import com.example.demo.service.simple.AnswerService;
-import com.example.demo.service.simple.QuestionService;
+import com.example.demo.dto.alert.AlertDTO;
+import com.example.demo.dto.alert.AnswerDTO;
+import com.example.demo.dto.alert.QuestionDTO;
+import com.example.demo.service.alert.AlertService;
+import com.example.demo.service.alert.AnswerService;
+import com.example.demo.service.alert.QuestionService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.notification.Notification;

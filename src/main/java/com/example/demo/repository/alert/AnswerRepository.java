@@ -1,6 +1,6 @@
-package com.example.demo.repository.simple;
+package com.example.demo.repository.alert;
 
-import com.example.demo.entity.simple.Answer;
+import com.example.demo.entity.alerts.Answer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

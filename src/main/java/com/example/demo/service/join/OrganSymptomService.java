@@ -138,6 +138,11 @@ public class OrganSymptomService implements JoinService<OrganSymptom, OrganSympt
     }
 
     @Override
+    public Optional<OrganSymptom> findById(Long id) {
+        return organSymptomRepository.findById(id);
+    }
+
+    @Override
     public GenericMapper getSecondMapper() {
         return symptomMapper;
     }

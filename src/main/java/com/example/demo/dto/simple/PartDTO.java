@@ -1,18 +1,24 @@
 package com.example.demo.dto.simple;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class PartDTO extends DTO {
+@ToString
+public class PartDTO implements DTO<PartDTO> {
     private Long id;
     private String name;
 
+    @Override
+    public PartDTO createInstance(String name) {
+        PartDTO partDTO = new PartDTO();
+        partDTO.setName(name);
+        return partDTO;
+    }
+
+    @Override
     public PartDTO withName(String name) {
         return new PartDTO(this.id, name);
     }

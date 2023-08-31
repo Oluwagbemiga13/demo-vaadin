@@ -1,4 +1,4 @@
-package com.example.demo.entity.simple;
+package com.example.demo.entity.alerts;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -29,5 +29,9 @@ public class Answer {
 
     @OneToOne
     private Question nextQuestion;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "action_id")
+    private Action action;
 
 }

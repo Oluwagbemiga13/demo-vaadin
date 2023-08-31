@@ -1,4 +1,4 @@
-package com.example.demo.dto.simple;
+package com.example.demo.dto.alert;
 
 import lombok.*;
 

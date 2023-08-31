@@ -1,4 +1,4 @@
-package com.example.demo.entity.simple;
+package com.example.demo.entity.alerts;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,7 +23,7 @@ public class Question {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Answer> possibleAnswers;
 
     @Column

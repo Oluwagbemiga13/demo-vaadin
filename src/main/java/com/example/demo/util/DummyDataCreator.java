@@ -1,24 +1,31 @@
 package com.example.demo.util;
 
-import com.example.demo.entity.simple.Alert;
+import com.example.demo.entity.alerts.Alert;
+import com.example.demo.entity.alerts.Answer;
+import com.example.demo.entity.alerts.Question;
 import com.example.demo.entity.simple.Organ;
 import com.example.demo.entity.simple.Part;
 import com.example.demo.entity.simple.Symptom;
+import com.example.demo.repository.alert.AlertRepository;
+import com.example.demo.repository.alert.AnswerRepository;
+import com.example.demo.repository.alert.QuestionRepository;
 import com.example.demo.repository.join.OrganSymptomRepository;
 import com.example.demo.repository.simple.*;
 import com.example.demo.service.join.OrganSymptomService;
 import com.example.demo.service.join.PartOrganService;
 import com.example.demo.service.join.SymptomPartService;
-import com.example.demo.service.simple.AlertService;
-import com.example.demo.service.simple.AnswerService;
+import com.example.demo.service.alert.AlertService;
+import com.example.demo.service.alert.AnswerService;
 import com.example.demo.service.simple.PartService;
-import com.example.demo.service.simple.QuestionService;
+import com.example.demo.service.alert.QuestionService;
 import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.LongStream;
@@ -140,6 +147,74 @@ public class DummyDataCreator {
                     log.info("Created relation " + l + ":" + l);
                 });
 
+
+        // Generate questions
+        createQuestions();
+
+    }
+
+    public void createQuestions(){
+        Question feverQuestion = new Question();
+        feverQuestion.setName("Fever Question");
+        feverQuestion.setText("Do you have a fever?");
+        feverQuestion.setPossibleAnswers(new ArrayList<>());
+
+        Answer feverYesAnswer = new Answer();
+        feverYesAnswer.setName("Yes");
+        feverYesAnswer.setAnswer("Yes, I have a fever.");
+        feverYesAnswer.setQuestion(feverQuestion);
+
+        Answer feverNoAnswer = new Answer();
+        feverNoAnswer.setName("No");
+        feverNoAnswer.setAnswer("No, I don't have a fever.");
+        feverNoAnswer.setQuestion(feverQuestion);
+
+        feverQuestion.getPossibleAnswers().addAll(Arrays.asList(feverYesAnswer, feverNoAnswer));
+        questionRepository.save(feverQuestion);
+        answerRepository.save(feverYesAnswer);
+        answerRepository.save(feverNoAnswer);
+
+        // Second question: "Are you experiencing any difficulty in breathing?"
+        Question breathQuestion = new Question();
+        breathQuestion.setName("Breathing Question");
+        breathQuestion.setText("Are you experiencing any difficulty in breathing?");
+        breathQuestion.setPossibleAnswers(new ArrayList<>());
+
+        Answer breathYesAnswer = new Answer();
+        breathYesAnswer.setName("Yes");
+        breathYesAnswer.setAnswer("Yes, I am having difficulty breathing.");
+        breathYesAnswer.setQuestion(breathQuestion);
+
+        Answer breathNoAnswer = new Answer();
+        breathNoAnswer.setName("No");
+        breathNoAnswer.setAnswer("No, I am breathing normally.");
+        breathNoAnswer.setQuestion(breathQuestion);
+
+        breathQuestion.getPossibleAnswers().addAll(Arrays.asList(breathYesAnswer, breathNoAnswer));
+        questionRepository.save(breathQuestion);
+        answerRepository.save(breathYesAnswer);
+        answerRepository.save(breathNoAnswer);
+
+        // Third question: "Do you have any body aches or pains?"
+        Question bodyAcheQuestion = new Question();
+        bodyAcheQuestion.setName("Body Ache Question");
+        bodyAcheQuestion.setText("Do you have any body aches or pains?");
+        bodyAcheQuestion.setPossibleAnswers(new ArrayList<>());
+
+        Answer acheYesAnswer = new Answer();
+        acheYesAnswer.setName("Yes");
+        acheYesAnswer.setAnswer("Yes, I have body aches.");
+        acheYesAnswer.setQuestion(bodyAcheQuestion);
+
+        Answer acheNoAnswer = new Answer();
+        acheNoAnswer.setName("No");
+        acheNoAnswer.setAnswer("No, I feel fine.");
+        acheNoAnswer.setQuestion(bodyAcheQuestion);
+
+        bodyAcheQuestion.getPossibleAnswers().addAll(Arrays.asList(acheYesAnswer, acheNoAnswer));
+        questionRepository.save(bodyAcheQuestion);
+        answerRepository.save(acheYesAnswer);
+        answerRepository.save(acheNoAnswer);
     }
 
     public void testAlertConnection() {

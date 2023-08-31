@@ -113,6 +113,11 @@ public class SymptomPartService implements JoinService<SymptomPart, SymptomPartD
     }
 
     @Override
+    public Optional<SymptomPart> findById(Long id) {
+        return symptomPartRepository.findById(id);
+    }
+
+    @Override
     public GenericMapper getFirstMapper() {
 
         return symptomMapper;

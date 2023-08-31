@@ -119,6 +119,11 @@ public class PartOrganService implements JoinService<PartOrgan, PartOrganDTO, Pa
     }
 
     @Override
+    public Optional<PartOrgan> findById(Long id) {
+        return partOrganRepository.findById(id);
+    }
+
+    @Override
     public GenericMapper getFirstMapper() {
         return partMapper;
     }

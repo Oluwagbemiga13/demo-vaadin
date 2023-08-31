@@ -1,4 +1,4 @@
-package com.example.demo.entity.simple;
+package com.example.demo.entity.alerts;
 
 import com.example.demo.entity.join.OrganSymptom;
 import com.example.demo.entity.join.PartOrgan;
@@ -14,7 +14,11 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "alerts")
+@Table(name = "alerts", uniqueConstraints={
+        @UniqueConstraint(columnNames = {"organ_symptom_id"}),
+        @UniqueConstraint(columnNames = {"part_organ_id"}),
+        @UniqueConstraint(columnNames = {"symptom_part_id"})
+})
 public class Alert {
 
     @Id
@@ -25,7 +29,7 @@ public class Alert {
     @JoinColumn(name = "question_id", referencedColumnName = "id")
     private Question question;
 
-    @Column(nullable = false)
+    @Column
     private String message;
 
     @Column
@@ -42,8 +46,5 @@ public class Alert {
     @OneToOne
     @JoinColumn(name = "symptom_part_id")
     private SymptomPart symptomPart;
-
-
-    // you can add other attributes here
 }
 

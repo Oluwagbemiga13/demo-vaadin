@@ -5,6 +5,7 @@ import com.example.demo.service.simple.EntityService;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Here I fully dedicated to rewrite this whole project, using SOLID.
@@ -29,6 +30,8 @@ public interface JoinService<E, D, F, S> {
 
     @Transactional
     void deleteRelation(F firstDTO, S secondDTO);
+
+    Optional<E> findById(Long id);
 
     GenericMapper getFirstMapper();
 

@@ -12,12 +12,14 @@ import com.example.demo.service.simple.OrganService;
 import com.example.demo.service.simple.PartService;
 import com.example.demo.service.simple.SymptomService;
 import com.example.demo.ui.tool.GridManager;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -28,9 +30,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-@Route("create-alert")
+@Route("alert")
 @Slf4j
-public class CreateAlert extends VerticalLayout {
+public class AlertView extends VerticalLayout {
 
     private RadioButtonGroup<String> searchOptions = new RadioButtonGroup<>();
     private ComboBox<DTO> searchBox = new ComboBox("Pick Name");
@@ -60,7 +62,7 @@ public class CreateAlert extends VerticalLayout {
     @Autowired
     private GridManager gridManager;
 
-    public CreateAlert() {
+    public AlertView() {
         setupLayout();
     }
 
@@ -92,7 +94,9 @@ public class CreateAlert extends VerticalLayout {
 
                 addAlertButton.addClickListener(buttonClickEvent -> {
                     JoinItemDTO selectedDto = resultsGrid.asSingleSelect().getValue();
-                    log.info("DTO : {}", selectedDto.toString());
+                    log.info("Selected : {}", selectedDto.toString());
+                    VaadinSession.getCurrent().setAttribute(JoinItemDTO.class, selectedDto);
+                    UI.getCurrent().navigate(AddMessageView.class);
                 });
             }
             else {

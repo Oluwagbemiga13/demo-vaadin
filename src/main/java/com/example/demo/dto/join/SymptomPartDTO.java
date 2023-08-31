@@ -2,9 +2,14 @@ package com.example.demo.dto.join;
 
 import com.example.demo.dto.simple.PartDTO;
 import com.example.demo.dto.simple.SymptomDTO;
+import lombok.Getter;
+import lombok.Setter;
 
-public class SymptomPartDTO extends JoinItemDTO {
+@Getter
+@Setter
+public class SymptomPartDTO implements JoinItemDTO<SymptomDTO,PartDTO> {
 
+    private Long id;
     private PartDTO part;
     private SymptomDTO symptom;
 
@@ -12,8 +17,25 @@ public class SymptomPartDTO extends JoinItemDTO {
         super();
         this.part = part;
         this.symptom = symptom;
-        setFirstDTO(symptom);
-        setSecondDTO(part);
-        setName(getFullName());
+    }
+
+    @Override
+    public String getName() {
+        return getFullName();
+    }
+
+    @Override
+    public String getFullName() {
+        return symptom.getName() + "+" + part.getName();
+    }
+
+    @Override
+    public SymptomDTO getFirstDTO() {
+        return symptom;
+    }
+
+    @Override
+    public PartDTO getSecondDTO() {
+        return part;
     }
 }

@@ -1,24 +1,48 @@
-package com.example.demo.ui.pages.create_alert;
+package com.example.demo.ui.dialogs;
 
+import com.example.demo.dto.alert.AnswerDTO;
+import com.example.demo.dto.alert.QuestionDTO;
 import com.example.demo.entity.alerts.Answer;
 import com.example.demo.entity.alerts.Action; // Assuming this is where Action and ActionType are.
+import com.example.demo.entity.alerts.Question;
+import com.example.demo.service.alert.AnswerService;
+import com.example.demo.service.alert.QuestionService;
+import com.example.demo.ui.tool.GridManager;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.textfield.TextField;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CreateQuestion extends Dialog {
+
+@Component
+@Slf4j
+public class CreateQuestionDialog extends Dialog {
 
     private TextField nameField;
     private TextField textField;
     private List<AnswerLayout> answerLayouts;
 
-    public CreateQuestion() {
+    private final GridManager gridManager;
+
+
+    private final QuestionService questionService;
+
+    private final AnswerService answerService;
+
+
+    @Autowired
+    public CreateQuestionDialog(GridManager gridManager, QuestionService questionService, AnswerService answerService) {
+        this.gridManager = gridManager;
+        this.questionService = questionService;
+        this.answerService = answerService;
         initUI();
     }
 
@@ -48,6 +72,20 @@ public class CreateQuestion extends Dialog {
     }
 
     private void saveQuestion() {
+
+        QuestionDTO questionDTO = new QuestionDTO();
+        questionDTO.setName(nameField.getValue());
+        questionDTO.setId(new Question().getId());
+        questionDTO.setText(textField.getValue());
+        List<AnswerDTO> answerDTOS = answerLayouts.stream()
+                        .map(i -> (AnswerDTO) i.createAnswerDTO(questionDTO))
+                                .toList();
+        questionDTO.setPossibleAnswers(answerDTOS);
+
+        QuestionDTO questionDTO1 = questionService.save(questionDTO);
+        log.info("Entity saved in DB : {}", questionDTO1.toString());
+
+
         // Implement save logic here
     }
 
@@ -56,6 +94,7 @@ public class CreateQuestion extends Dialog {
         private TextField answerTextField;
         private ComboBox<Action.ActionType> actionTypeComboBox;
         private Grid<?> questionsGrid; // Assuming Question class exists, replace '?' with 'Question'
+
 
         public AnswerLayout() {
             answerNameField = new TextField("Answer Name");
@@ -75,16 +114,31 @@ public class CreateQuestion extends Dialog {
             });
             add(actionTypeComboBox);
 
-            questionsGrid = new Grid<>(); // Again, replace '?' with 'Question' if you have that class.
+            questionsGrid = gridManager.createLonelyGrid(questionService,new String[]{"name"});// Again, replace '?' with 'Question' if you have that class.
             // Fetch questions and set them to the grid
             // questionsGrid.setItems(fetchQuestions());
         }
 
+        protected AnswerDTO createAnswerDTO(QuestionDTO questionDTO){
+            AnswerDTO answerDTO = new AnswerDTO();
+            answerDTO.setAnswer(answerTextField.getValue());
+            answerDTO.setName(answerNameField.getValue());
+            answerDTO.setId(new Answer().getId());
+            answerDTO.setQuestion(questionDTO);
+
+//            TODO: taken care of in service -> check for best practices.
+//            answerService.save(answerDTO);
+
+            return answerDTO;
+
+        }
+
         // Placeholder method for fetching questions, replace with actual logic
-        private List<?> fetchQuestions() {
+        private List<QuestionDTO> fetchQuestions() {
             // Implement this method to get the list of questions from the backend.
             // Replace '?' with the type of your Question.
-            return new ArrayList<>();
+
+            return questionService.findAll();
         }
     }
 }

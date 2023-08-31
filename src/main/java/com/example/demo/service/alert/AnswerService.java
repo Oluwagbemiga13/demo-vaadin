@@ -1,9 +1,11 @@
-package com.example.demo.service.simple;
+package com.example.demo.service.alert;
 
-import com.example.demo.dto.simple.AnswerDTO;
-import com.example.demo.entity.simple.Answer;
+import com.example.demo.dto.alert.AnswerDTO;
+import com.example.demo.entity.alerts.Answer;
 import com.example.demo.mapper.AnswerMapper;
-import com.example.demo.repository.simple.AnswerRepository;
+import com.example.demo.mapper.CycleAvoidingMappingContext;
+import com.example.demo.repository.alert.AnswerRepository;
+import com.example.demo.service.simple.EntityService;
 import com.vaadin.flow.data.binder.Binder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -43,19 +45,19 @@ public class AnswerService implements EntityService<Answer, AnswerDTO> {
 
         if (optionalAnswer.isPresent()) {
             // if it exists, return the existing answer instead of creating a new one
-            return answerMapper.toDto(optionalAnswer.get());
+            return answerMapper.toDto(optionalAnswer.get(), new CycleAvoidingMappingContext());
         }
 
         // if it doesn't exist, create a new one
-        Answer answer = answerMapper.toEntity(answerDTO);
+        Answer answer = answerMapper.toEntity(answerDTO, new CycleAvoidingMappingContext());
         Answer savedAnswer = answerRepository.save(answer);
 
-        return answerMapper.toDto(savedAnswer);
+        return answerMapper.toDto(savedAnswer, new CycleAvoidingMappingContext());
     }
 
     @Override
     public List<AnswerDTO> findAll() {
-        return answerMapper.toDto(answerRepository.findAll());
+        return answerMapper.toDto(answerRepository.findAll(), new CycleAvoidingMappingContext());
     }
 
     @Override
@@ -65,7 +67,7 @@ public class AnswerService implements EntityService<Answer, AnswerDTO> {
 
     @Override
     public void deleteAll(List<AnswerDTO> dtos) {
-        answerRepository.deleteAll(answerMapper.toEntity(dtos));
+        answerRepository.deleteAll(answerMapper.toEntity(dtos, new CycleAvoidingMappingContext()));
     }
 
     @Override

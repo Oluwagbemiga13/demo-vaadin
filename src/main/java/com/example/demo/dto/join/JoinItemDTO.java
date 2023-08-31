@@ -6,20 +6,15 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
-@Setter
-@EqualsAndHashCode
-@ToString
-public class JoinItemDTO {
 
-    private String name;
+public interface JoinItemDTO<F,S> {
 
-    private Long id;
-    private DTO firstDTO;
-    private DTO secondDTO;
+    String getName();
 
-    public String getFullName(){
-        return firstDTO.getName() + " + " + secondDTO.getName();
-    }
+    Long getId();
+    String getFullName();
 
+    F getFirstDTO();
+
+    S getSecondDTO();
 }

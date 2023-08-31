@@ -1,17 +1,20 @@
 package com.example.demo.dto.simple;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class OrganDTO extends DTO {
+@ToString
+public class OrganDTO implements DTO<OrganDTO>{
     Long id;
     String name;
+
+    @Override
+    public OrganDTO createInstance(String name) {
+        return null;
+    }
 
     public OrganDTO withName(String name) {
         return new OrganDTO(this.id, name);

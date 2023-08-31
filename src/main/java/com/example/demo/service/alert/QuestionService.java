@@ -1,10 +1,12 @@
-package com.example.demo.service.simple;
+package com.example.demo.service.alert;
 
-import com.example.demo.dto.simple.AnswerDTO;
-import com.example.demo.dto.simple.QuestionDTO;
-import com.example.demo.entity.simple.Question;
+import com.example.demo.dto.alert.AnswerDTO;
+import com.example.demo.dto.alert.QuestionDTO;
+import com.example.demo.entity.alerts.Question;
+import com.example.demo.mapper.CycleAvoidingMappingContext;
 import com.example.demo.mapper.QuestionMapper;
-import com.example.demo.repository.simple.QuestionRepository;
+import com.example.demo.repository.alert.QuestionRepository;
+import com.example.demo.service.simple.EntityService;
 import com.vaadin.flow.data.binder.Binder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -62,27 +64,27 @@ public class QuestionService implements EntityService<Question, QuestionDTO> {
 
         if (existingQuestion.isPresent()) {
             // if it exists, return the existing question instead of creating a new one
-            return questionMapper.toDto(existingQuestion.get());
+            return questionMapper.toDto(existingQuestion.get(), new CycleAvoidingMappingContext());
         }
 
         // if it doesn't exist, create a new one
-        Question question = questionMapper.toEntity(questionDTO);
+        Question question = questionMapper.toEntity(questionDTO, new CycleAvoidingMappingContext());
         Question savedQuestion = questionRepository.save(question);
 
         if (questionDTO.getPossibleAnswers() != null) {
             // save the possibleAnswers
             for (AnswerDTO answerDTO : questionDTO.getPossibleAnswers()) {
-                answerDTO.setQuestion(questionMapper.toDto(savedQuestion)); // set the saved question
+                answerDTO.setQuestion(questionMapper.toDto(savedQuestion, new CycleAvoidingMappingContext())); // set the saved question
                 answerService.save(answerDTO);
             }
         }
 
-        return questionMapper.toDto(savedQuestion);
+        return questionMapper.toDto(savedQuestion, new CycleAvoidingMappingContext());
     }
 
     @Override
     public List<QuestionDTO> findAll() {
-        return questionMapper.toDto(questionRepository.findAll());
+        return questionMapper.toDto(questionRepository.findAllWithEagerRelationships(), new CycleAvoidingMappingContext());
     }
 
     @Override
@@ -93,7 +95,7 @@ public class QuestionService implements EntityService<Question, QuestionDTO> {
 
     @Override
     public void deleteAll(List<QuestionDTO> dtos) {
-        questionRepository.deleteAll(questionMapper.toEntity(dtos));
+        questionRepository.deleteAll(questionMapper.toEntity(dtos, new CycleAvoidingMappingContext()));
     }
 
     @Override
